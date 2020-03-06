@@ -1,31 +1,47 @@
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Random;
+
 public class Main extends Application {
     public Board board;
+
+    int rowNum = 10;
+    int colNum = 10;
+
     @Override
-    public void start(Stage stage) {
-        Square square = new Square(150,70);
-        Rectangle rectangle = square.setRectangle();
+    public void start(Stage primaryStage) {
+        GridPane grid = new GridPane();
 
-        //Creating a Group object
-        Group root = new Group(rectangle);
+        Random rand = new Random();
+        Color[] colors = {Color.DARKSEAGREEN, Color.GRAY, Color.HONEYDEW, Color.WHITESMOKE};
 
-        //Creating a scene object
-        Scene scene = new Scene(root, 600, 300);
+        int n = rand.nextInt(4)+1;
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
+                n = rand.nextInt(4);
+                Rectangle rec = new Rectangle();
+                rec.setWidth(30);
+                rec.setHeight(30);
+                rec.setFill(colors[n]);
+                GridPane.setRowIndex(rec, row);
+                GridPane.setColumnIndex(rec, col);
+                grid.getChildren().addAll(rec);
+            }
+        }
 
-        //Setting title to the Stage
-        stage.setTitle("Zhed");
+        Scene scene = new Scene(grid, 450, 350);
 
-        //Adding scene to the stage
-        stage.setScene(scene);
-
-        //Displaying the contents of the stage
-        stage.show();
+        primaryStage.setTitle("ZHED");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
+
     public static void main(String args[]){
         launch(args);
     }
