@@ -1,2 +1,8 @@
 # Project exclude paths
 /out/
+
+# Ignoring class files
+src/*.class
+
+# VScode specific
+.vscode
