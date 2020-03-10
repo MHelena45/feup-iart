@@ -1,6 +1,4 @@
-import javafx.animation.PathTransition;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 
 import javafx.scene.Group;
@@ -11,10 +9,9 @@ import javafx.scene.paint.Color;
 
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
-    public Board board = new Board(20, 20);
+    public Board board = new Board(20);
 
     @Override
     public void start(Stage stage) {

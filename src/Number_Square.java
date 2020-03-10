@@ -5,20 +5,18 @@ import javafx.scene.shape.Rectangle;
 
 public class Number_Square extends Square {
     private int number;
-    private Boolean played;
+
     Rectangle rectangle = new Rectangle();
 
     public Number_Square(int x, int y, int number) {
         super(x, y);
         this.number = number;
-        this.played = false;
         addEventHandler();
     }
 
     public Number_Square(Position position, int number) {
         super(position);
         this.number = number;
-        this.played = false;
         addEventHandler();
     }
 
@@ -27,7 +25,6 @@ public class Number_Square extends Square {
             @Override
             public void handle(javafx.scene.input.MouseEvent e) {
                 System.out.println("Number Square pressed");
-                played = true;
             }
         });
     }

@@ -2,7 +2,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GoalSquare extends Square {
-    Boolean fill = false;
     public GoalSquare(int x, int y) {
         super(x, y);
     }
