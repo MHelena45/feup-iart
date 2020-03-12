@@ -1,7 +1,10 @@
+package model.square;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.position.Position;
 
 public class Number_Square extends Square {
     private int number;
@@ -24,7 +27,7 @@ public class Number_Square extends Square {
         rectangle.setOnMouseClicked (new EventHandler<MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent e) {
-                System.out.println("Number Square pressed");
+                System.out.println("Number model.square.Square pressed");
             }
         });
     }

@@ -1,6 +1,11 @@
+package model.square;
+
+import model.position.Position;
+
 public class Square {
     public Position position;
-    Boolean fill = false;
+    Boolean fill;
+
     public Square(int x, int y) {
         position = new Position(x, y);
     }
@@ -9,8 +14,7 @@ public class Square {
         this.position = position;
     }
 
-
-    public Position getPosition(){
+    public Position getPosition() {
         return position;
     }
 }

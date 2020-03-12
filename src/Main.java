@@ -9,21 +9,24 @@ import javafx.scene.paint.Color;
 
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import model.board.Board;
+
+import java.io.IOException;
 
 public class Main extends Application {
     public Board board = new Board(20);
 
     @Override
     public void start(Stage stage) {
-        //get Goal Square
-        Rectangle rectangle = board.getGoalSquare().getRectangle();
-
-        rectangle.setOnMouseClicked (new EventHandler<javafx.scene.input.MouseEvent>() {
-            @Override
-            public void handle(javafx.scene.input.MouseEvent e) {
-                System.out.println("Goal Square pressed");
-            }
-        });
+        //get Goal model.square.Square
+//        Rectangle rectangle = board.getGoalSquare().getRectangle();
+//
+//        rectangle.setOnMouseClicked (new EventHandler<javafx.scene.input.MouseEvent>() {
+//            @Override
+//            public void handle(javafx.scene.input.MouseEvent e) {
+//                System.out.println("Goal model.square.Square pressed");
+//            }
+//        });
 
         //Creating menu button
         Button menuButton = new Button("Menu");
@@ -70,7 +73,7 @@ public class Main extends Application {
         }));
 
         //Creating a Group object
-        Group root = new Group(rectangle, menuButton, hintButton, restartButton, undoButton);
+        Group root = new Group( menuButton, hintButton, restartButton, undoButton);
 
         //Creating a scene object
         Scene scene = new Scene(root, 600, 300);
@@ -86,6 +89,13 @@ public class Main extends Application {
         stage.show();
     }
     public static void main(String args[]){
+        try {
+            Board board = new Board("01");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return;
+        }
         launch(args);
     }
 }

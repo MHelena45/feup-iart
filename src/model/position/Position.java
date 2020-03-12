@@ -1,3 +1,5 @@
+package model.position;
+
 public class Position {
     private int x, y;
 
