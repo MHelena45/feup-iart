@@ -5,13 +5,17 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import model.Model;
 import model.board.Board;
+import model.square.NumberSquare;
+import model.square.Square;
 import model.state.State;
+import view.square.NumberSquareView;
 
 import java.io.IOException;
 
@@ -27,6 +31,10 @@ public class Main extends Application {
 //                System.out.println("Goal model.square.Square pressed");
 //            }
 //        });
+        NumberSquare sqr = new NumberSquare(1*25,1*25,2);
+        NumberSquareView view = new NumberSquareView();
+
+        Rectangle pane = view.draw(sqr);
 
         //Creating menu button
         Button menuButton = new Button("Menu");
@@ -73,7 +81,7 @@ public class Main extends Application {
         }));
 
         //Creating a Group object
-        Group root = new Group( menuButton, hintButton, restartButton, undoButton);
+        Group root = new Group( pane, menuButton, hintButton, restartButton, undoButton);
 
         //Creating a scene object
         Scene scene = new Scene(root, 600, 300);
@@ -91,8 +99,7 @@ public class Main extends Application {
     public static void main(String args[]){
         try {
             Model model = new Model(1);
-            State state = model.getCurrentState();
-            System.out.println(state.toString());
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

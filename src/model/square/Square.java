@@ -7,7 +7,7 @@ public class Square {
     private Boolean filled;
 
     public Square(int x, int y) {
-        this(x,y,false);
+        this(x, y, false);
     }
 
     public Square(int x, int y, boolean filled) {
@@ -15,8 +15,12 @@ public class Square {
         this.filled = filled;
     }
 
-    public Position getPosition() {
-        return position;
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
     }
 
     public Boolean isFilled() {

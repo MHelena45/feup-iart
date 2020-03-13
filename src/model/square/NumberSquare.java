@@ -9,12 +9,13 @@ import model.position.Position;
 public class NumberSquare extends Square {
     private int number;
 
-//    Rectangle rectangle = new Rectangle();
-
     public NumberSquare(int x, int y, int number) {
         super(x, y, true);
         this.number = number;
-//        addEventHandler();
+    }
+
+    public int getNumber() {
+        return number;
     }
 
 //    public void addEventHandler() {
@@ -25,16 +26,4 @@ public class NumberSquare extends Square {
 //            }
 //        });
 //    }
-
-//    public Rectangle getRectangle(){
-//        //Setting the properties of the rectangle
-//        rectangle.setX(this.position.getX());
-//        rectangle.setY(this.position.getY());
-//        rectangle.setFill(Color.ORANGE);
-//        rectangle.setWidth(25);
-//        rectangle.setHeight(25);
-//        return rectangle;
-//    }
-
-
 }
