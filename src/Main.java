@@ -9,13 +9,13 @@ import javafx.scene.paint.Color;
 
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import model.Model;
 import model.board.Board;
+import model.state.State;
 
 import java.io.IOException;
 
 public class Main extends Application {
-    public Board board = new Board(20);
-
     @Override
     public void start(Stage stage) {
         //get Goal model.square.Square
@@ -90,7 +90,9 @@ public class Main extends Application {
     }
     public static void main(String args[]){
         try {
-            Board board = new Board("01");
+            Model model = new Model(1);
+            State state = model.getCurrentState();
+            System.out.println(state.toString());
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
