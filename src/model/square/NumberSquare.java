@@ -18,6 +18,12 @@ public class NumberSquare extends Square {
         return number;
     }
 
+    /* Returns the string representation of the numberSquare */
+    @Override
+    public String toString() {
+        return "Number Square";
+    }
+
 //    public void addEventHandler() {
 //        rectangle.setOnMouseClicked (new EventHandler<MouseEvent>() {
 //            @Override

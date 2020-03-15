@@ -1,27 +1,35 @@
 import javafx.application.Application;
-import javafx.event.EventHandler;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import model.Model;
-import model.board.Board;
 import model.square.NumberSquare;
 import model.square.Square;
-import model.state.State;
-import view.square.NumberSquareView;
+import view.square.Buttons;
+import view.square.SquareView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
+        ArrayList<SquareView> squares = new ArrayList<>();
+        for(int i = 0; i < 10; i ++) {
+            for (int j = 0; j < 5; j++) {
+                SquareView square = new SquareView(new NumberSquare(i, j, 3));
+                squares.add(square);
+            }
+            for (int j = 5; j < 10; j++) {
+                SquareView square = new SquareView(new Square(i, j));
+                squares.add(square);
+            }
+        }
+
         //get Goal model.square.Square
 //        Rectangle rectangle = board.getGoalSquare().getRectangle();
 //
@@ -31,60 +39,24 @@ public class Main extends Application {
 //                System.out.println("Goal model.square.Square pressed");
 //            }
 //        });
-        NumberSquare sqr = new NumberSquare(1*25,1*25,2);
-        NumberSquareView view = new NumberSquareView();
+//        NumberSquare sqr = new NumberSquare(1*25,1*25,2);
+//        NumberSquareView view = new NumberSquareView();
+//        Rectangle pane = view.draw(sqr);
 
-        Rectangle pane = view.draw(sqr);
-
-        //Creating menu button
-        Button menuButton = new Button("Menu");
-        menuButton.setLayoutX(50);
-        menuButton.setLayoutY(250);
-
-        menuButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Menu button");
-            }
-        }));
-
-        //Creating stop button
-        Button hintButton = new Button("Hint");
-        hintButton.setLayoutX(200);
-        hintButton.setLayoutY(250);
-
-        hintButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("hint button");
-            }
-        }));
-
-        //Creating restart button
-        Button restartButton = new Button("Restart");
-        restartButton.setLayoutX(350);
-        restartButton.setLayoutY(250);
-
-        restartButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Restart button");
-            }
-        }));
-
-        //Creating stop button
-        Button undoButton = new Button("undo");
-        undoButton.setLayoutX(500);
-        undoButton.setLayoutY(250);
-
-        undoButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Undo");
-            }
-        }));
+        Buttons buttons = new Buttons();
+        Button[] allButtons = buttons.getButtons();
 
         //Creating a Group object
-        Group root = new Group( pane, menuButton, hintButton, restartButton, undoButton);
+        Group root = new Group();
+        for(int i = 0; i < allButtons.length; i ++)
+            root.getChildren().add(allButtons[i]);
+        for(int i = 0; i <squares.size(); i++){
+            root.getChildren().add(squares.get(i).getRectangle());
+        }
+
 
         //Creating a scene object
-        Scene scene = new Scene(root, 600, 300);
+        Scene scene = new Scene(root, 450, 500);
         scene.setFill(Color.LAVENDER);
 
         //Setting title to the Stage

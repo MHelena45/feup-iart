@@ -1,6 +1,7 @@
 package model;
 
 import model.board.Board;
+import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
@@ -16,6 +17,14 @@ public class Model {
     private final int level;
     private Stack<State> gameSequence;
     private State currentState;
+
+    public Model(int level) throws IOException {
+        this.gameSequence = new Stack<>();
+        this.currentState = new State();
+        this.level = level;
+
+        loadLevel();
+    }
 
     private void loadLevel() throws IOException {
         InputStream stream = Model.class.getResourceAsStream("/levels/" + level + ".txt");
@@ -42,7 +51,7 @@ public class Model {
                         break;
 
                     case -1:
-                        square = new Square(x, y);
+                        square = new GoalSquare(x, y);
                         currentState.setGoalSquare(square);
                         break;
 
@@ -62,14 +71,6 @@ public class Model {
 
         currentState.setPlayableSquares(playableSquares);
         currentState.setBoard(new Board(matrix));
-    }
-
-    public Model(int level) throws IOException {
-        this.gameSequence = new Stack<>();
-        this.currentState = new State();
-        this.level = level;
-
-        loadLevel();
     }
 
     public State getCurrentState() {

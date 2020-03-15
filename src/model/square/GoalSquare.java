@@ -9,20 +9,12 @@ public class GoalSquare extends Square {
         super(x, y);
     }
 
-//    public Rectangle getRectangle(){
-//        //Drawing a Rectangle
-//        Rectangle rectangle = new Rectangle();
-//
-//        //Setting the properties of the rectangle
-//        rectangle.setX(this.position.getX());
-//        rectangle.setY(this.position.getY());
-//        if(fill)
-//            rectangle.setFill(Color.BLACK);
-//        else rectangle.setFill(Color.WHITE);
-//        rectangle.setWidth(25);
-//        rectangle.setHeight(25);
-//        return rectangle;
-//    }
+    /* Returns the string representation of the GoalSquare*/
+    @Override
+    public String toString() {
+        return "Goal Square";
+    }
+
 
 
 }
