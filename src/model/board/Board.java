@@ -16,4 +16,8 @@ public class Board {
     public Square getSquare(int x, int y) {
         return matrix.get(y).get(x);
     }
+
+    public ArrayList<ArrayList<Square>> getMatrix(){
+        return matrix;
+    }
 }

@@ -42,4 +42,8 @@ public class State {
 
         return msg;
     }
+
+    public Board getBoard() {
+        return board;
+    }
 }

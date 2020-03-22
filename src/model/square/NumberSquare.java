@@ -24,12 +24,4 @@ public class NumberSquare extends Square {
         return "Number Square";
     }
 
-//    public void addEventHandler() {
-//        rectangle.setOnMouseClicked (new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(javafx.scene.input.MouseEvent e) {
-//                System.out.println("Number model.square.Square pressed");
-//            }
-//        });
-//    }
 }

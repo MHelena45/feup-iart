@@ -4,21 +4,14 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-import java.io.BufferedInputStream;
-import java.util.ArrayList;
-
 public class Buttons {
     public Button[] getButtons() {
         //Creating menu button
-        Button menuButton = new Button("Menu");
-        menuButton.setLayoutX(50);
-        menuButton.setLayoutY(450);
+        Button solutionButton = new Button("Solution");
+        solutionButton.setLayoutX(50);
+        solutionButton.setLayoutY(450);
 
-        menuButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Menu button");
-            }
-        }));
+        solutionButton.setOnMouseClicked((event -> System.out.println("Solution button")));
 
         //Creating stop button
         Button hintButton = new Button("Hint");
@@ -52,6 +45,6 @@ public class Buttons {
                 System.out.println("Undo");
             }
         }));
-        return new Button[]{menuButton, hintButton, restartButton, undoButton};
+        return new Button[]{solutionButton, hintButton, restartButton, undoButton};
     }
 }

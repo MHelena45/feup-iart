@@ -35,11 +35,11 @@ public class Model {
 
         ArrayList<ArrayList<Square>> matrix = new ArrayList<>();
         ArrayList<Square> playableSquares = new ArrayList<>();
-        ArrayList<Square> row = new ArrayList<>();
 
         while ((line = reader.readLine()) != null) {
             String content = line.substring(1, line.length() - 2);
             String[] squares = content.split(",");
+            ArrayList<Square> row = new ArrayList<>();
 
             for (int x = 0; x < squares.length; x++) {
                 int value = Integer.parseInt(squares[x]);
@@ -63,9 +63,8 @@ public class Model {
 
                 row.add(square);
             }
-
             matrix.add(row);
-            row.clear();
+
             y++;
         }
 
