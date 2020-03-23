@@ -1,4 +1,4 @@
-package view.square;
+package view;
 
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
@@ -12,7 +12,7 @@ public class SquareView {
         this.group = group;
     }
 
-    public void drawRectangle(Square square){
+    public Rectangle drawRectangle(Square square){
         Rectangle rectangle = new Rectangle();
 
         //Setting the properties of the rectangle
@@ -25,6 +25,7 @@ public class SquareView {
         rectangle.setHeight(25);
 
         group.getChildren().add(rectangle);
+        return rectangle;
     }
 
 }

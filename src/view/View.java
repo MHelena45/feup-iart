@@ -1,11 +1,9 @@
 package view;
 
 import javafx.scene.Group;;
+import javafx.scene.shape.Rectangle;
 import model.Model;
 import model.square.Square;
-import view.square.Buttons;
-import view.square.NumberSquareView;
-import view.square.SquareView;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,10 @@ public class View {
 
         for(int i = 0; i < matrix.size(); i++){
             for(int j = 0; j < matrix.get(i).size(); j++) {
-                squareView.drawRectangle(matrix.get(i).get(j));
+                Square square = matrix.get(i).get(j);
+                Rectangle rectangle = squareView.drawRectangle(matrix.get(i).get(j));
+
+
             }
         }
     }

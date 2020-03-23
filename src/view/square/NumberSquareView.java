@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
-import model.square.Square;
+import view.SquareView;
 
 public class NumberSquareView extends SquareView {
     public NumberSquareView(Group group) {
