@@ -5,11 +5,15 @@ import javafx.scene.paint.Paint;
 
 public class NumberSquare extends Square {
     private int number;
+    private boolean played;
 
     public NumberSquare(int x, int y, int number) {
         super(x, y, true);
         this.number = number;
+        this.played = false;
     }
+
+    public void play() { played = true; }
 
     @Override
     public int getNumber() {
@@ -17,7 +21,7 @@ public class NumberSquare extends Square {
     }
 
     @Override
-    public Paint getColor() { return isFilled() ? Color.BLACK : Color.BLUE; };
+    public Paint getColor() { return played ? Color.BLACK : Color.BLUE; };
 
     @Override
     public String toString() {
