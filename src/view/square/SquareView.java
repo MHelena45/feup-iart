@@ -1,27 +1,30 @@
 package view.square;
 
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
+import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import model.square.Square;
 
-public class SquareView extends Node {
-    Square square;
-    public SquareView(Square square) {
-        this.square = square;
+public class SquareView {
+    protected final int offset = 90;
+    private Group group;
+
+    public SquareView(Group group) {
+        this.group = group;
     }
 
-    public Rectangle getRectangle(){
+    public void drawRectangle(Square square){
         Rectangle rectangle = new Rectangle();
+
         //Setting the properties of the rectangle
-        rectangle.setX(square.getX() * 27 + 90);
-        rectangle.setY(square.getY() * 27 + 90);
-        if(square.isFilled())
-            rectangle.setFill(Color.BLACK);
-        else rectangle.setFill(Color.GREEN);
+        rectangle.setX(square.getX() * 27 + offset);
+        rectangle.setY(square.getY() * 27 + offset);
+
+        rectangle.setFill(square.getColor());
+
         rectangle.setWidth(25);
         rectangle.setHeight(25);
-        return rectangle;
+
+        group.getChildren().add(rectangle);
     }
 
 }
