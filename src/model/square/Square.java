@@ -1,5 +1,7 @@
 package model.square;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import model.position.Position;
 
 public class Square {
@@ -31,8 +33,12 @@ public class Square {
         filled = true;
     }
 
-    public void unfill() {
-        filled = true;
+    public void clear() {
+        filled = false;
+    }
+
+    public Paint getColor() {
+        return filled ? Color.BLACK : Color.GREEN;
     }
 
     @Override

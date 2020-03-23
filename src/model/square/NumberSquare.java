@@ -1,10 +1,7 @@
 package model.square;
 
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import model.position.Position;
+import javafx.scene.paint.Paint;
 
 public class NumberSquare extends Square {
     private int number;
@@ -18,7 +15,9 @@ public class NumberSquare extends Square {
         return number;
     }
 
-    /* Returns the string representation of the numberSquare */
+    @Override
+    public Paint getColor() { return isFilled() ? Color.BLACK : Color.BLUE; };
+
     @Override
     public String toString() {
         return "Number Square";

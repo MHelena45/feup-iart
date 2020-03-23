@@ -1,20 +1,20 @@
 package model.square;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import model.position.Position;
+import javafx.scene.paint.Paint;
 
 public class GoalSquare extends Square {
     public GoalSquare(int x, int y) {
         super(x, y);
     }
 
-    /* Returns the string representation of the GoalSquare*/
+    @Override
+    public Paint getColor () {
+        return isFilled() ? Color.BLACK : Color.GRAY;
+    }
+
     @Override
     public String toString() {
         return "Goal Square";
     }
-
-
-
 }
