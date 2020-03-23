@@ -18,33 +18,21 @@ public class Buttons {
         hintButton.setLayoutX(150);
         hintButton.setLayoutY(450);
 
-        hintButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("hint button");
-            }
-        }));
+        hintButton.setOnMouseClicked((event -> System.out.println("hint button")));
 
         //Creating restart button
         Button restartButton = new Button("Restart");
         restartButton.setLayoutX(250);
         restartButton.setLayoutY(450);
 
-        restartButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Restart button");
-            }
-        }));
+        restartButton.setOnMouseClicked((event -> System.out.println("Restart button")));
 
         //Creating stop button
         Button undoButton = new Button("undo");
         undoButton.setLayoutX(350);
         undoButton.setLayoutY(450);
 
-        undoButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                System.out.println("Undo");
-            }
-        }));
+        undoButton.setOnMouseClicked((event -> System.out.println("Undo")));
         return new Button[]{solutionButton, hintButton, restartButton, undoButton};
     }
 }
