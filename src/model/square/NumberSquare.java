@@ -11,6 +11,7 @@ public class NumberSquare extends Square {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }

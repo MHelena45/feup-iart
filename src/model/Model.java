@@ -18,12 +18,18 @@ public class Model {
     private Stack<State> gameSequence;
     private State currentState;
 
-    public Model(int level) throws IOException {
+    public Model(int level) {
         this.gameSequence = new Stack<>();
         this.currentState = new State();
         this.level = level;
 
-        loadLevel();
+        try {
+            loadLevel();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     private void loadLevel() throws IOException {

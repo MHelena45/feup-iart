@@ -41,6 +41,8 @@ public class Square {
         return filled ? Color.BLACK : Color.GREEN;
     }
 
+    public int getNumber() { return 0; }
+
     @Override
     public String toString() {
         return "Square: (" + position.getX() + ", " + position.getY() + ") -> " + (filled ? "filled" : "unfilled");
