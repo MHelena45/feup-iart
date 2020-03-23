@@ -18,6 +18,10 @@ public class State {
         this.playableSquares = playableSquares;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -41,9 +45,5 @@ public class State {
         msg += goalSquare.toString();
 
         return msg;
-    }
-
-    public Board getBoard() {
-        return board;
     }
 }

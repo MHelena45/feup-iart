@@ -14,6 +14,7 @@ public class View {
     private Model model;
     private Controller controller;
     private Group root;
+    private Group game;
     private SquareView squareView;
     private Buttons buttons;
 
@@ -27,11 +28,14 @@ public class View {
         this.model = model;
         this.controller = controller;
         this.root = new Group();
-        this.squareView = new SquareView(root);
+        this.game = new Group();
+        this.squareView = new SquareView(game);
         this.buttons = new Buttons();
 
         for(int i = 0; i < buttons.getButtons().length; i ++)
             root.getChildren().add(buttons.getButtons()[i]);
+
+        root.getChildren().add(game);
     }
 
     public void setController(Controller controller) {
@@ -45,6 +49,10 @@ public class View {
     public void display() {
         ArrayList<ArrayList<Square>> matrix = model.getMatrix();
 
+        //Clearing screen
+        game.getChildren().clear();
+
+        //Drawing the matrix
         for(int i = 0; i < matrix.size(); i++){
             for(int j = 0; j < matrix.get(i).size(); j++) {
                 Square square = matrix.get(i).get(j);

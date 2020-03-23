@@ -86,6 +86,13 @@ public class Model {
         return currentState.getBoard().getMatrix();
     }
 
+    public void play(int x, int y) {
+        this.gameSequence.push(this.currentState);
+
+        ArrayList<ArrayList<Square>> matrix = getMatrix();
+        matrix.get(y).get(x).play();
+    }
+
     public void move(State state) {
         this.gameSequence.push(this.currentState);
         this.currentState = state;

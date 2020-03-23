@@ -23,10 +23,12 @@ public class Controller {
     }
 
     public void numberClick(int x, int y) {
-
+        System.out.println("NumberSquare(" + x + ", " + y + ")");
+        model.play(x, y);
+        view.display();
     }
 
     public void regularClick(int x, int y) {
-
+        System.out.println("RegularSquare(" + x + ", " + y + ")");
     }
 }

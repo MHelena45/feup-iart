@@ -1,3 +1,4 @@
+import controller.Controller;
 import javafx.application.Application;
 
 import javafx.scene.Scene;
@@ -12,7 +13,9 @@ public class Zhed extends Application {
     public void start(Stage stage) {
         Model model = new Model(1);
         View view = new View(model);
+        Controller controller = new Controller(model, view);
 
+        view.setController(controller);
         view.display();
 
         //Creating a scene object

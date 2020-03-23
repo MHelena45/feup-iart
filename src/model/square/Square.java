@@ -29,6 +29,8 @@ public class Square {
         return filled;
     }
 
+    public void play() {}
+
     public void fill() {
         filled = true;
     }
