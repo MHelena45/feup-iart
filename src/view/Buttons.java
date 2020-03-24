@@ -44,7 +44,7 @@ public class Buttons {
         restartButton.setLayoutX(170);
         restartButton.setLayoutY(450);
 
-        restartButton.setOnMouseClicked((event -> System.out.println("Restart button")));
+        restartButton.setOnMouseClicked((event -> controller.restart()));
 
         //Creating undo button
         Button undoButton = new Button("undo");

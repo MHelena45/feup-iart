@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import javafx.scene.Group;;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import model.Model;
 import model.square.Square;
 import view.event.RegularSquareClick;
@@ -57,7 +58,7 @@ public class View {
         for(int i = 0; i < matrix.size(); i++){
             for(int j = 0; j < matrix.get(i).size(); j++) {
                 Square square = matrix.get(i).get(j);
-                Rectangle rectangle = squareView.drawRectangle(matrix.get(i).get(j));
+                Rectangle rectangle= squareView.drawRectangle(matrix.get(i).get(j));
 
                 if(square.getNumber() > 0)
                     rectangle.setOnMouseClicked(new NumberSquareClick(controller, j, i));

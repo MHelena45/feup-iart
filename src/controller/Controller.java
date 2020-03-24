@@ -32,6 +32,12 @@ public class Controller {
         System.out.println("RegularSquare(" + x + ", " + y + ")");
     }
 
+    public void restart() {
+        System.out.println("restart");
+        model.restart();
+        view.display();
+    }
+
     public void undo() {
         System.out.println("undo");
         model.undo();

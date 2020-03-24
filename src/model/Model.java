@@ -105,6 +105,16 @@ public class Model {
         return removedState;
     }
 
+    public void restart(){
+        try {
+            loadLevel();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
     public int getLevel() {
         return level;
     }

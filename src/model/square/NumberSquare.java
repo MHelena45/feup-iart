@@ -21,7 +21,7 @@ public class NumberSquare extends Square {
     }
 
     @Override
-    public Paint getColor() { return played ? Color.BLACK : Color.BLUE; };
+    public Paint getColor() { return played ? Color.BLACK : Color.LIGHTBLUE; };
 
     @Override
     public String toString() {
