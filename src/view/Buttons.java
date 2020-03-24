@@ -1,10 +1,18 @@
 package view;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 
 public class Buttons {
+    private static int level;
+
+    Buttons(int level){
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     public Button[] getButtons() {
         //Creating menu button
         Button solutionButton = new Button("Solution");
@@ -32,7 +40,13 @@ public class Buttons {
         previousButton.setLayoutX(290);
         previousButton.setLayoutY(450);
 
-        previousButton.setOnMouseClicked((event -> System.out.println("previous puzzle")));
+        previousButton.setOnMouseClicked((event -> {
+            if(this.level == 1) {
+                System.out.println("A previous puzzle doesn't exists");
+            } else {
+                System.out.println("previous puzzle");
+            }
+        }));
 
         //Creating next button
         Button nextButton = new Button("next");

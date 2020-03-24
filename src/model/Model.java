@@ -104,4 +104,8 @@ public class Model {
 
         return removedState;
     }
+
+    public int getLevel() {
+        return level;
+    }
 }

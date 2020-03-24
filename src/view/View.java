@@ -30,7 +30,7 @@ public class View {
         this.root = new Group();
         this.game = new Group();
         this.squareView = new SquareView(game);
-        this.buttons = new Buttons();
+        this.buttons = new Buttons(model.getLevel());
 
         for(int i = 0; i < buttons.getButtons().length; i ++)
             root.getChildren().add(buttons.getButtons()[i]);
