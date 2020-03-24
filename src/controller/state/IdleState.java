@@ -16,6 +16,6 @@ public class IdleState extends ClickState {
 
     @Override
     public void regularClick(Position position) {
-
+        // Ignore click
     }
 }

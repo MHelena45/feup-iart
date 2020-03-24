@@ -91,6 +91,7 @@ public class Model {
 
         ArrayList<ArrayList<Square>> matrix = getMatrix();
         matrix.get(y).get(x).play();
+        System.out.println("Played square (" + x + ", " + y + ")");
     }
 
     public void move(State state) {

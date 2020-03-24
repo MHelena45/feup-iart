@@ -1,7 +1,9 @@
 package controller;
 
 import controller.state.ClickState;
+import controller.state.IdleState;
 import model.Model;
+import model.Operator;
 import model.position.Position;
 import view.View;
 
@@ -18,6 +20,7 @@ public class Controller {
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        this.state = new IdleState(this);
     }
 
     public void setModel(Model model) {
@@ -32,8 +35,8 @@ public class Controller {
         this.state = state;
     }
 
-    public void playSquare(int x, int y) {
-        model.play(x, y);
+    public void playSquare(Operator op) {
+        model.play(previousClick.getX(), previousClick.getY());
         view.display();
     }
 
