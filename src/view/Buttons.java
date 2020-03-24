@@ -27,36 +27,36 @@ public class Buttons {
     public Button[] getButtons() {
         //Creating menu button
         Button solutionButton = new Button("Solution");
-        solutionButton.setLayoutX(10);
-        solutionButton.setLayoutY(450);
+        solutionButton.setLayoutX(40);
+        solutionButton.setLayoutY(480);
 
         solutionButton.setOnMouseClicked((event -> System.out.println("Solution button")));
 
         //Creating stop button
         Button hintButton = new Button("Hint");
-        hintButton.setLayoutX(90);
-        hintButton.setLayoutY(450);
+        hintButton.setLayoutX(120);
+        hintButton.setLayoutY(480);
 
         hintButton.setOnMouseClicked((event -> System.out.println("hint button")));
 
         //Creating restart button
         Button restartButton = new Button("Restart");
-        restartButton.setLayoutX(170);
-        restartButton.setLayoutY(450);
+        restartButton.setLayoutX(200);
+        restartButton.setLayoutY(480);
 
         restartButton.setOnMouseClicked((event -> controller.restart()));
 
         //Creating undo button
         Button undoButton = new Button("undo");
-        undoButton.setLayoutX(250);
-        undoButton.setLayoutY(450);
+        undoButton.setLayoutX(280);
+        undoButton.setLayoutY(480);
 
         undoButton.setOnMouseClicked((event -> controller.undo()));
 
         //Creating previous button
         Button previousButton = new Button("previous");
-        previousButton.setLayoutX(310);
-        previousButton.setLayoutY(450);
+        previousButton.setLayoutX(380);
+        previousButton.setLayoutY(480);
 
         previousButton.setOnMouseClicked((event -> {
             if(this.level == 1) {
@@ -69,12 +69,16 @@ public class Buttons {
 
         //Creating next button
         Button nextButton = new Button("next");
-        nextButton.setLayoutX(380);
-        nextButton.setLayoutY(450);
+        nextButton.setLayoutX(480);
+        nextButton.setLayoutY(480);
 
         nextButton.setOnMouseClicked((event -> {
-            this.setLevel(getLevel() + 1);
-            controller.changeLevel(getLevel());
+            if(this.level == 100) {
+                System.out.println("There aren't more puzzles");
+            } else {
+                this.setLevel(getLevel() + 1);
+                controller.changeLevel(getLevel());
+            }
         }));
 
         return new Button[]{solutionButton, hintButton, restartButton, undoButton, nextButton, previousButton};

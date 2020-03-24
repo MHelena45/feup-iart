@@ -33,7 +33,16 @@ public class Model {
     }
 
     private void loadLevel() throws IOException {
-        InputStream stream = Model.class.getResourceAsStream("/levels/" + level + ".txt");
+        InputStream stream;
+        if(level <= 9)
+            stream = Model.class.getResourceAsStream("/levels/00" + level + ".txt");
+        else if (level < 100)
+            stream = Model.class.getResourceAsStream("/levels/0" + level + ".txt");
+        else {
+            System.out.println("level 100!");
+            stream = Model.class.getResourceAsStream("/levels/" + level + ".txt");
+        }
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         String line = null;
@@ -43,26 +52,27 @@ public class Model {
         ArrayList<Square> playableSquares = new ArrayList<>();
 
         while ((line = reader.readLine()) != null) {
-            String content = line.substring(1, line.length() - 2);
-            String[] squares = content.split(",");
+
+            String[] squares = line.split("(?!^)");
             ArrayList<Square> row = new ArrayList<>();
 
             for (int x = 0; x < squares.length; x++) {
-                int value = Integer.parseInt(squares[x]);
+                String value = squares[x];
                 Square square;
 
                 switch (value) {
-                    case 0:
+                    case ".":
                         square = new Square(x, y);
                         break;
 
-                    case -1:
+                    case "X":
                         square = new GoalSquare(x, y);
                         currentState.setGoalSquare(square);
                         break;
 
                     default:
-                        square = new NumberSquare(x, y, value);
+                        int number = Integer.parseInt(value);
+                        square = new NumberSquare(x, y, number);
                         playableSquares.add(square);
                         break;
                 }

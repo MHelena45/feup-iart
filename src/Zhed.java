@@ -19,7 +19,7 @@ public class Zhed extends Application {
         view.display();
 
         //Creating a scene object
-        Scene scene = new Scene(view.getRoot(), 450, 500);
+        Scene scene = new Scene(view.getRoot(), 580, 520);
         scene.setFill(Color.WHITE);
 
         //Setting title to the Stage
