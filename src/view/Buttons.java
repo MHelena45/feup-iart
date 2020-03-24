@@ -8,31 +8,39 @@ public class Buttons {
     public Button[] getButtons() {
         //Creating menu button
         Button solutionButton = new Button("Solution");
-        solutionButton.setLayoutX(50);
+        solutionButton.setLayoutX(20);
         solutionButton.setLayoutY(450);
 
         solutionButton.setOnMouseClicked((event -> System.out.println("Solution button")));
 
         //Creating stop button
         Button hintButton = new Button("Hint");
-        hintButton.setLayoutX(150);
+        hintButton.setLayoutX(120);
         hintButton.setLayoutY(450);
 
         hintButton.setOnMouseClicked((event -> System.out.println("hint button")));
 
         //Creating restart button
         Button restartButton = new Button("Restart");
-        restartButton.setLayoutX(250);
+        restartButton.setLayoutX(200);
         restartButton.setLayoutY(450);
 
         restartButton.setOnMouseClicked((event -> System.out.println("Restart button")));
 
-        //Creating stop button
-        Button undoButton = new Button("undo");
-        undoButton.setLayoutX(350);
-        undoButton.setLayoutY(450);
+        //Creating previousButton button
+        Button previousButton = new Button("previous");
+        previousButton.setLayoutX(290);
+        previousButton.setLayoutY(450);
 
-        undoButton.setOnMouseClicked((event -> System.out.println("Undo")));
-        return new Button[]{solutionButton, hintButton, restartButton, undoButton};
+        previousButton.setOnMouseClicked((event -> System.out.println("previous puzzle")));
+
+        //Creating next button
+        Button nextButton = new Button("next");
+        nextButton.setLayoutX(380);
+        nextButton.setLayoutY(450);
+
+        nextButton.setOnMouseClicked((event -> System.out.println("Undo")));
+
+        return new Button[]{solutionButton, hintButton, restartButton, nextButton, previousButton};
     }
 }
