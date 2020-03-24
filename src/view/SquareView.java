@@ -9,7 +9,7 @@ import model.square.Square;
 import java.awt.*;
 
 public class SquareView {
-    protected final int offset = 90;
+    private final int offset = 90;
     private Group group;
 
     public SquareView(Group group) {
