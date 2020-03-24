@@ -2,6 +2,7 @@ package controller;
 
 import controller.state.ClickState;
 import model.Model;
+import model.Operator;
 import model.position.Position;
 import view.View;
 
@@ -32,8 +33,8 @@ public class Controller {
         this.state = state;
     }
 
-    public void playSquare(int x, int y) {
-        model.play(x, y);
+    public void playSquare(int x, int y, Operator dir) {
+        model.play(x, y, dir);
         view.display();
     }
 

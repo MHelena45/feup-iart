@@ -86,11 +86,36 @@ public class Model {
         return currentState.getBoard().getMatrix();
     }
 
-    public void play(int x, int y) {
+    public void play(int x, int y, Operator dir) {
         this.gameSequence.push(this.currentState);
 
         ArrayList<ArrayList<Square>> matrix = getMatrix();
         matrix.get(y).get(x).play();
+
+        int number = this.currentState.getBoard().getSquare(x,y).getNumber();
+
+        switch (dir) {
+            case UP:
+                for (int i = 0; i < number; i++) {
+                    this.currentState.getBoard().getSquare(x,y+i).fill();
+                }
+                break;
+            case DOWN:
+                for (int i = 0; i < number; i++) {
+                    this.currentState.getBoard().getSquare(x,y-i).fill();
+                }
+                break;
+            case LEFT:
+                for (int i = 0; i < number; i++) {
+                    this.currentState.getBoard().getSquare(x-i,y).fill();
+                }
+                break;
+            case RIGHT:
+                for (int i = 0; i < number; i++) {
+                    this.currentState.getBoard().getSquare(x+i,y).fill();
+                }
+                break;
+        }
     }
 
     public void move(State state) {
