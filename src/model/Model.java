@@ -116,6 +116,7 @@ public class Model {
                 }
                 break;
         }
+        System.out.println("Played square (" + x + ", " + y + ")");
     }
 
     public void move(State state) {
