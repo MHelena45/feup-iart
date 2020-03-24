@@ -87,11 +87,16 @@ public class Model {
     }
 
     public void play(int x, int y) {
-        this.gameSequence.push(this.currentState);
+        Square playedSquare = getMatrix().get(y).get(x);
 
-        ArrayList<ArrayList<Square>> matrix = getMatrix();
-        matrix.get(y).get(x).play();
-        System.out.println("Played square (" + x + ", " + y + ")");
+        if(!playedSquare.isPlayed()) {
+            this.gameSequence.push(this.currentState);
+
+            this.currentState = currentState.play(x, y);
+
+            System.out.println("Played square (" + x + ", " + y + ")");
+        }
+
     }
 
     public void move(State state) {

@@ -34,6 +34,16 @@ public class State {
         this.playableSquares = playableSquares;
     }
 
+    public State play(int x, int y) {
+        State newState = new State(board, goalSquare, playableSquares);
+        Square playedSquare = newState.board.getMatrix().get(y).get(x);
+
+        playedSquare.play();
+        playableSquares.removeIf(square -> square.equals(playedSquare));
+
+        return newState;
+    }
+
     @Override
     public String toString() {
         String msg = "";

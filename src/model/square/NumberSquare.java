@@ -16,6 +16,11 @@ public class NumberSquare extends Square {
     public void play() { played = true; }
 
     @Override
+    public boolean isPlayed() {
+        return played;
+    }
+
+    @Override
     public int getNumber() {
         return number;
     }
