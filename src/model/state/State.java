@@ -23,6 +23,10 @@ public class State {
         return board;
     }
 
+    public Square getGoalSquare() {
+        return goalSquare;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
     }

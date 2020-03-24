@@ -78,12 +78,16 @@ public class Model {
         currentState.setBoard(new Board(matrix));
     }
 
-    public State getCurrentState() {
-        return currentState;
+    public int getLevel() {
+        return level;
     }
 
     public ArrayList<ArrayList<Square>> getMatrix() {
         return currentState.getBoard().getMatrix();
+    }
+
+    public Square getGoalSquare() {
+        return currentState.getGoalSquare();
     }
 
     public void play(int x, int y, Operator dir) {
@@ -97,19 +101,10 @@ public class Model {
         }
     }
 
-    public void move(State state) {
-        this.gameSequence.push(this.currentState);
-        this.currentState = state;
-    }
-
     public State undo() {
         State removedState = this.currentState;
         this.currentState = this.gameSequence.pop();
 
         return removedState;
-    }
-
-    public int getLevel() {
-        return level;
     }
 }

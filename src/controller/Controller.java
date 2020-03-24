@@ -38,6 +38,9 @@ public class Controller {
     public void playSquare(Operator op) {
         model.play(previousClick.getX(), previousClick.getY(), op);
         view.display();
+
+        if(isSolved())
+            System.out.println("SOLVED!!!");
     }
 
     public void numberClick(int x, int y) {
@@ -48,5 +51,9 @@ public class Controller {
     public void regularClick(int x, int y) {
 //        System.out.println("RegularSquare(" + x + ", " + y + ")");
         state.regularClick(new Position(x,y));
+    }
+
+    public boolean isSolved() {
+        return model.getGoalSquare().isFilled();
     }
 }
