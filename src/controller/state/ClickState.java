@@ -31,7 +31,6 @@ public abstract class ClickState {
             else result = Operator.DOWN;
         }
 
-        System.out.println("Operator is: " + result);
         return result;
     }
 

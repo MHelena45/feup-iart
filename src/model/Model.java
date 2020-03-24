@@ -86,17 +86,15 @@ public class Model {
         return currentState.getBoard().getMatrix();
     }
 
-    public void play(int x, int y) {
-        Square playedSquare = getMatrix().get(y).get(x);
+    public void play(int x, int y, Operator dir) {
+        Square playedSquare = this.currentState.getBoard().getSquare(x, y);
 
         if(!playedSquare.isPlayed()) {
             this.gameSequence.push(this.currentState);
-
-            this.currentState = currentState.play(x, y);
+            this.currentState = currentState.play(x, y, dir);
 
             System.out.println("Played square (" + x + ", " + y + ")");
         }
-
     }
 
     public void move(State state) {

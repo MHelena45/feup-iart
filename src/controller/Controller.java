@@ -36,17 +36,17 @@ public class Controller {
     }
 
     public void playSquare(Operator op) {
-        model.play(previousClick.getX(), previousClick.getY());
+        model.play(previousClick.getX(), previousClick.getY(), op);
         view.display();
     }
 
     public void numberClick(int x, int y) {
-        System.out.println("NumberSquare(" + x + ", " + y + ")");
+//        System.out.println("NumberSquare(" + x + ", " + y + ")");
         state.numberClick(new Position(x,y));
     }
 
     public void regularClick(int x, int y) {
-        System.out.println("RegularSquare(" + x + ", " + y + ")");
+//        System.out.println("RegularSquare(" + x + ", " + y + ")");
         state.regularClick(new Position(x,y));
     }
 }

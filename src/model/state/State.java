@@ -2,6 +2,7 @@ package model.state;
 
 import model.board.Board;
 import model.square.Square;
+import model.Operator;
 
 import java.util.ArrayList;
 
@@ -34,12 +35,36 @@ public class State {
         this.playableSquares = playableSquares;
     }
 
-    public State play(int x, int y) {
+    public State play(int x, int y, Operator dir) {
         State newState = new State(board, goalSquare, playableSquares);
-        Square playedSquare = newState.board.getMatrix().get(y).get(x);
+        Square playedSquare = newState.board.getSquare(x,y);
 
         playedSquare.play();
-        playableSquares.removeIf(square -> square.equals(playedSquare));
+        int number = playedSquare.getNumber();
+        System.out.println("Number: " + number);
+
+        switch (dir) {
+            case UP:
+                for (int i = 1; i <= number; i++) {
+                    board.getSquare(x,y-i).fill();
+                }
+                break;
+            case DOWN:
+                for (int i = 1; i <= number; i++) {
+                    board.getSquare(x,y+i).fill();
+                }
+                break;
+            case LEFT:
+                for (int i = 1; i <= number; i++) {
+                    board.getSquare(x-i,y).fill();
+                }
+                break;
+            case RIGHT:
+                for (int i = 1; i <= number; i++) {
+                    board.getSquare(x+i,y).fill();
+                }
+                break;
+        }
 
         return newState;
     }
