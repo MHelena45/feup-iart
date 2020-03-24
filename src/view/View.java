@@ -30,7 +30,7 @@ public class View {
         this.root = new Group();
         this.game = new Group();
         this.squareView = new SquareView(game);
-        this.buttons = new Buttons(model.getLevel());
+        this.buttons = new Buttons(model.getLevel(), null);
 
         for(int i = 0; i < buttons.getButtons().length; i ++)
             root.getChildren().add(buttons.getButtons()[i]);
@@ -40,6 +40,7 @@ public class View {
 
     public void setController(Controller controller) {
         this.controller = controller;
+        this.buttons.setController(controller);
     }
 
     public Group getRoot() {

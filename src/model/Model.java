@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Model {
-    private final int level;
+    private int level;
     private Stack<State> gameSequence;
     private State currentState;
 
@@ -108,4 +108,20 @@ public class Model {
     public int getLevel() {
         return level;
     }
+
+    public void changeLevel(int level) {
+        if(level < 0)
+            return;
+        else {
+            try {
+                this.level = level;
+                loadLevel();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+    }
+
 }

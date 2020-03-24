@@ -31,4 +31,16 @@ public class Controller {
     public void regularClick(int x, int y) {
         System.out.println("RegularSquare(" + x + ", " + y + ")");
     }
+
+    public void undo() {
+        System.out.println("undo");
+        model.undo();
+        view.display();
+    }
+
+    public void changeLevel(int level){
+        System.out.println("change level");
+        model.changeLevel(level);
+        view.display();
+    }
 }
