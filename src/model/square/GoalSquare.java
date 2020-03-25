@@ -12,9 +12,4 @@ public class GoalSquare extends Square {
     public Paint getColor () {
         return isFilled() ? Color.BLACK : Color.GRAY;
     }
-
-    @Override
-    public String toString() {
-        return "Goal Square";
-    }
 }

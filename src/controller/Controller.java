@@ -41,7 +41,7 @@ public class Controller {
 
         if(isSolved()){
             changeLevel(model.getLevel() + 1);
-            System.out.println("SOLVED!!!");
+//            System.out.println("SOLVED!!!");
         }
     }
 
@@ -51,12 +51,12 @@ public class Controller {
     }
 
     public void numberClick(int x, int y) {
-        System.out.println("NumberSquare(" + x + ", " + y + ")");
+//        System.out.println("NumberSquare(" + x + ", " + y + ")");
         state.numberClick(new Position(x,y));
     }
 
     public void regularClick(int x, int y) {
-        System.out.println("RegularSquare(" + x + ", " + y + ")");
+//        System.out.println("RegularSquare(" + x + ", " + y + ")");
         state.regularClick(new Position(x,y));
     }
 
@@ -65,7 +65,7 @@ public class Controller {
     }
 
     public void restart() {
-        System.out.println("restart");
+//        System.out.println("restart");
         model.restart();
         view.display();
     }
@@ -77,7 +77,7 @@ public class Controller {
     }
 
     public void changeLevel(int level){
-        System.out.println("change level");
+//        System.out.println("change level");
         model.changeLevel(level);
         view.display();
     }

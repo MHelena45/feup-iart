@@ -45,26 +45,43 @@ public class State {
 
         playedSquare.play();
         int number = playedSquare.getNumber();
+        int i = 1;
 
         switch (dir) {
             case UP:
-                for (int i = 1; i <= number; i++) {
-                    board.getSquare(x,y-i).fill();
+                while (number > 0) {
+                    if(!board.getSquare(x,y-i).isFilled()){
+                        board.getSquare(x,y-i).fill();
+                        number--;
+                    }
+                    i++;
                 }
                 break;
             case DOWN:
-                for (int i = 1; i <= number; i++) {
-                    board.getSquare(x,y+i).fill();
+                while (number > 0) {
+                    if(!board.getSquare(x,y+i).isFilled()){
+                        board.getSquare(x,y+i).fill();
+                        number--;
+                    }
+                    i++;
                 }
                 break;
             case LEFT:
-                for (int i = 1; i <= number; i++) {
-                    board.getSquare(x-i,y).fill();
+                while (number > 0) {
+                    if(!board.getSquare(x-i,y).isFilled()){
+                        board.getSquare(x-i,y).fill();
+                        number--;
+                    }
+                    i++;
                 }
                 break;
             case RIGHT:
-                for (int i = 1; i <= number; i++) {
-                    board.getSquare(x+i,y).fill();
+                while (number > 0) {
+                    if(!board.getSquare(x+i,y).isFilled()){
+                        board.getSquare(x+i,y).fill();
+                        number--;
+                    }
+                    i++;
                 }
                 break;
         }

@@ -35,10 +35,4 @@ public class NumberSquare extends Square {
         if (clicked) return Color.BLUE;
         return Color.LIGHTBLUE;
     };
-
-    @Override
-    public String toString() {
-        return "Number Square";
-    }
-
 }
