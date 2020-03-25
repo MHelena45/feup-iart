@@ -88,24 +88,27 @@ public class Model {
         currentState.setBoard(new Board(matrix));
     }
 
-    public State getCurrentState() {
-        return currentState;
+    public int getLevel() {
+        return level;
     }
 
     public ArrayList<ArrayList<Square>> getMatrix() {
         return currentState.getBoard().getMatrix();
     }
 
-    public void play(int x, int y) {
-        this.gameSequence.push(this.currentState);
-
-        ArrayList<ArrayList<Square>> matrix = getMatrix();
-        matrix.get(y).get(x).play();
+    public Square getGoalSquare() {
+        return currentState.getGoalSquare();
     }
 
-    public void move(State state) {
-        this.gameSequence.push(this.currentState);
-        this.currentState = state;
+    public void play(int x, int y, Operator dir) {
+        Square playedSquare = this.currentState.getBoard().getSquare(x, y);
+
+        if(!playedSquare.isPlayed()) {
+            this.gameSequence.push(this.currentState);
+            this.currentState = currentState.play(x, y, dir);
+
+            System.out.println("Played square (" + x + ", " + y + ")");
+        }
     }
 
     public State undo() {
@@ -123,10 +126,6 @@ public class Model {
             e.printStackTrace();
             System.exit(-1);
         }
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public void changeLevel(int level) {

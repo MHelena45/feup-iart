@@ -31,6 +31,10 @@ public class Square {
 
     public void play() {}
 
+    public void click() {}
+
+    public boolean isPlayed() { return true; }
+
     public void fill() {
         filled = true;
     }

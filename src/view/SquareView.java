@@ -9,8 +9,7 @@ import model.square.Square;
 import java.awt.*;
 
 public class SquareView {
-    protected final int offset = 80;
-    protected final int square_size = 30;
+    protected final int offset = 90;
     private Group group;
 
     public SquareView(Group group) {
@@ -21,19 +20,19 @@ public class SquareView {
         Rectangle rectangle = new Rectangle();
 
         //Setting the properties of the rectangle
-        rectangle.setX(square.getX() * square_size + offset);
-        rectangle.setY(square.getY() * square_size + offset/2);
+        rectangle.setX(square.getX() * 30 + offset);
+        rectangle.setY(square.getY() * 30 + offset);
 
         rectangle.setFill(square.getColor());
 
-        rectangle.setWidth(square_size - 1);
-        rectangle.setHeight(square_size - 1);
+        rectangle.setWidth(29);
+        rectangle.setHeight(29);
 
         group.getChildren().add(rectangle);
 
         if(square.toString() == "Number Square"){
-            Text t = new Text(square.getX() * square_size + offset + 15, square.getY() * square_size + offset/2 + 15,  String.valueOf(square.getNumber()));
-            t.setFont(Font.font ("Verdana", square_size/3));
+            Text t = new Text((square.getX() + 1) * 27 + offset - 10, (square.getY() + 1) * 27 + offset - 1,  String.valueOf(square.getNumber()));
+            t.setFont(Font.font ("Verdana", 10));
             group.getChildren().add(t);
         }
 

@@ -58,7 +58,7 @@ public class View {
         for(int i = 0; i < matrix.size(); i++){
             for(int j = 0; j < matrix.get(i).size(); j++) {
                 Square square = matrix.get(i).get(j);
-                Rectangle rectangle= squareView.drawRectangle(matrix.get(i).get(j));
+                Group rectangle=squareView.drawRectangle(matrix.get(i).get(j));
 
                 if(square.getNumber() > 0)
                     rectangle.setOnMouseClicked(new NumberSquareClick(controller, j, i));

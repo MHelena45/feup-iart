@@ -45,6 +45,7 @@ public class Controller {
     }
 
     public void changeLevel(int level){
+        System.out.println("change level");
         model.changeLevel(level);
         view.display();
     }
