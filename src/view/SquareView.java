@@ -9,14 +9,15 @@ import model.square.Square;
 import java.awt.*;
 
 public class SquareView {
-    protected final int offset = 90;
+    private final int offset = 80;
     private Group group;
 
     public SquareView(Group group) {
         this.group = group;
     }
 
-    public Rectangle drawRectangle(Square square){
+    public Group drawRectangle(Square square){
+        Group cell = new Group();
         Rectangle rectangle = new Rectangle();
 
         //Setting the properties of the rectangle
@@ -28,15 +29,16 @@ public class SquareView {
         rectangle.setWidth(29);
         rectangle.setHeight(29);
 
-        group.getChildren().add(rectangle);
+        cell.getChildren().add(rectangle);
 
-        if(square.toString() == "Number Square"){
+        if(square.getNumber() > 0){
             Text t = new Text((square.getX() + 1) * 27 + offset - 10, (square.getY() + 1) * 27 + offset - 1,  String.valueOf(square.getNumber()));
             t.setFont(Font.font ("Verdana", 10));
-            group.getChildren().add(t);
+            cell.getChildren().add(t);
         }
 
-        return rectangle;
+        group.getChildren().add(cell);
+        return cell;
     }
 
 }

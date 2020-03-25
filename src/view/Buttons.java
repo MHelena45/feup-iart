@@ -41,21 +41,14 @@ public class Buttons {
 
         //Creating restart button
         Button restartButton = new Button("Restart");
-        restartButton.setLayoutX(200);
+        restartButton.setLayoutX(250);
         restartButton.setLayoutY(480);
 
         restartButton.setOnMouseClicked((event -> controller.restart()));
 
-        //Creating undo button
-        Button undoButton = new Button("undo");
-        undoButton.setLayoutX(280);
-        undoButton.setLayoutY(480);
-
-        undoButton.setOnMouseClicked((event -> controller.undo()));
-
         //Creating previous button
         Button previousButton = new Button("previous");
-        previousButton.setLayoutX(380);
+        previousButton.setLayoutX(360);
         previousButton.setLayoutY(480);
 
         previousButton.setOnMouseClicked((event -> {
@@ -81,6 +74,6 @@ public class Buttons {
             }
         }));
 
-        return new Button[]{solutionButton, hintButton, restartButton, undoButton, nextButton, previousButton};
+        return new Button[]{solutionButton, hintButton, restartButton, nextButton, previousButton};
     }
 }

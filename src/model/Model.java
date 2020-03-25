@@ -111,13 +111,6 @@ public class Model {
         }
     }
 
-    public State undo() {
-        State removedState = this.currentState;
-        this.currentState = this.gameSequence.pop();
-
-        return removedState;
-    }
-
     public void restart(){
         try {
             loadLevel();
