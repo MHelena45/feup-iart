@@ -142,7 +142,11 @@ public class Model {
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
         InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
-        for(int i=0; i < search.getPositions().size(); i++ )
+
+        for(int i=0; i < search.getPositions().size(); i++) {
+            System.out.println(search.getPositions().get(i).getX());
             play(search.getPositions().get(i).getX(), search.getPositions().get(i).getY(), search.getOperators().get(i));
+        }
+
     }
 }
