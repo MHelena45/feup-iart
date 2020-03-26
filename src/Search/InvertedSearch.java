@@ -86,7 +86,7 @@ public class InvertedSearch {
         }
         return true;
     }
-    
+
     private void findFirstSquare() {
         int x = goalSquare.getX();
         int y = goalSquare.getY();
@@ -107,7 +107,6 @@ public class InvertedSearch {
                 }
                 positions.add(new Position(numberSquare.getX(), numberSquare.getY() ));
                 nodes.get(i).setVisited(true);
-                return;
 
             } else if(numberSquare.getY() == y) {
                 //found first/last square to be played
@@ -122,7 +121,6 @@ public class InvertedSearch {
                 }
                 positions.add(new Position(numberSquare.getX(), numberSquare.getY() ));
                 nodes.get(i).setVisited(true);
-                return;
 
             }
 
