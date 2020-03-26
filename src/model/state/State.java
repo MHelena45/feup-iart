@@ -10,6 +10,8 @@ public class State {
     private Board board;
     private Square goalSquare;
     private ArrayList<Square> playableSquares;
+    private Square playedSquare;
+    private ArrayList<Square> lastFilledSquares = new ArrayList<>();
 
     public State() {}
 
@@ -41,7 +43,7 @@ public class State {
 
     public State play(int x, int y, Operator dir) {
         State newState = new State(board, goalSquare, playableSquares);
-        Square playedSquare = newState.board.getSquare(x,y);
+        playedSquare = newState.board.getSquare(x,y);
 
         playedSquare.play();
         int number = playedSquare.getNumber();
@@ -50,8 +52,10 @@ public class State {
         switch (dir) {
             case UP:
                 while (number > 0) {
-                    if(!board.getSquare(x,y-i).isFilled()){
-                        board.getSquare(x,y-i).fill();
+                    Square currentSquare = board.getSquare(x,y-i);
+                    if(!currentSquare.isFilled()){
+                        currentSquare.fill();
+                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -59,8 +63,10 @@ public class State {
                 break;
             case DOWN:
                 while (number > 0) {
-                    if(!board.getSquare(x,y+i).isFilled()){
-                        board.getSquare(x,y+i).fill();
+                    Square currentSquare = board.getSquare(x,y+i);
+                    if(!currentSquare.isFilled()){
+                        currentSquare.fill();
+                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -68,8 +74,10 @@ public class State {
                 break;
             case LEFT:
                 while (number > 0) {
-                    if(!board.getSquare(x-i,y).isFilled()){
-                        board.getSquare(x-i,y).fill();
+                    Square currentSquare = board.getSquare(x-i,y);
+                    if(!currentSquare.isFilled()){
+                        currentSquare.fill();
+                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -77,8 +85,10 @@ public class State {
                 break;
             case RIGHT:
                 while (number > 0) {
-                    if(!board.getSquare(x+i,y).isFilled()){
-                        board.getSquare(x+i,y).fill();
+                    Square currentSquare = board.getSquare(x+i,y);
+                    if(!currentSquare.isFilled()){
+                        currentSquare.fill();
+                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -87,6 +97,17 @@ public class State {
         }
 
         return newState;
+    }
+
+    public State undo() {
+        State previousState = new State(board, goalSquare, playableSquares);
+        playedSquare.unplay();
+
+        for (Square sq : lastFilledSquares) {
+            sq.clear();
+        }
+
+        return previousState;
     }
 
     @Override

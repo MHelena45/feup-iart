@@ -17,6 +17,8 @@ public class NumberSquare extends Square {
 
     public void play() { played = true; }
 
+    public void unplay() { played = false; }
+
     public void click() { clicked = !clicked; }
 
     @Override

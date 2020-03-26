@@ -31,6 +31,8 @@ public class Square {
 
     public void play() {}
 
+    public void unplay() {}
+
     public void click() {}
 
     public boolean isPlayed() { return true; }
