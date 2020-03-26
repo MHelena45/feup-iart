@@ -1,5 +1,6 @@
 package model;
 
+import Search.InvertedSearch;
 import model.board.Board;
 import model.square.GoalSquare;
 import model.square.NumberSquare;
@@ -136,4 +137,11 @@ public class Model {
         }
     }
 
+    public void solve() {
+        System.out.println("Start solving");
+        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
+        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+        InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
+        play(search.getPositions().get(0).getX(), search.getPositions().get(0).getY(), search.getOperators().get(0));
+    }
 }

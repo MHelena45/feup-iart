@@ -30,7 +30,7 @@ public class Buttons {
         solutionButton.setLayoutX(40);
         solutionButton.setLayoutY(480);
 
-        solutionButton.setOnMouseClicked((event -> System.out.println("Solution button")));
+        solutionButton.setOnMouseClicked((event -> controller.solve()));
 
         //Creating stop button
         Button hintButton = new Button("Hint");

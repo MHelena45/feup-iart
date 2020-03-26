@@ -14,7 +14,7 @@ public class BreadthFirstSearch {
     private GoalSquare goalSquare;
     private ArrayList<NumberSquare> numberSquares;
     private ArrayList<Operator> operators = new ArrayList<>(List.of(Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT));
-    private PriorityQueue<Play> playsMade = new PriorityQueue<>();
+    private PriorityQueue<Node> playsMade = new PriorityQueue<>();
 
     BreadthFirstSearch(GoalSquare goalSquare, ArrayList<NumberSquare> numberSquares) {
         this.goalSquare = goalSquare;
@@ -25,7 +25,7 @@ public class BreadthFirstSearch {
 
     public ArrayList<NumberSquare> getNextPossPlaySquares() {
         ArrayList<NumberSquare> nextPossPlaySquares = numberSquares;
-        for (Play play: playsMade) {
+        for (Node play: playsMade) {
             nextPossPlaySquares.remove(play.getNumberSquare());
         }
         return nextPossPlaySquares;
@@ -39,7 +39,7 @@ public class BreadthFirstSearch {
             for (int sq = 0; sq < remainingSquares.size() * k ; sq++) {
                 for (int op = 0; op < 4; op++) {
                     // check if next play fills the goalSquare
-                    playsMade.add(new Play(numberSquares.get(sq), operators.get(op)));
+                    playsMade.add(new Node(numberSquares.get(sq), operators.get(op)));
                     s = s.play(remainingSquares.get(sq).getX(), remainingSquares.get(sq).getY(), operators.get(op));
                     if (goalAchieved()) break;
                     s = s.undo();
@@ -47,17 +47,17 @@ public class BreadthFirstSearch {
                     // switch previous play operator
                     playsMade.poll();
                     s = s.undo();
-                    playsMade.add(new Play(numberSquares.get(sq), operators.get((op+1) % 4)));
+                    playsMade.add(new Node(numberSquares.get(sq), operators.get((op+1) % 4)));
                     s = s.play(remainingSquares.get(sq).getX(), remainingSquares.get(sq).getY(), operators.get((op+1) % 4));
                 }
                 if (Math.floor(sq / remainingSquares.size()) != Math.floor((sq+1) / remainingSquares.size())) {
                     if (sq + 1 == remainingSquares.size() * k) { // make play
-                        playsMade.add(new Play(remainingSquares.get(0), operators.get(0)));
+                        playsMade.add(new Node(remainingSquares.get(0), operators.get(0)));
                         s = s.play(remainingSquares.get(0).getX(), remainingSquares.get(0).getY(), operators.get(0));
                     } else { // switch previous play square
                         playsMade.poll();
                         s = s.undo();
-                        playsMade.add(new Play(numberSquares.get(sq + 1), operators.get(0)));
+                        playsMade.add(new Node(numberSquares.get(sq + 1), operators.get(0)));
                         s = s.play(remainingSquares.get(sq + 1).getX(), remainingSquares.get(sq + 1).getY(), operators.get(0));
                     }
                     remainingSquares = getNextPossPlaySquares();

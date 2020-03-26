@@ -7,6 +7,8 @@ import model.Operator;
 import model.position.Position;
 import view.View;
 
+import static java.lang.Thread.sleep;
+
 public class Controller {
     private Model model;
     private View view;
@@ -73,4 +75,11 @@ public class Controller {
         model.changeLevel(level);
         view.display();
     }
+
+    public void solve() {
+        model.solve();
+        view.display();
+
+    }
 }
+

@@ -1,6 +1,8 @@
 package model.state;
 
 import model.board.Board;
+import model.square.GoalSquare;
+import model.square.NumberSquare;
 import model.square.Square;
 import model.Operator;
 
@@ -39,6 +41,10 @@ public class State {
 
     public void setPlayableSquares(ArrayList<Square> playableSquares) {
         this.playableSquares = playableSquares;
+    }
+
+    public ArrayList<Square> getPlayableSquares() {
+        return playableSquares;
     }
 
     public State play(int x, int y, Operator dir) {
