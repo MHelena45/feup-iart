@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import javafx.scene.Group;;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Model;
 import model.square.Square;
@@ -53,6 +54,10 @@ public class View {
 
         //Clearing screen
         game.getChildren().clear();
+
+        Text t = new Text(225, 20, "Level " + model.getLevel());
+        t.setFont(Font.font ("Verdana", 15));
+        game.getChildren().add(t);
 
         //Drawing the matrix
         for(int i = 0; i < matrix.size(); i++){

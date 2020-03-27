@@ -22,7 +22,7 @@ public class SquareView {
 
         //Setting the properties of the rectangle
         rectangle.setX(square.getX() * 30 + offset);
-        rectangle.setY(square.getY() * 30 + offset);
+        rectangle.setY(square.getY() * 30 + offset/2);
 
         rectangle.setFill(square.getColor());
 
@@ -32,8 +32,8 @@ public class SquareView {
         cell.getChildren().add(rectangle);
 
         if(square.getNumber() > 0){
-            Text t = new Text((square.getX() + 1) * 27 + offset - 10, (square.getY() + 1) * 27 + offset - 1,  String.valueOf(square.getNumber()));
-            t.setFont(Font.font ("Verdana", 10));
+            Text t = new Text(square.getX() * 30 + offset + 10, square.getY() * 30 + offset/2 + 19,  String.valueOf(square.getNumber()));
+            t.setFont(Font.font ("Verdana", 17));
             cell.getChildren().add(t);
         }
 
