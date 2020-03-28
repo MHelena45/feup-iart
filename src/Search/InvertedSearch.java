@@ -8,8 +8,7 @@ import model.square.Square;
 
 import java.util.ArrayList;
 
-import static model.Operator.RIGHT;
-import static model.Operator.UP;
+import static model.Operator.*;
 
 public class InvertedSearch {
 
@@ -42,6 +41,7 @@ public class InvertedSearch {
     private void search() {
         sortByManhattan( 0, nodes.size() - 1);
         findFirstSquare();
+
         while(!allSearch()) {
             findNextSquare();
             System.out.println(positions.size());
@@ -124,12 +124,15 @@ public class InvertedSearch {
         for(int i=0; i < nodes.size(); i++) {
             NumberSquare numberSquare = nodes.get(i).getNumberSquare();
             if(nodes.get(i).getNumberSquare().getX() == x) {
-
                 //found first/last square to be played
                 //the goal square is above the number square
                 if(numberSquare.getY() > y){
+                    if(!checkInLineSquares(numberSquare.getX(), numberSquare.getY(), Operator.UP))
+                        continue;
                     operators.add(Operator.UP);
                 } else if(numberSquare.getY() < y){
+                    if(!checkInLineSquares(numberSquare.getX(), numberSquare.getY(), Operator.DOWN))
+                        continue;
                     operators.add(Operator.DOWN);
                 } else {
                     System.out.println("number square as some position that goal square");
@@ -142,8 +145,12 @@ public class InvertedSearch {
 
                 //the goal square is on the right the number square
                 if(numberSquare.getX() < x){
+                    if(!checkInLineSquares(numberSquare.getX(), numberSquare.getY(), RIGHT))
+                        continue;
                     operators.add(RIGHT);
                 } else if(numberSquare.getX() > x){
+                    if(!checkInLineSquares(numberSquare.getX(), numberSquare.getY(), LEFT))
+                        continue;
                     operators.add(Operator.LEFT);
                 } else {
                     System.out.println("number square as some position that goal square");
@@ -155,19 +162,21 @@ public class InvertedSearch {
         }
     }
 
-    private Boolean checkInLineSquares(Integer x1, Integer y1) {
+    private Boolean checkInLineSquares(Integer x1, Integer y1, Operator operator) {
         //y of the last square played
         int y2 = positions.get(positions.size() - 1).getY();
         int x2 = positions.get(positions.size() - 1).getX();
 
-        switch (operators.get(operators.size() - 1)){
+        if(nodes.size() <= 2)
+            return true;
+
+        switch (operator){
             case UP:
                 for(int i=0; i< nodes.size(); i++) {
                     Node node = nodes.get(i);
                     //positions have the same x
                     if(node.isVisited() == false) {
                         if(node.getNumberSquare().getY() < y1 && node.getNumberSquare().getY() > y2 ) {
-                            //the founded square is on the right the number square
                             return true;
                         }
                     }
@@ -179,8 +188,6 @@ public class InvertedSearch {
                     //positions have the same x
                     if(node.isVisited() == false) {
                         if(node.getNumberSquare().getY() > y1 && node.getNumberSquare().getY() < y2) {
-                            //playing this square can makes reach the goal
-                            //the founded square is on the right the number square
                             return true;
                         }
                     }
@@ -192,6 +199,7 @@ public class InvertedSearch {
                     Node node = nodes.get(j);
                     if(node.isVisited() == false) {
                         if(node.getNumberSquare().getX() < x2 && node.getNumberSquare().getX() > x1) {
+                            //playing this square can makes reach the goal
                             //the founded square is on the right the number square
                             return true;
                         }
@@ -204,6 +212,7 @@ public class InvertedSearch {
                     //positions have the same y
                     if(node.isVisited() == false) {
                         if( node.getNumberSquare().getX() > x2 && node.getNumberSquare().getX() < x1) {
+                            //playing this square can makes reach the goal
                             //the founded square is on the right the number square
                             return true;
                         }
