@@ -40,7 +40,7 @@ public class InvertedSearch {
         }
     }
     private void search() {
-
+        sortByManhattan( 0, nodes.size() - 1);
         findFirstSquare();
         while(!allSearch()) {
             findNextSquare();
@@ -50,6 +50,34 @@ public class InvertedSearch {
         reverseOperators();
         reversePositions();
     }
+
+    public void sortByManhattan(int begin, int end) {
+        if (end <= begin) return;
+        int pivot = partition(begin, end);
+        sortByManhattan(begin, pivot-1);
+        sortByManhattan( pivot+1, end);
+    }
+
+    private int partition(int begin, int end) {
+        int pivot = end;
+        int counter = begin;
+
+        for (int i = begin; i < end; i++) {
+            if (nodes.get(i).getNumberSquare().getManhattanDistance(goalSquare) <
+                    nodes.get(pivot).getNumberSquare().getManhattanDistance(goalSquare)) {
+                Node temp = nodes.get(counter);
+                nodes.set(counter, nodes.get(i));
+                nodes.set(i, temp);
+                counter++;
+            }
+        }
+        Node temp =nodes.get(pivot);
+        nodes.set(pivot, nodes.get(counter));
+        nodes.set(counter, temp);
+
+        return counter;
+    }
+
 
     private void reversePositions()
     {
@@ -87,6 +115,7 @@ public class InvertedSearch {
         }
         return true;
     }
+
     private void findFirstSquare() {
         int x = goalSquare.getX();
         int y = goalSquare.getY();
@@ -94,8 +123,8 @@ public class InvertedSearch {
 
         for(int i=0; i < nodes.size(); i++) {
             NumberSquare numberSquare = nodes.get(i).getNumberSquare();
-
             if(nodes.get(i).getNumberSquare().getX() == x) {
+
                 //found first/last square to be played
                 //the goal square is above the number square
                 if(numberSquare.getY() > y){
@@ -121,11 +150,72 @@ public class InvertedSearch {
                 }
                 positions.add(new Position(numberSquare.getX(), numberSquare.getY() ));
                 nodes.get(i).setVisited(true);
-
             }
 
         }
     }
+
+    private Boolean checkInLineSquares(Integer x1, Integer y1) {
+        //y of the last square played
+        int y2 = positions.get(positions.size() - 1).getY();
+        int x2 = positions.get(positions.size() - 1).getX();
+
+        switch (operators.get(operators.size() - 1)){
+            case UP:
+                for(int i=0; i< nodes.size(); i++) {
+                    Node node = nodes.get(i);
+                    //positions have the same x
+                    if(node.isVisited() == false) {
+                        if(node.getNumberSquare().getY() < y1 && node.getNumberSquare().getY() > y2 ) {
+                            //the founded square is on the right the number square
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case DOWN:
+                for(int i=0; i< nodes.size(); i++) {
+                    Node node = nodes.get(i);
+                    //positions have the same x
+                    if(node.isVisited() == false) {
+                        if(node.getNumberSquare().getY() > y1 && node.getNumberSquare().getY() < y2) {
+                            //playing this square can makes reach the goal
+                            //the founded square is on the right the number square
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case RIGHT:
+                for(int j=0; j< nodes.size(); j++) {
+                    //positions have the same y
+                    Node node = nodes.get(j);
+                    if(node.isVisited() == false) {
+                        if(node.getNumberSquare().getX() < x2 && node.getNumberSquare().getX() > x1) {
+                            //the founded square is on the right the number square
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case LEFT:
+                for(int j=0; j< nodes.size(); j++) {
+                    Node node = nodes.get(j);
+                    //positions have the same y
+                    if(node.isVisited() == false) {
+                        if( node.getNumberSquare().getX() > x2 && node.getNumberSquare().getX() < x1) {
+                            //the founded square is on the right the number square
+                            return true;
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
 
     private void findNextSquare(){
 

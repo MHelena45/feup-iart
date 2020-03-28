@@ -4,6 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import model.position.Position;
 
+import java.util.Comparator;
+
+import static java.lang.Math.abs;
+
 public class Square {
     private Position position;
     private Boolean filled;
@@ -50,6 +54,13 @@ public class Square {
     }
 
     public int getNumber() { return 0; }
+
+    public double getManhattanDistance(final Square square) {
+        final double dx = abs(getX() - square.getX());
+        final double dy = abs(getY() - square.getY());
+
+        return (dx + dy);
+    }
 
     @Override
     public String toString() {
