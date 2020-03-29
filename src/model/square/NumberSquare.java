@@ -3,6 +3,8 @@ package model.square;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import static java.lang.Math.abs;
+
 public class NumberSquare extends Square {
     private int number;
     private boolean played;
@@ -37,4 +39,12 @@ public class NumberSquare extends Square {
         if (clicked) return Color.BLUE;
         return Color.LIGHTBLUE;
     };
+
+    public double getManhattanDistance(final Square square) {
+        final double dx = abs(getX() - square.getX());
+        final double dy = abs(getY() - square.getY());
+
+        return (dx + dy - this.number);
+    }
+
 }

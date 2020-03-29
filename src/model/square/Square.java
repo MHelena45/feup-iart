@@ -55,13 +55,6 @@ public class Square {
 
     public int getNumber() { return 0; }
 
-    public double getManhattanDistance(final Square square) {
-        final double dx = abs(getX() - square.getX());
-        final double dy = abs(getY() - square.getY());
-
-        return (dx + dy);
-    }
-
     @Override
     public String toString() {
         return "Square: (" + position.getX() + ", " + position.getY() + ") -> " + (filled ? "filled" : "unfilled");
