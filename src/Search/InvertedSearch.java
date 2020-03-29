@@ -246,6 +246,7 @@ public class InvertedSearch {
         switch (operators.get(operators.size() - 1)){
             case UP:
                 putNeeded_squares(y1, y2);
+                sortByX(0, nodes.size() - 1);
                 for(int i=0; i< nodes.size(); i++) {
                     Node node = nodes.get(i);
                     if(needed_squares == 0)
@@ -272,6 +273,7 @@ public class InvertedSearch {
                 break;
             case DOWN:
                 putNeeded_squares(y1, y2);
+                sortByX(0, nodes.size() - 1);
                 for(int i=0; i< nodes.size(); i++) {
                     Node node = nodes.get(i);
                     if(needed_squares == 0)
@@ -298,6 +300,7 @@ public class InvertedSearch {
                 break;
             case RIGHT:
                 putNeeded_squares(x1, x2);
+                sortByY(0, nodes.size() - 1);
                 for(int j=0; j< nodes.size(); j++) {
                     //positions have the same y
                     Node node = nodes.get(j);
@@ -324,6 +327,7 @@ public class InvertedSearch {
                 break;
             case LEFT:
                 putNeeded_squares(x1, x2);
+                sortByY(0, nodes.size() - 1);
                 for(int j=0; j< nodes.size(); j++) {
                     Node node = nodes.get(j);
                     if(needed_squares == 0)
@@ -358,4 +362,57 @@ public class InvertedSearch {
         System.out.println("Putting needed squares " +  this.needed_squares);
     }
 
+    public void sortByX(int begin, int end) {
+        if (end <= begin) return;
+        int pivot = partitionX(begin, end);
+        sortByX(begin, pivot-1);
+        sortByX( pivot+1, end);
+    }
+
+    private int partitionX(int begin, int end) {
+        int pivot = end;
+        int counter = begin;
+
+        for (int i = begin; i < end; i++) {
+            if (nodes.get(i).getNumberSquare().getXDistance(goalSquare) <
+                    nodes.get(pivot).getNumberSquare().getXDistance(goalSquare)) {
+                Node temp = nodes.get(counter);
+                nodes.set(counter, nodes.get(i));
+                nodes.set(i, temp);
+                counter++;
+            }
+        }
+        Node temp =nodes.get(pivot);
+        nodes.set(pivot, nodes.get(counter));
+        nodes.set(counter, temp);
+
+        return counter;
+    }
+
+    public void sortByY(int begin, int end) {
+        if (end <= begin) return;
+        int pivot = partitionY(begin, end);
+        sortByY(begin, pivot-1);
+        sortByY( pivot+1, end);
+    }
+
+    private int partitionY(int begin, int end) {
+        int pivot = end;
+        int counter = begin;
+
+        for (int i = begin; i < end; i++) {
+            if (nodes.get(i).getNumberSquare().getYDistance(goalSquare) <
+                    nodes.get(pivot).getNumberSquare().getYDistance(goalSquare)) {
+                Node temp = nodes.get(counter);
+                nodes.set(counter, nodes.get(i));
+                nodes.set(i, temp);
+                counter++;
+            }
+        }
+        Node temp =nodes.get(pivot);
+        nodes.set(pivot, nodes.get(counter));
+        nodes.set(counter, temp);
+
+        return counter;
+    }
 }

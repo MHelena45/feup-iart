@@ -47,4 +47,15 @@ public class NumberSquare extends Square {
         return (dx + dy - this.number);
     }
 
+    public double getXDistance(final Square square) {
+        final double dx = abs(getX() - square.getX());
+        return (dx - this.number);
+    }
+
+    public double getYDistance(final Square square) {
+        final double dy = abs(getY() - square.getY());
+
+        return ( dy - this.number);
+    }
+
 }
