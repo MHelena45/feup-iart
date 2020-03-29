@@ -5,7 +5,7 @@ import javafx.scene.paint.Paint;
 
 import static java.lang.Math.abs;
 
-public class NumberSquare extends Square {
+public class NumberSquare extends Square implements Cloneable {
     private int number;
     private boolean played;
     private boolean clicked;
@@ -39,6 +39,11 @@ public class NumberSquare extends Square {
         if (clicked) return Color.BLUE;
         return Color.LIGHTBLUE;
     };
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public double getManhattanDistance(final Square square) {
         final double dx = abs(getX() - square.getX());

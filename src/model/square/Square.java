@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
 
 public class Square implements Cloneable {
     private Position position;
-    private Boolean filled;
+    private boolean filled;
 
     public Square(int x, int y) {
         this(x, y, false);
@@ -29,7 +29,7 @@ public class Square implements Cloneable {
         return position.getY();
     }
 
-    public Boolean isFilled() {
+    public boolean isFilled() {
         return filled;
     }
 

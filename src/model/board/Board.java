@@ -25,8 +25,23 @@ public class Board implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         Board newBoard = (Board) super.clone();
 
-        newBoard.matrix = (ArrayList<ArrayList<Square>>) matrix.clone();
+        newBoard.matrix = cloneList();
 
         return newBoard;
+    }
+
+    private ArrayList<ArrayList<Square>> cloneList() throws CloneNotSupportedException {
+        ArrayList<ArrayList<Square>> newMatrix = new ArrayList<>();
+
+        for(ArrayList<Square> row : matrix) {
+            ArrayList<Square> newRow = new ArrayList<>();
+            for(Square sqr : row) {
+                Square newSquare = (Square) sqr.clone();
+                newRow.add(newSquare);
+            }
+            newMatrix.add(newRow);
+        }
+
+        return newMatrix;
     }
 }

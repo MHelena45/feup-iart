@@ -48,8 +48,7 @@ public class Controller {
     }
 
     public void clickSquare(int x, int y) {
-        System.out.println("Matrix size: " + model.getMatrix().size());
-        model.getMatrix().get(y).get(x).click();
+        model.getSquare(x,y).click();
         view.display();
     }
 
