@@ -20,8 +20,6 @@ public class Model {
     private State currentState;
 
     public Model(int level) {
-        this.gameSequence = new Stack<>();
-        this.currentState = new State();
         this.level = level;
 
         try {
@@ -34,6 +32,9 @@ public class Model {
     }
 
     private void loadLevel() throws IOException {
+        this.gameSequence = new Stack<>();
+        this.currentState = new State();
+
         InputStream stream;
         if(level <= 9)
             stream = Model.class.getResourceAsStream("/levels/00" + level + ".txt");
