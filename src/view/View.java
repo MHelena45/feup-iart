@@ -32,7 +32,7 @@ public class View {
         this.root = new Group();
         this.game = new Group();
         this.squareView = new SquareView(game);
-        this.buttons = new Buttons(model.getLevel(), null);
+        this.buttons = new Buttons(controller);
 
         for(int i = 0; i < buttons.getButtons().length; i ++)
             root.getChildren().add(buttons.getButtons()[i]);

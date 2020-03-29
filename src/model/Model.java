@@ -108,11 +108,19 @@ public class Model {
             this.gameSequence.push(this.currentState);
             this.currentState = currentState.play(x, y, dir);
 
-            System.out.println("Played square (" + x + ", " + y + ")");
+//            System.out.println("Played square (" + x + ", " + y + ")");
         }
     }
 
-    public void restart(){
+    public void undo() {
+        if(!this.gameSequence.empty()) {
+            this.currentState = this.gameSequence.pop();
+        } else {
+            System.err.println("There are no previous plays!");
+        }
+    }
+
+    public void restart() {
         try {
             loadLevel();
         } catch (Exception e) {

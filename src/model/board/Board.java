@@ -4,7 +4,7 @@ import model.square.Square;
 
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Cloneable {
     private ArrayList<ArrayList<Square>> matrix;
     private int size;
 
@@ -19,5 +19,14 @@ public class Board {
 
     public ArrayList<ArrayList<Square>> getMatrix(){
         return matrix;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Board newBoard = (Board) super.clone();
+
+        newBoard.matrix = (ArrayList<ArrayList<Square>>) matrix.clone();
+
+        return newBoard;
     }
 }

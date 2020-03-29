@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 import static java.lang.Math.abs;
 
-public class Square {
+public class Square implements Cloneable {
     private Position position;
     private Boolean filled;
 
@@ -54,6 +54,11 @@ public class Square {
     }
 
     public int getNumber() { return 0; }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     @Override
     public String toString() {

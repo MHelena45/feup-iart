@@ -43,11 +43,12 @@ public class Controller {
         view.display();
 
         if(isSolved()){
-            changeLevel(model.getLevel() + 1);
+            nextLevel();
         }
     }
 
     public void clickSquare(int x, int y) {
+        System.out.println("Matrix size: " + model.getMatrix().size());
         model.getMatrix().get(y).get(x).click();
         view.display();
     }
@@ -66,13 +67,31 @@ public class Controller {
         return model.getGoalSquare().isFilled();
     }
 
+    public void undo() {
+        model.undo();
+        view.display();
+    }
+
     public void restart() {
         model.restart();
         view.display();
     }
 
-    public void changeLevel(int level){
-        model.changeLevel(level);
+    public void nextLevel() {
+        if(model.getLevel() == 100) {
+            System.err.println("You are at the final level!");
+            return;
+        }
+        model.changeLevel(model.getLevel() + 1);
+        view.display();
+    }
+
+    public void previousLevel(){
+        if(model.getLevel() == 1) {
+            System.err.println("You are at the first level!");
+            return;
+        }
+        model.changeLevel(model.getLevel() - 1);
         view.display();
     }
 

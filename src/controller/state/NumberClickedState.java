@@ -24,11 +24,11 @@ public class NumberClickedState extends ClickState {
         controller.currentClick = position;
         Operator operator = checkAlignment();
 
+        controller.clickSquare(position.getX(), position.getY());
+
         if(operator != null) {
             controller.playSquare(operator);
         }
-
-        controller.clickSquare(position.getX(), position.getY());
         controller.setState(new IdleState(controller));
     }
 }

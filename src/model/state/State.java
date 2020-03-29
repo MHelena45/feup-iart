@@ -1,14 +1,12 @@
 package model.state;
 
 import model.board.Board;
-import model.square.GoalSquare;
-import model.square.NumberSquare;
 import model.square.Square;
 import model.Operator;
 
 import java.util.ArrayList;
 
-public class State {
+public class State implements Cloneable {
     private Board board;
     private Square goalSquare;
     private ArrayList<Square> playableSquares;
@@ -48,7 +46,13 @@ public class State {
     }
 
     public State play(int x, int y, Operator dir) {
-        State newState = new State(board, goalSquare, playableSquares);
+        State newState = null;
+        try {
+            newState = (State) this.clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
         playedSquare = newState.board.getSquare(x,y);
 
         playedSquare.play();
@@ -114,6 +118,17 @@ public class State {
         }
 
         return previousState;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        State newstate = (State) super.clone();
+
+        newstate.board = (Board) board.clone();
+        newstate.playableSquares = (ArrayList<Square>) playableSquares.clone();
+        newstate.goalSquare = (Square) goalSquare.clone();
+
+        return newstate;
     }
 
     @Override
