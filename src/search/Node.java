@@ -11,6 +11,7 @@ public class Node {
     public State state;
     public int accCost;
     public int depth;
+    public int value;
 
     public Node(Node parent, State state, Play play, int accCost, int depth) {
         this.parent = parent;
