@@ -1,14 +1,14 @@
 package search.heuristics;
 
 import model.Operator;
-import model.board.Board;
 import model.square.Square;
 import search.Node;
 import search.Play;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Heuristics {
+public class Heuristics implements Comparator<Node> {
     private static boolean isGoalfront(Square square, Square goal) {
         return goal.getX() == square.getX() || goal.getY() == square.getY();
     }
@@ -143,5 +143,15 @@ public class Heuristics {
         if(numInteractions == 0) return -10; // As said above, highly discouraged!
 
         return numInteractions;
+    }
+
+    @Override
+    public int compare(Node o1, Node o2) {
+        if (o1.value > o2.value)
+            return 1;
+        else if (o1.value < o2.value)
+            return -1;
+
+        return 0;
     }
 }

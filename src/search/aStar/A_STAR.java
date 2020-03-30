@@ -1,36 +1,35 @@
 package search.aStar;
 
-import model.Operator;
-import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
+import search.SearchAlgorithm;
+import search.heuristics.Heuristics;
 
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
-public class A_STAR {
+public class A_STAR extends SearchAlgorithm {
     private PriorityQueue<Node> queue;
-    private Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
 
     public A_STAR(State firstState) {
-        queue = new PriorityQueue<Node>(1, new Heuristic());
+        queue = new PriorityQueue<Node>(1, new Heuristics());
         Node root = new Node(null, firstState, null, 0, 0);
         queue.add(root);
     }
 
-    private void expand(Node node) {
-        ArrayList<Square> squares = node.state.getPlayableSquares();
+    private int evaluate(Node node) {
+        if(node.isSolution()) return 100; // Solution must always be chosen
 
-        for (Square square : squares) {
-            for(int i = 0; i < operators.length; i++) {
-                State newState = node.state.play(square.getX(), square.getY(), operators[i]);
-                Play transition = new Play(square, operators[i]);
-                Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
-                node.children.add(newNode);
-            }
-        }
+        int g = node.accCost;
+        int h1 = Heuristics.fartherAway(node);
+        int h2 = Heuristics.goalfrontPlay(node);
+        int h3 = Heuristics.expandNowhere(node);
+
+        return g + h1 + h2 + h3;
     }
 
+    @Override
     public Stack<Play> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
@@ -45,21 +44,12 @@ public class A_STAR {
             // If solution was not found, then expand the node
             // and add its children to the queue
             expand(v);
-            v.children.forEach(child -> queue.add(child));
+            v.children.forEach(child -> {
+                child.value = evaluate(child);
+                queue.add(child);
+            });
         }
 
         return null;
     }
-
-    private Stack<Play> getPath(Node node) {
-        Stack<Play> result = new Stack<>();
-
-        do {
-            result.push(node.play);
-            node = node.parent;
-        } while (node.play != null);
-
-        return result;
-    }
-
 }

@@ -20,6 +20,7 @@ public class Node {
         this.accCost = accCost;
         this.depth = depth;
         this.children = new ArrayList<>();
+        this.value = 0;
     }
 
     public boolean isSolution() {
