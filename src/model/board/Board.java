@@ -13,6 +13,8 @@ public class Board {
         this.size = matrix.size();
     }
 
+    public int getSize() { return  size; }
+
     public Square getSquare(int x, int y) {
         return matrix.get(y).get(x);
     }

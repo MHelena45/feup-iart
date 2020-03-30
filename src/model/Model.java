@@ -49,7 +49,7 @@ public class Model {
         int y = 0;
 
         ArrayList<ArrayList<Square>> matrix = new ArrayList<>();
-        ArrayList<Square> playableSquares = new ArrayList<>();
+        ArrayList<NumberSquare> playableSquares = new ArrayList<>();
 
         while ((line = reader.readLine()) != null) {
 
@@ -67,13 +67,13 @@ public class Model {
 
                     case "X":
                         square = new GoalSquare(x, y);
-                        currentState.setGoalSquare(square);
+                        currentState.setGoalSquare((GoalSquare) square);
                         break;
 
                     default:
                         int number = Integer.parseInt(value);
                         square = new NumberSquare(x, y, number);
-                        playableSquares.add(square);
+                        playableSquares.add((NumberSquare) square);
                         break;
                 }
 
@@ -88,6 +88,10 @@ public class Model {
         currentState.setBoard(new Board(matrix));
     }
 
+    public State getCurrentState() {
+        return currentState ;
+    }
+
     public int getLevel() {
         return level;
     }
@@ -96,7 +100,7 @@ public class Model {
         return currentState.getBoard().getMatrix();
     }
 
-    public Square getGoalSquare() {
+    public GoalSquare getGoalSquare() {
         return currentState.getGoalSquare();
     }
 

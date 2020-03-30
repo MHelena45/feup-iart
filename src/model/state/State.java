@@ -1,31 +1,44 @@
 package model.state;
 
-import model.board.Board;
-import model.square.Square;
 import model.Operator;
+import model.board.Board;
+import model.square.GoalSquare;
+import model.square.NumberSquare;
+import model.square.Square;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class State {
     private Board board;
-    private Square goalSquare;
-    private ArrayList<Square> playableSquares;
-    private Square playedSquare;
-    private ArrayList<Square> lastFilledSquares = new ArrayList<>();
+    private GoalSquare goalSquare;
+    private ArrayList<NumberSquare> playableSquares;
+    private Stack<NumberSquare> playedSquares = new Stack<>();
+    private Stack<Square> lastFilledSquares = new Stack<>();
+    private Stack<Integer> nr_of_lastFilledSquares = new Stack();
 
     public State() {}
 
-    public State(Board board, Square goalSquare, ArrayList<Square> playableSquares) {
+    public State(Board board, GoalSquare goalSquare, ArrayList<NumberSquare> playableSquares) {
         this.board = board;
         this.goalSquare = goalSquare;
         this.playableSquares = playableSquares;
+    }
+
+    public State(Board board, GoalSquare goalSquare, ArrayList<NumberSquare> playableSquares, Stack<NumberSquare> playedSquares, Stack<Square> lastFilledSquares, Stack<Integer> nr_of_lastFilledSquares) {
+        this.board = board;
+        this.goalSquare = goalSquare;
+        this.playableSquares = playableSquares;
+        this.playedSquares = playedSquares;
+        this.lastFilledSquares = lastFilledSquares;
+        this.nr_of_lastFilledSquares = nr_of_lastFilledSquares;
     }
 
     public Board getBoard() {
         return board;
     }
 
-    public Square getGoalSquare() {
+    public GoalSquare getGoalSquare() {
         return goalSquare;
     }
 
@@ -33,29 +46,39 @@ public class State {
         this.board = board;
     }
 
-    public void setGoalSquare(Square goalSquare) {
+    public void setGoalSquare(GoalSquare goalSquare) {
         this.goalSquare = goalSquare;
     }
 
-    public void setPlayableSquares(ArrayList<Square> playableSquares) {
+    public void setPlayableSquares(ArrayList<NumberSquare> playableSquares) {
         this.playableSquares = playableSquares;
     }
 
-    public State play(int x, int y, Operator dir) {
-        State newState = new State(board, goalSquare, playableSquares);
-        playedSquare = newState.board.getSquare(x,y);
+    public ArrayList<NumberSquare> getPlayableSquares() {
+        return playableSquares;
+    }
 
-        playedSquare.play();
-        int number = playedSquare.getNumber();
+    public State play(int x, int y, Operator dir) {
+        State newState = new State(board, goalSquare, playableSquares, playedSquares, lastFilledSquares, nr_of_lastFilledSquares);
+        newState.playedSquares.push((NumberSquare) newState.board.getSquare(x,y));
+
+        newState.playedSquares.peek().play();
+        int number = newState.playedSquares.peek().getNumber();
         int i = 1;
+        int height = board.getSize();
+        int width = board.getMatrix().get(0).size();
+        int nr_of_filledSquares = 0;
 
         switch (dir) {
             case UP:
                 while (number > 0) {
+                    if (y - i < 0)
+                        break;
                     Square currentSquare = board.getSquare(x,y-i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
+                        newState.lastFilledSquares.push(currentSquare);
+                        nr_of_filledSquares++;
                         number--;
                     }
                     i++;
@@ -63,10 +86,13 @@ public class State {
                 break;
             case DOWN:
                 while (number > 0) {
+                    if (y + i == height)
+                        break;
                     Square currentSquare = board.getSquare(x,y+i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
+                        newState.lastFilledSquares.push(currentSquare);
+                        nr_of_filledSquares++;
                         number--;
                     }
                     i++;
@@ -74,10 +100,13 @@ public class State {
                 break;
             case LEFT:
                 while (number > 0) {
+                    if (x - i < 0)
+                        break;
                     Square currentSquare = board.getSquare(x-i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
+                        newState.lastFilledSquares.push(currentSquare);
+                        nr_of_filledSquares++;
                         number--;
                     }
                     i++;
@@ -85,29 +114,32 @@ public class State {
                 break;
             case RIGHT:
                 while (number > 0) {
+                    if (x + i == width)
+                        break;
                     Square currentSquare = board.getSquare(x+i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
+                        newState.lastFilledSquares.push(currentSquare);
+                        nr_of_filledSquares++;
                         number--;
                     }
                     i++;
                 }
                 break;
         }
+        newState.nr_of_lastFilledSquares.push(nr_of_filledSquares);
 
         return newState;
     }
 
-    public State undo() {
-        State previousState = new State(board, goalSquare, playableSquares);
-        playedSquare.unplay();
-
-        for (Square sq : lastFilledSquares) {
-            sq.clear();
+    public void undo() {
+        NumberSquare playedSquare = playedSquares.pop();
+        playedSquare.undo();
+        int nr_of_squares2clear = nr_of_lastFilledSquares.pop();
+        for (int sq = 0; sq < nr_of_squares2clear; sq++) {
+            Square square = lastFilledSquares.pop();
+            square.clear();
         }
-
-        return previousState;
     }
 
     @Override
