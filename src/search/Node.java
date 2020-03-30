@@ -24,4 +24,8 @@ public class Node {
     public boolean isSolution() {
         return state.getGoalSquare().isFilled();
     }
+
+    public State getState() {
+        return state;
+    }
 }
