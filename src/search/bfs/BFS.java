@@ -3,30 +3,30 @@ package search.bfs;
 import model.Operator;
 import model.square.Square;
 import model.state.State;
-import search.MyNode;
+import search.Node;
 import search.Play;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class MyBFS {
-    private ArrayDeque<MyNode> queue = new ArrayDeque<>();
+public class BFS {
+    private ArrayDeque<Node> queue = new ArrayDeque<>();
     private Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
 
-    public MyBFS(State firstState) {
-        MyNode root = new MyNode(null, firstState, null, 0, 0);
+    public BFS(State firstState) {
+        Node root = new Node(null, firstState, null, 0, 0);
         queue.add(root);
     }
 
-    private void expand(MyNode node) {
+    private void expand(Node node) {
         ArrayList<Square> squares = node.state.getPlayableSquares();
 
         for (Square square : squares) {
             for(int i = 0; i < operators.length; i++) {
                 State newState = node.state.play(square.getX(), square.getY(), operators[i]);
                 Play transition = new Play(square, operators[i]);
-                MyNode newNode = new MyNode(node, newState, transition, node.accCost+1, node.depth+1);
+                Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
                 node.children.add(newNode);
             }
         }
@@ -35,7 +35,7 @@ public class MyBFS {
     public Stack<Play> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
-            MyNode v = queue.removeFirst();
+            Node v = queue.removeFirst();
 
             // Execute solution testing
             if(v.isSolution()) {
@@ -52,7 +52,7 @@ public class MyBFS {
         return null;
     }
 
-    private Stack<Play> getPath(MyNode node) {
+    private Stack<Play> getPath(Node node) {
         Stack<Play> result = new Stack<>();
 
         do {

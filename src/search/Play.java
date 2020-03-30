@@ -15,8 +15,6 @@ public class Play {
 
     public Square getNumberSquare() { return ns; }
     public Operator getOperator() { return op; }
-    public void setNumberSquare(Square ns) { this.ns = ns; }
-    public void setOperator(Operator op) { this.op = op; }
 
     @Override
     public String toString() {

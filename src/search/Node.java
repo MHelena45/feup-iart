@@ -1,57 +1,27 @@
 package search;
 
-import model.Operator;
-import model.square.NumberSquare;
+import model.state.State;
 
 import java.util.ArrayList;
 
 public class Node {
-    private ArrayList<Node> successors = new ArrayList<>();
-    private ArrayList<Node> processors = new ArrayList<>();
-    private NumberSquare ns;
-    private Operator op;
-    private boolean visited;
+    public Node parent;
+    public Play play;
+    public ArrayList<Node> children;
+    public State state;
+    public int accCost;
+    public int depth;
 
-    Node(NumberSquare ns, Operator op) {
-        this.ns = ns;
-        this.op = op;
-        visited = false;
+    public Node(Node parent, State state, Play play, int accCost, int depth) {
+        this.parent = parent;
+        this.state = state;
+        this.play = play;
+        this.accCost = accCost;
+        this.depth = depth;
+        this.children = new ArrayList<>();
     }
 
-    public NumberSquare getNumberSquare() { return ns; }
-    public Operator getOperator() { return op; }
-    public void setNumberSquare(NumberSquare ns) { this.ns = ns; }
-    public void setOperator(Operator op) { this.op = op; }
-
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-    }
-
-    public ArrayList<Node> getSuccessors() {
-        return successors;
-    }
-
-    public void addSuccessors(Node node) {
-        successors.add(node);
-    }
-
-    public void setSuccessors(ArrayList<Node> successors) {
-        this.successors = successors;
-    }
-
-    public ArrayList<Node> getProcessors() {
-        return processors;
-    }
-
-    public void addProcessors(Node node) {
-        processors.add(node);
-    }
-
-    public void setProcessors(ArrayList<Node> processors) {
-        this.processors = processors;
+    public boolean isSolution() {
+        return state.getGoalSquare().isFilled();
     }
 }
