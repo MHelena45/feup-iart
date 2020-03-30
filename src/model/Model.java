@@ -5,8 +5,10 @@ import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
+import search.Node;
 import search.Play;
 import search.bfs.BFS;
+import search.heuristics.Heuristics;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -114,6 +116,14 @@ public class Model {
         if(!playedSquare.isPlayed()) {
             this.gameSequence.push(this.currentState);
             this.currentState = currentState.play(x, y, dir);
+            Node node = new Node(null, currentState, new Play(playedSquare, dir), 0, 0);
+
+            System.out.println("Man distance: " + Heuristics.fartherAway(node));
+            System.out.println("Goalfront points: " + Heuristics.goalfrontPlay(node));
+            System.out.println("Number of interactions: " + Heuristics.expandNowhere(node));
+            if(node.isSolution()){
+                System.out.println("Is solution! -> value = 100");
+            }
         }
     }
 
