@@ -6,8 +6,7 @@ import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
 import search.Play;
-import search.bfs.ImproveBFS;
-import search.inverted.InvertedSearch;
+import search.invertedTry.Inverted;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -157,17 +156,17 @@ public class Model {
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 
-     /*
+
        // Inverted Search
 
-        InvertedSearch invertedSearch = new InvertedSearch(goalSquare, playableSquare);
+        Inverted invertedSearch = new Inverted(goalSquare, playableSquare);
         this.solvedSequence = invertedSearch.solve();
-      */
 
 
-        ImproveBFS improveBFS = new ImproveBFS(this.initialState);
+
+     /*   ImproveBFS improveBFS = new ImproveBFS(this.initialState);
         this.solvedSequence = improveBFS.solve();
-
+*/
         /*BFS bfs = new BFS(this.initialState);
         this.solvedSequence = bfs.solve(); */
         return solvedSequence;
