@@ -149,7 +149,7 @@ public class Model {
         }
     }
 
-    public void solve() {
+    public Stack<State> solve() {
         System.out.println("Start solving");
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
@@ -157,23 +157,11 @@ public class Model {
         MyBFS bfs = new MyBFS(this.currentState);
 
         this.solvedSequence = bfs.solve();
+        return solvedSequence;
+    }
 
-        while (!solvedSequence.empty()) {
-            State play = solvedSequence.pop();
-
-            this.currentState = play;
-            this.gameSequence.push(this.currentState);
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-//        for(int i=0; i < search.getPositions().size(); i++) {
-//            System.out.println(search.getPositions().get(i).getX());
-//            play(search.getPositions().get(i).getX(), search.getPositions().get(i).getY(), search.getOperators().get(i));
-//        }
-
+    public void nextState(State state) {
+        this.currentState = state;
+        this.gameSequence.push(this.currentState);
     }
 }

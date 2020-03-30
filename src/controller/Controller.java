@@ -5,7 +5,11 @@ import controller.state.IdleState;
 import model.Model;
 import model.Operator;
 import model.position.Position;
+import model.state.State;
 import view.View;
+
+import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -95,9 +99,19 @@ public class Controller {
     }
 
     public void solve() {
-        model.solve();
-        view.display();
+        Stack<State> solvedSequence = model.solve();
 
+        while (!solvedSequence.empty()) {
+            State play = solvedSequence.pop();
+
+            model.nextState(play);
+            view.display();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
