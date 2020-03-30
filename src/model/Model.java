@@ -110,15 +110,12 @@ public class Model {
         if(!playedSquare.isPlayed()) {
             this.gameSequence.push(this.currentState);
             this.currentState = currentState.play(x, y, dir);
-//            System.out.println("Played square (" + x + ", " + y + ")");
         }
     }
 
     public void undo() {
         if(!this.gameSequence.empty()) {
-            System.out.println(this.currentState.getBoard().getSquare(3,3).toString());
             this.currentState = this.gameSequence.pop();
-            System.out.println(this.currentState.getBoard().getSquare(3,3).toString());
         } else {
             System.err.println("There are no previous plays!");
         }

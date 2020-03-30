@@ -54,7 +54,7 @@ public class State implements Cloneable {
             e.printStackTrace();
         }
         //To avoid visual problems on clicked squares, the played square is unclicked
-        board.getSquare(x,y).click();
+//        board.getSquare(x,y).click();
 
         playedSquare = newState.board.getSquare(x,y);
         playedSquare.play();
@@ -100,7 +100,6 @@ public class State implements Cloneable {
                     Square currentSquare = newState.board.getSquare(x+i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        System.out.println(currentSquare.toString());
                         lastFilledSquares.add(currentSquare);
                         number--;
                     }
@@ -109,7 +108,6 @@ public class State implements Cloneable {
                 break;
         }
 
-        System.out.println(newState.goalSquare.toString());
         return newState;
     }
 
