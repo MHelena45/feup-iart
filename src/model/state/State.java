@@ -10,8 +10,7 @@ public class State implements Cloneable {
     private Board board;
     private Square goalSquare;
     private ArrayList<Square> playableSquares;
-    private Square playedSquare;
-    private ArrayList<Square> lastFilledSquares = new ArrayList<>();
+    private Square lastFilledSquare;
 
     public State() {}
 
@@ -19,6 +18,7 @@ public class State implements Cloneable {
         this.board = board;
         this.goalSquare = goalSquare;
         this.playableSquares = playableSquares;
+        this.lastFilledSquare = null;
     }
 
     public Board getBoard() {
@@ -45,6 +45,10 @@ public class State implements Cloneable {
         return playableSquares;
     }
 
+    public Square getLastFilledSquare() {
+        return lastFilledSquare;
+    }
+
     public State play(int x, int y, Operator dir) {
         State newState = null;
         try {
@@ -55,19 +59,21 @@ public class State implements Cloneable {
         }
 
 
-        playedSquare = newState.board.getSquare(x,y);
+        Square playedSquare = newState.board.getSquare(x,y);
+
         playedSquare.play();
         newState.playableSquares.remove(playedSquare);
+
         int number = playedSquare.getNumber();
         int i = 1;
+        Square currentSquare = null;
 
         switch (dir) {
             case UP:
                 while (number > 0 && newState.board.within(x, y-i)) {
-                    Square currentSquare = newState.board.getSquare(x,y-i);
+                    currentSquare = newState.board.getSquare(x,y-i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -75,10 +81,9 @@ public class State implements Cloneable {
                 break;
             case DOWN:
                 while (number > 0 && newState.board.within(x, y+i)) {
-                    Square currentSquare = newState.board.getSquare(x,y+i);
+                    currentSquare = newState.board.getSquare(x,y+i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -86,10 +91,9 @@ public class State implements Cloneable {
                 break;
             case LEFT:
                 while (number > 0 && newState.board.within(x-i, y)) {
-                    Square currentSquare = newState.board.getSquare(x-i,y);
+                    currentSquare = newState.board.getSquare(x-i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -97,10 +101,9 @@ public class State implements Cloneable {
                 break;
             case RIGHT:
                 while (number > 0 && newState.board.within(x+i, y)) {
-                    Square currentSquare = newState.board.getSquare(x+i,y);
+                    currentSquare = newState.board.getSquare(x+i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
-                        lastFilledSquares.add(currentSquare);
                         number--;
                     }
                     i++;
@@ -108,19 +111,21 @@ public class State implements Cloneable {
                 break;
         }
 
+        newState.lastFilledSquare = currentSquare;
+
         return newState;
     }
 
-    public State undo() {
-        State previousState = new State(board, goalSquare, playableSquares);
-        playedSquare.unplay();
-
-        for (Square sq : lastFilledSquares) {
-            sq.clear();
-        }
-
-        return previousState;
-    }
+//    public State undo() {
+//        State previousState = new State(board, goalSquare, playableSquares);
+//        playedSquare.unplay();
+//
+//        for (Square sq : lastFilledSquares) {
+//            sq.clear();
+//        }
+//
+//        return previousState;
+//    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
