@@ -1,4 +1,4 @@
-package Search;
+package search;
 
 import model.Operator;
 import model.square.NumberSquare;

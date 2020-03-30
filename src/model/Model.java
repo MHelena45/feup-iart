@@ -1,6 +1,6 @@
 package model;
 
-import Search.InvertedSearch;
+import search.InvertedSearch;
 import model.board.Board;
 import model.square.GoalSquare;
 import model.square.NumberSquare;
