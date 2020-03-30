@@ -61,6 +61,16 @@ public class Square implements Cloneable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+
+        Square sqr = (Square) o;
+        return this.position.equals(sqr.position);
+    }
+
+    @Override
     public String toString() {
         return "Square: (" + position.getX() + ", " + position.getY() + ") -> " + (filled ? "filled" : "unfilled");
     }

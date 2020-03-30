@@ -4,6 +4,7 @@ import model.Operator;
 import model.square.Square;
 import model.state.State;
 import search.MyNode;
+import search.Play;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Stack;
 
 public class MyBFS {
     private ArrayDeque<MyNode> queue = new ArrayDeque<>();
+    private Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
 
     public MyBFS(State firstState) {
         MyNode root = new MyNode(null, firstState, null, 0, 0);
@@ -19,26 +21,18 @@ public class MyBFS {
 
     private void expand(MyNode node) {
         ArrayList<Square> squares = node.state.getPlayableSquares();
+
         for (Square square : squares) {
-            State left = node.state.play(square.getX(), square.getY(), Operator.LEFT);
-            MyNode leftNode = new MyNode(node, left, Operator.LEFT, node.accCost+1, node.depth+1);
-            node.children.add(leftNode);
-
-            State right = node.state.play(square.getX(), square.getY(), Operator.RIGHT);
-            MyNode rightNode = new MyNode(node, right, Operator.RIGHT, node.accCost+1, node.depth+1);
-            node.children.add(rightNode);
-
-            State up = node.state.play(square.getX(), square.getY(), Operator.UP);
-            MyNode upNode = new MyNode(node, up, Operator.UP, node.accCost+1, node.depth+1);
-            node.children.add(upNode);
-
-            State down = node.state.play(square.getX(), square.getY(), Operator.DOWN);
-            MyNode downNode = new MyNode(node, down, Operator.DOWN, node.accCost+1, node.depth+1);
-            node.children.add(downNode);
+            for(int i = 0; i < operators.length; i++) {
+                State newState = node.state.play(square.getX(), square.getY(), operators[i]);
+                Play transition = new Play(square, operators[i]);
+                MyNode newNode = new MyNode(node, newState, transition, node.accCost+1, node.depth+1);
+                node.children.add(newNode);
+            }
         }
     }
 
-    public Stack<State> solve() {
+    public Stack<Play> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
             MyNode v = queue.removeFirst();
@@ -58,13 +52,13 @@ public class MyBFS {
         return null;
     }
 
-    private Stack<State> getPath(MyNode node) {
-        Stack<State> result = new Stack<>();
+    private Stack<Play> getPath(MyNode node) {
+        Stack<Play> result = new Stack<>();
 
         do {
-            result.push(node.state);
+            result.push(node.play);
             node = node.parent;
-        } while (node != null);
+        } while (node.play != null);
 
         return result;
     }

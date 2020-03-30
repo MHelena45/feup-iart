@@ -6,6 +6,7 @@ import model.Model;
 import model.Operator;
 import model.position.Position;
 import model.state.State;
+import search.Play;
 import view.View;
 
 import java.util.Stack;
@@ -99,18 +100,14 @@ public class Controller {
     }
 
     public void solve() {
-        Stack<State> solvedSequence = model.solve();
+        Stack<Play> solvedSequence = model.solve();
 
         while (!solvedSequence.empty()) {
-            State play = solvedSequence.pop();
+            Play play = solvedSequence.pop();
 
+            System.out.println(play.toString());
             model.nextState(play);
             view.display();
-            try {
-                TimeUnit.MILLISECONDS.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -1,11 +1,11 @@
 package model;
 
-import search.InvertedSearch;
 import model.board.Board;
 import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
+import search.Play;
 import search.bfs.MyBFS;
 
 import java.io.BufferedReader;
@@ -14,12 +14,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 public class Model {
     private int level;
     private Stack<State> gameSequence;
-    private Stack<State> solvedSequence;
+    private Stack<Play> solvedSequence;
+    private State initialState;
     private State currentState;
 
     public Model(int level) {
@@ -91,6 +91,7 @@ public class Model {
 
         currentState.setPlayableSquares(playableSquares);
         currentState.setBoard(new Board(matrix));
+        this.initialState = currentState;
     }
 
     public int getLevel() {
@@ -149,19 +150,21 @@ public class Model {
         }
     }
 
-    public Stack<State> solve() {
+    public Stack<Play> solve() {
+        this.currentState = initialState;
         System.out.println("Start solving");
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
         //InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
-        MyBFS bfs = new MyBFS(this.currentState);
+        MyBFS bfs = new MyBFS(this.initialState);
 
         this.solvedSequence = bfs.solve();
         return solvedSequence;
     }
 
-    public void nextState(State state) {
-        this.currentState = state;
+    public void nextState(Play play) {
         this.gameSequence.push(this.currentState);
+        Square sqr = play.getNumberSquare();
+        this.currentState = currentState.play(sqr.getX(), sqr.getY(), play.getOperator());
     }
 }

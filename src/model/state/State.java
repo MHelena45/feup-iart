@@ -53,11 +53,11 @@ public class State implements Cloneable {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
-        //To avoid visual problems on clicked squares, the played square is unclicked
-//        board.getSquare(x,y).click();
+
 
         playedSquare = newState.board.getSquare(x,y);
         playedSquare.play();
+        newState.playableSquares.remove(playedSquare);
         int number = playedSquare.getNumber();
         int i = 1;
 
