@@ -19,6 +19,7 @@ public class MyNode {
         this.op = op;
         this.accCost = accCost;
         this.depth = depth;
+        this.children = new ArrayList<>();
     }
 
     public boolean isSolution() {

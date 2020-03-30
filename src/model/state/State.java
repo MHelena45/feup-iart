@@ -63,7 +63,7 @@ public class State implements Cloneable {
 
         switch (dir) {
             case UP:
-                while (number > 0) {
+                while (number > 0 && newState.board.within(x, y-i)) {
                     Square currentSquare = newState.board.getSquare(x,y-i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
@@ -74,7 +74,7 @@ public class State implements Cloneable {
                 }
                 break;
             case DOWN:
-                while (number > 0) {
+                while (number > 0 && newState.board.within(x, y+i)) {
                     Square currentSquare = newState.board.getSquare(x,y+i);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
@@ -85,7 +85,7 @@ public class State implements Cloneable {
                 }
                 break;
             case LEFT:
-                while (number > 0) {
+                while (number > 0 && newState.board.within(x-i, y)) {
                     Square currentSquare = newState.board.getSquare(x-i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();
@@ -96,7 +96,7 @@ public class State implements Cloneable {
                 }
                 break;
             case RIGHT:
-                while (number > 0) {
+                while (number > 0 && newState.board.within(x+i, y)) {
                     Square currentSquare = newState.board.getSquare(x+i,y);
                     if(!currentSquare.isFilled()){
                         currentSquare.fill();

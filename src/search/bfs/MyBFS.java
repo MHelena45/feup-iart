@@ -7,6 +7,7 @@ import search.MyNode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class MyBFS {
     private ArrayDeque<MyNode> queue = new ArrayDeque<>();
@@ -18,7 +19,6 @@ public class MyBFS {
 
     private void expand(MyNode node) {
         ArrayList<Square> squares = node.state.getPlayableSquares();
-
         for (Square square : squares) {
             State left = node.state.play(square.getX(), square.getY(), Operator.LEFT);
             MyNode leftNode = new MyNode(node, left, Operator.LEFT, node.accCost+1, node.depth+1);
@@ -38,7 +38,7 @@ public class MyBFS {
         }
     }
 
-    public ArrayDeque<State> solve() {
+    public Stack<State> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
             MyNode v = queue.removeFirst();
@@ -58,8 +58,8 @@ public class MyBFS {
         return null;
     }
 
-    private ArrayDeque<State> getPath(MyNode node) {
-        ArrayDeque<State> result = new ArrayDeque<>();
+    private Stack<State> getPath(MyNode node) {
+        Stack<State> result = new Stack<>();
 
         do {
             result.push(node.state);

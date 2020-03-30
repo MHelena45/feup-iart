@@ -6,6 +6,7 @@ import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
+import search.bfs.MyBFS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +14,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 public class Model {
     private int level;
     private Stack<State> gameSequence;
+    private Stack<State> solvedSequence;
     private State currentState;
 
     public Model(int level) {
@@ -150,12 +153,27 @@ public class Model {
         System.out.println("Start solving");
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
-        InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
+        //InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
+        MyBFS bfs = new MyBFS(this.currentState);
 
-        for(int i=0; i < search.getPositions().size(); i++) {
-            System.out.println(search.getPositions().get(i).getX());
-            play(search.getPositions().get(i).getX(), search.getPositions().get(i).getY(), search.getOperators().get(i));
+        this.solvedSequence = bfs.solve();
+
+        while (!solvedSequence.empty()) {
+            State play = solvedSequence.pop();
+
+            this.currentState = play;
+            this.gameSequence.push(this.currentState);
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+//        for(int i=0; i < search.getPositions().size(); i++) {
+//            System.out.println(search.getPositions().get(i).getX());
+//            play(search.getPositions().get(i).getX(), search.getPositions().get(i).getY(), search.getOperators().get(i));
+//        }
 
     }
 }

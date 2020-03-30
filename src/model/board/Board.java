@@ -44,4 +44,8 @@ public class Board implements Cloneable {
 
         return newMatrix;
     }
+
+    public boolean within(int x, int y) {
+        return (x > -1 && x < matrix.get(0).size()) && (y > -1 && y < matrix.size());
+    }
 }
