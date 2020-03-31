@@ -9,6 +9,7 @@ import search.Node;
 import search.Play;
 import search.aStar.A_STAR;
 import search.bfs.BFS;
+import search.dfs.DFS;
 import search.inverted.InvertedSearch;
 import search.invertedTry.Inverted;
 
@@ -158,8 +159,9 @@ public class Model {
 //        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
-        //BFS solver = new BFS(this.initialState);
-        A_STAR solver = new A_STAR(this.initialState);
+        BFS solver = new BFS(this.initialState);
+//        DFS solver = new DFS(this.initialState);
+//        A_STAR solver = new A_STAR(this.initialState);
 
         this.solvedSequence = solver.solve();
         return solvedSequence;
