@@ -7,7 +7,8 @@ import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
-import search.aStar.A_STAR;
+import search.aStar.AStar;
+import search.lightAstar.LightAStar;
 import search.bfs.BFS;
 import search.dfs.DFS;
 import search.greedy.Greedy;
@@ -156,16 +157,12 @@ public class Model {
     public Stack<Play> solve() {
         this.currentState = initialState;
         System.out.println("Start solving");
-
-       /*
-        //Inverted Search
-          GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
-          ArrayList<Square> playableSquare = currentState.getPlayableSquares();
-          InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare); */
-//        BFS solver = new BFS(this.initialState);
-//        DFS solver = new DFS(this.initialState);
-//        Greedy solver = new Greedy(this.initialState);
-       A_STAR solver = new A_STAR(this.initialState);
+//        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
+//        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+//        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
+        //BFS solver = new BFS(this.initialState);
+        AStar solver = new AStar(this.initialState);
+//        LightAStar solver = new LightAStar(this.initialState);
 
         this.solvedSequence = solver.solve();
         return solvedSequence;
