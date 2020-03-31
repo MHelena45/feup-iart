@@ -10,6 +10,7 @@ import search.SearchAlgorithm;
 import search.aStar.AStar;
 import search.bfs.BFS;
 import search.dfs.DFS;
+import search.greedy.Greedy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -167,8 +168,9 @@ public class Model {
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
 //        BFS solver = new BFS(this.initialState);
-        DFS solver = new DFS(this.initialState);
-//        AStar solver = new AStar(this.initialState);
+//        DFS solver = new DFS(this.initialState);
+//        Greedy solver = new Greedy(this.initialState);
+        AStar solver = new AStar(this.initialState);
 //        LightAStar solver = new LightAStar(this.initialState);
 
         this.solvedSequence = solver.solve();
@@ -190,8 +192,8 @@ public class Model {
         System.out.println("Execution time in milliseconds: " + timeElapsed);
 
         try {
-            FileWriter file = new FileWriter("measuresDFS.txt", true);
-            file.write(level + "," + timeElapsed + "," + usedMemory + "," + SearchAlgorithm.consultedNodes + '\n');
+            FileWriter file = new FileWriter("measuresAstar.txt", true);
+            file.write(level + "," + this.initialState.getPlayableSquares().size() + "," + timeElapsed + "," + usedMemory + "," + SearchAlgorithm.consultedNodes + '\n');
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
