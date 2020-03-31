@@ -22,13 +22,6 @@ public class Buttons {
 
         solutionButton.setOnMouseClicked((event -> controller.solve()));
 
-        //Creating stop button
-        Button hintButton = new Button("Hint");
-        hintButton.setLayoutX(120);
-        hintButton.setLayoutY(480);
-
-        hintButton.setOnMouseClicked((event -> System.out.println("hint button")));
-
         //Creating restart button
         Button undoButton = new Button("Undo");
         undoButton.setLayoutX(200);
@@ -57,6 +50,6 @@ public class Buttons {
 
         nextButton.setOnMouseClicked(event -> controller.nextLevel());
 
-        return new Button[]{solutionButton, hintButton, undoButton, restartButton, nextButton, previousButton};
+        return new Button[]{solutionButton, undoButton, restartButton, nextButton, previousButton};
     }
 }

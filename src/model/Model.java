@@ -169,8 +169,8 @@ public class Model {
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
 //        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
-//        Greedy solver = new Greedy(this.initialState);
-        AStar solver = new AStar(this.initialState);
+        Greedy solver = new Greedy(this.initialState);
+//        AStar solver = new AStar(this.initialState);
 //        LightAStar solver = new LightAStar(this.initialState);
 
         this.solvedSequence = solver.solve();
@@ -192,7 +192,7 @@ public class Model {
         System.out.println("Execution time in milliseconds: " + timeElapsed);
 
         try {
-            FileWriter file = new FileWriter("measuresAstar.txt", true);
+            FileWriter file = new FileWriter("measuresGreedy.txt", true);
             file.write(level + "," + this.initialState.getPlayableSquares().size() + "," + timeElapsed + "," + usedMemory + "," + SearchAlgorithm.consultedNodes + '\n');
             file.close();
         } catch (IOException e) {
