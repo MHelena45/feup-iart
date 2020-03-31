@@ -159,9 +159,9 @@ public class Model {
 //        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
-        BFS solver = new BFS(this.initialState);
+//        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
-//        A_STAR solver = new A_STAR(this.initialState);
+        A_STAR solver = new A_STAR(this.initialState);
 
         this.solvedSequence = solver.solve();
         return solvedSequence;

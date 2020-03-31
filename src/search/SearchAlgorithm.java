@@ -34,5 +34,30 @@ public abstract class SearchAlgorithm {
         return result;
     }
 
-    public abstract Stack<Play> solve();
+    public Stack<Play> solve() {
+        while(!isEmpty()) {
+            // Starts with initial state
+            Node v = getNextNode();
+
+            // Execute solution testing
+            if(v.isSolution()) {
+                // Get the path to solution from the root
+                return getPath(v);
+            }
+
+            // If solution was not found, then expand the node
+            // and add its children to the queue
+            expand(v);
+            addChildren(v.children);
+        }
+
+        return null;
+    }
+
+    //Methods each algorithm has to define
+    protected abstract boolean isEmpty();
+
+    protected abstract Node getNextNode();
+
+    protected abstract void addChildren(ArrayList<Node> node);
 }

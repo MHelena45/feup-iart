@@ -7,13 +7,10 @@ import search.Play;
 import search.SearchAlgorithm;
 import search.heuristics.Heuristics;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Stack;
 
 public class A_STAR extends SearchAlgorithm {
-    private static int expansions = 0;
     private PriorityQueue<Node> queue;
 
     public A_STAR(State firstState) {
@@ -52,31 +49,21 @@ public class A_STAR extends SearchAlgorithm {
     }
 
     @Override
-    public Stack<Play> solve() {
-        expansions = 0;
+    protected boolean isEmpty() {
+        return queue.isEmpty();
+    }
 
-        while(!queue.isEmpty()) {
-            // Starts with initial state
-            Node v = queue.poll();
-            expansions++;
+    @Override
+    protected Node getNextNode() {
+        return queue.poll();
+    }
 
-            // Execute solution testing
-            if(v.isSolution()) {
-                System.out.println("Number of visited nodes: " + expansions);
-                // Get the path to solution from the root
-                return getPath(v);
-            }
-
-            // If solution was not found, then expand the node
-            // and add its children to the queue
-            expand(v);
-            v.children.forEach(child -> {
-                child.value = evaluate(child); // This way, value is f = g + h
-                if(child.value >= 0)
-                    queue.add(child);
-            });
-        }
-
-        return null;
+    @Override
+    protected void addChildren(ArrayList<Node> children) {
+        children.forEach(child -> {
+            child.value = evaluate(child); // This way, value is f = g + h
+            if(child.value >= 0)
+                queue.add(child);
+        });
     }
 }
