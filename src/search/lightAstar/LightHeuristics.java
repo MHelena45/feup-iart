@@ -14,6 +14,18 @@ public class LightHeuristics implements Comparator<LightNode> {
         return goal.getX() == square.getX() || goal.getY() == square.getY();
     }
 
+    private static int countGoalFrontSquares(ArrayList<Square> playable, Square goal) {
+        int result = 0;
+
+        for(Square square : playable) {
+            if(isGoalfront(square, goal)) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     private static int manhattanDistance(Square sqr1, Square sqr2) {
         int x1 = sqr1.getX();
         int y1 = sqr1.getY();
@@ -155,18 +167,25 @@ public class LightHeuristics implements Comparator<LightNode> {
 
     /**
      * If the played square is in front of the goal, then it most likely will be played last.
-     * This way we add a small penalty to goal front squares.
+     * This way we add a small penalty to goal front squares when there are multiple goal front
+     * And a big penalty to them when there is only one goal front square
      *
      * @param play Play that lead to the current state
      * @param goalSquare Goal square
      * @return Evaluation of goal front position
      */
-    public static int goalfrontPlay(Play play, Square goalSquare) {
+    public static int goalfrontPlay(Play play, Square goalSquare, ArrayList<Square> otherSquares) {
         Square playedSquare = play.getNumberSquare();
 
-        if(isGoalfront(playedSquare, goalSquare)) return 0;
-
-        return 10;
+        int numGoalFront = countGoalFrontSquares(otherSquares, goalSquare);
+        // If there is only one square in line with the goal it rly must be the last to be played
+        if(numGoalFront == 1) {
+            if(isGoalfront(playedSquare, goalSquare)) return 0;
+            return 4;
+        } else { // There are multiple goal front squares
+            if(isGoalfront(playedSquare, goalSquare)) return 0;
+            return 1; //Really small advantage for non goal front squares
+        }
     }
 
     /**

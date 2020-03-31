@@ -92,7 +92,7 @@ public class LightAStar {
 
         int g = node.cost;
         int h1 = LightHeuristics.fartherAway(node.getLastPlay(), node.goalSquare);
-        int h2 = LightHeuristics.goalfrontPlay(node.getLastPlay(), node.goalSquare);
+        int h2 = LightHeuristics.goalfrontPlay(node.getLastPlay(), node.goalSquare, node.remainingSquares);
         int h3 = LightHeuristics.expandNowhere(node);
         // Note that only nodes that expand to useful places are evaluated
         return h1 + h2 + h3 - g;
