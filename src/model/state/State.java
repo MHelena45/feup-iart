@@ -3,6 +3,7 @@ package model.state;
 import model.board.Board;
 import model.square.Square;
 import model.Operator;
+import search.Play;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,10 @@ public class State implements Cloneable {
             e.printStackTrace();
         }
 
+        return playCore(x, y, dir, newState);
+    }
 
+    private State playCore(int x, int y, Operator dir, State newState) {
         Square playedSquare = newState.board.getSquare(x,y);
 
         playedSquare.play();
@@ -116,16 +120,11 @@ public class State implements Cloneable {
         return newState;
     }
 
-//    public State undo() {
-//        State previousState = new State(board, goalSquare, playableSquares);
-//        playedSquare.unplay();
-//
-//        for (Square sq : lastFilledSquares) {
-//            sq.clear();
-//        }
-//
-//        return previousState;
-//    }
+    public State simulatePlay(Play play) {
+        Square playedSquare = play.getNumberSquare();
+
+        return playCore(playedSquare.getX(), playedSquare.getY(), play.getOperator(), this);
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
