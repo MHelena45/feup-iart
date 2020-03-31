@@ -21,6 +21,14 @@ public class State implements Cloneable {
         this.lastFilledSquare = null;
     }
 
+    public State copy(State initial) {
+        State copy = new State();
+        copy.board = initial.board;
+        copy.goalSquare = initial.goalSquare;
+        copy.playableSquares = initial.playableSquares;
+        return copy;
+    }
+
     public Board getBoard() {
         return board;
     }

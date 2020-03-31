@@ -5,13 +5,9 @@ import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
-import search.Node;
+import search.NodeLW;
 import search.Play;
 import search.aStar.A_STAR;
-import search.bfs.BFS;
-import search.heuristics.Heuristics;
-import search.inverted.InvertedSearch;
-import search.invertedTry.Inverted;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -119,7 +115,7 @@ public class Model {
         if(!playedSquare.isPlayed()) {
             this.gameSequence.push(this.currentState);
             this.currentState = currentState.play(x, y, dir);
-            Node node = new Node(null, currentState, new Play(playedSquare, dir), 0, 0);
+            NodeLW nodeLW = new NodeLW(null, currentState, new Play(playedSquare, dir), 0, 0);
 
 //            System.out.println("Man distance: " + Heuristics.fartherAway(node));
 //            System.out.println("Goalfront points: " + Heuristics.goalfrontPlay(node));

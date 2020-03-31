@@ -1,12 +1,9 @@
 package search.inverted;
 
 import model.Operator;
-import model.position.Position;
 import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
-import model.state.State;
-import search.Node;
 import search.Play;
 
 import java.util.ArrayList;

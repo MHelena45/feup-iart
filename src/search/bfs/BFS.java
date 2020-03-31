@@ -1,29 +1,32 @@
 package search.bfs;
 
 import model.state.State;
-import search.Node;
+import search.NodeLW;
 import search.Play;
-import search.SearchAlgorithm;
+import search.SearchAlgorithmLW;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
-public class BFS extends SearchAlgorithm {
-    private ArrayDeque<Node> queue = new ArrayDeque<>();
+public class BFS extends SearchAlgorithmLW {
+    private ArrayDeque<NodeLW> queue = new ArrayDeque<>();
 
     public BFS(State initialState) {
-        Node root = new Node(null, null, 0, 0);
-        queue.add(root);
+        NodeLW root = new NodeLW(null, null, null, 0, 0);
         this.initialState = initialState;
         s = initialState;
         playableSquares = s.getPlayableSquares();
+        for (int sq = 0; sq < playableSquares.size(); sq++) {
+            root.playedSquares.add(false);
+        }
+        queue.add(root);
     }
 
     @Override
     public ArrayList<Play> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
-            Node v = queue.removeFirst();
+            NodeLW v = queue.removeFirst();
 
             // Execute solution testing
             if(atSolution(v.playsMade)) {

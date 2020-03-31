@@ -2,13 +2,13 @@ package search.heuristics;
 
 import model.Operator;
 import model.square.Square;
-import search.Node;
+import search.NodeLW;
 import search.Play;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Heuristics implements Comparator<Node> {
+public class Heuristics implements Comparator<NodeLW> {
     private static boolean isGoalfront(Square square, Square goal) {
         return goal.getX() == square.getX() || goal.getY() == square.getY();
     }
@@ -99,13 +99,13 @@ public class Heuristics implements Comparator<Node> {
      * Using manhattan distance we calculate it's distance to the goal,
      * which means that the bigger the distance, the higher is the play priority.
      *
-     * @param node Node being evaluated
+     * @param nodeLW Node being evaluated
      *
      * @return Evaluation according to manhattan distance
      */
-    public static int fartherAway(Node node) {
-        Square playedSquare = node.play.getNumberSquare();
-        Square goalSquare = node.state.getGoalSquare();
+    public static int fartherAway(NodeLW nodeLW) {
+        Square playedSquare = nodeLW.play.getNumberSquare();
+        Square goalSquare = nodeLW.state.getGoalSquare();
 
         return manhattanDistance(playedSquare, goalSquare);
     }
@@ -114,12 +114,12 @@ public class Heuristics implements Comparator<Node> {
      * If the played square is in front of the goal, then it most likely will be played last.
      * This way we add a small penalty to goal front squares.
      *
-     * @param node Node being evaluated
+     * @param nodeLW Node being evaluated
      * @return Evaluation of goal front position
      */
-    public static int goalfrontPlay(Node node) {
-        Square playedSquare = node.play.getNumberSquare();
-        Square goalSquare = node.state.getGoalSquare();
+    public static int goalfrontPlay(NodeLW nodeLW) {
+        Square playedSquare = nodeLW.play.getNumberSquare();
+        Square goalSquare = nodeLW.state.getGoalSquare();
 
         if(isGoalfront(playedSquare, goalSquare)) return 0;
 
@@ -132,17 +132,17 @@ public class Heuristics implements Comparator<Node> {
      * Therefore, these plays are highly discouraged.
      * The play is considered slightly better the more squares it interacts with.
      *
-     * @param node Node being evaluated
+     * @param nodeLW Node being evaluated
      * @return Evaluation according to number of nodes an expansion interacts with
      */
-    public static int expandNowhere(Node node) {
-        ArrayList<Square> otherSquares = node.state.getPlayableSquares();
-        Square lastFilledSquare = node.state.getLastFilledSquare();
+    public static int expandNowhere(NodeLW nodeLW) {
+        ArrayList<Square> otherSquares = nodeLW.state.getPlayableSquares();
+        Square lastFilledSquare = nodeLW.state.getLastFilledSquare();
 
         // When there are no other squares to play this does not affect the quality of the play
         if(otherSquares.isEmpty()) return 0;
 
-        int numInteractions = interactions(node.play, lastFilledSquare, otherSquares);
+        int numInteractions = interactions(nodeLW.play, lastFilledSquare, otherSquares);
 
         if(numInteractions == 0) return -10; // As said above, highly discouraged!
 
@@ -150,7 +150,7 @@ public class Heuristics implements Comparator<Node> {
     }
 
     @Override
-    public int compare(Node o1, Node o2) {
+    public int compare(NodeLW o1, NodeLW o2) {
         if (o1.value < o2.value)
             return 1;
         else if (o1.value > o2.value)

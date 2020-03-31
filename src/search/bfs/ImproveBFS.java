@@ -2,26 +2,24 @@ package search.bfs;
 
 import model.Operator;
 import model.square.GoalSquare;
-import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
-import search.Node;
+import search.NodeLW;
 import search.Play;
-import search.inverted.MyNode;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class ImproveBFS {
-    private ArrayList<Node> nodes = new ArrayList<>();
+    private ArrayList<NodeLW> nodeLWS = new ArrayList<>();
     private Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
     private ArrayList<Square> squares;
     private int[] limits;
     private GoalSquare goalSquare;
 
     public ImproveBFS(State firstState) {
-        Node root = new Node(null, firstState, null, 0, 0);
-        nodes.add(root);
+        NodeLW root = new NodeLW(null, firstState, null, 0, 0);
+        nodeLWS.add(root);
 
         squares = root.state.getPlayableSquares();
         goalSquare = (GoalSquare) root.state.getGoalSquare();
@@ -110,26 +108,26 @@ public class ImproveBFS {
         return true;
     }
 
-    private void expand(Node node) {
-        ArrayList<Square> squares = node.state.getPlayableSquares();
+    private void expand(NodeLW nodeLW) {
+        ArrayList<Square> squares = nodeLW.state.getPlayableSquares();
 
         for (Square square : squares) {
             for(int i = 0; i < operators.length; i++) {
                 if(reduceNodes(square, operators[i])) {
-                    State newState = node.state.play(square.getX(), square.getY(), operators[i]);
+                    State newState = nodeLW.state.play(square.getX(), square.getY(), operators[i]);
                     Play transition = new Play(square, operators[i]);
-                    Node newNode = new Node(node, newState, transition, node.accCost + 1, node.depth + 1);
-                    node.children.add(newNode);
+                    NodeLW newNodeLW = new NodeLW(nodeLW, newState, transition, nodeLW.accCost + 1, nodeLW.depth + 1);
+                    nodeLW.children.add(newNodeLW);
                 }
             }
         }
     }
 
     public Stack<Play> solve() {
-        while(!nodes.isEmpty()) {
+        while(!nodeLWS.isEmpty()) {
             // Starts with initial state
-            Node v = nodes.get(0);
-            nodes.remove(0);
+            NodeLW v = nodeLWS.get(0);
+            nodeLWS.remove(0);
 
             // Execute solution testing
             if(v.isSolution()) {
@@ -140,19 +138,19 @@ public class ImproveBFS {
             // If solution was not found, then expand the node
             // and add its children to the queue
             expand(v);
-            v.children.forEach(child -> nodes.add(child));
+            v.children.forEach(child -> nodeLWS.add(child));
         }
 
         return null;
     }
 
-    private Stack<Play>  getPath(Node node) {
+    private Stack<Play>  getPath(NodeLW nodeLW) {
         Stack<Play> result = new Stack<>();
 
         do {
-            result.add(node.play);
-            node = node.parent;
-        } while (node.play != null);
+            result.add(nodeLW.play);
+            nodeLW = nodeLW.parent;
+        } while (nodeLW.play != null);
 
         return result;
     }
