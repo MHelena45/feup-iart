@@ -12,7 +12,7 @@ import java.util.Stack;
 
 public abstract class SearchAlgorithm {
     protected Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
-    protected int consultedNodes = 0;
+    public static int consultedNodes = 0;
 
     protected void expand(Node node) {
         ArrayList<Square> squares = node.state.getPlayableSquares();
@@ -43,6 +43,8 @@ public abstract class SearchAlgorithm {
     }
 
     public Stack<Play> solve() {
+        consultedNodes=0;
+
         while(!isEmpty()) {
             // Starts with initial state
             Node v = getNextNode();

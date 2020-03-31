@@ -6,12 +6,15 @@ import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
 import search.Play;
+import search.SearchAlgorithm;
 import search.aStar.AStar;
+import search.bfs.BFS;
+import search.dfs.DFS;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -163,9 +166,12 @@ public class Model {
 //        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
-        //BFS solver = new BFS(this.initialState);
-        AStar solver = new AStar(this.initialState);
+//        BFS solver = new BFS(this.initialState);
+        DFS solver = new DFS(this.initialState);
+//        AStar solver = new AStar(this.initialState);
 //        LightAStar solver = new LightAStar(this.initialState);
+
+        this.solvedSequence = solver.solve();
 
         // Get the Java runtime
         Runtime endRuntime = Runtime.getRuntime();
@@ -179,10 +185,17 @@ public class Model {
         long megabyte = 1024L * 1024L;
         System.out.println("Used memory is megabytes: " + (usedMemory/megabyte));
 
-        this.solvedSequence = solver.solve();
         long endTime = System.currentTimeMillis();
         long timeElapsed = endTime - startTime;
         System.out.println("Execution time in milliseconds: " + timeElapsed);
+
+        try {
+            FileWriter file = new FileWriter("measuresDFS.txt", true);
+            file.write(level + "," + timeElapsed + "," + usedMemory + "," + SearchAlgorithm.consultedNodes + '\n');
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return solvedSequence;
     }
