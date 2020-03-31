@@ -30,7 +30,7 @@ public class A_STAR extends SearchAlgorithm {
         int h2 = Heuristics.goalfrontPlay(node.play, node.state);
         int h3 = Heuristics.expandNowhere(node.play, node.state);
         // Note that only nodes that expand to useful places are evaluated
-        return h1 + h2 + h3;
+        return h1 + h2 + h3 + g; //Does not lead to optimal solutions but is faster
     }
 
     @Override

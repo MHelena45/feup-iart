@@ -9,7 +9,6 @@ import search.Node;
 import search.Play;
 import search.aStar.A_STAR;
 import search.bfs.BFS;
-import search.heuristics.Heuristics;
 import search.inverted.InvertedSearch;
 import search.invertedTry.Inverted;
 
@@ -119,14 +118,6 @@ public class Model {
         if(!playedSquare.isPlayed()) {
             this.gameSequence.push(this.currentState);
             this.currentState = currentState.play(x, y, dir);
-            Node node = new Node(null, currentState, new Play(playedSquare, dir), 0, 0);
-
-//            System.out.println("Man distance: " + Heuristics.fartherAway(node));
-//            System.out.println("Goalfront points: " + Heuristics.goalfrontPlay(node));
-//            System.out.println("Number of interactions: " + Heuristics.expandNowhere(node));
-//            if(node.isSolution()){
-//                System.out.println("Is solution! -> value = 100");
-//            }
         }
     }
 
@@ -149,9 +140,7 @@ public class Model {
     }
 
     public void changeLevel(int level) {
-        if(level < 0)
-            return;
-        else {
+        if(level > 0) {
             try {
                 this.level = level;
                 loadLevel();

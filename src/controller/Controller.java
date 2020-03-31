@@ -5,14 +5,10 @@ import controller.state.IdleState;
 import model.Model;
 import model.Operator;
 import model.position.Position;
-import model.state.State;
 import search.Play;
 import view.View;
 
 import java.util.Stack;
-import java.util.concurrent.TimeUnit;
-
-import static java.lang.Thread.sleep;
 
 public class Controller {
     private Model model;
