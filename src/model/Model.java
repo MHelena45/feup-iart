@@ -11,6 +11,7 @@ import search.aStar.AStar;
 import search.bfs.BFS;
 import search.dfs.DFS;
 import search.greedy.Greedy;
+import search.inverted.InvertedSearch;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -164,12 +165,12 @@ public class Model {
         long startMemory = startRuntime.totalMemory() - startRuntime.freeMemory();
 
         System.out.println("Start solving");
-//        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
-//        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
-//        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
+        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
+        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
 //        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
-        Greedy solver = new Greedy(this.initialState);
+//        Greedy solver = new Greedy(this.initialState);
 //        AStar solver = new AStar(this.initialState);
 //        LightAStar solver = new LightAStar(this.initialState);
 
@@ -192,8 +193,8 @@ public class Model {
         System.out.println("Execution time in milliseconds: " + timeElapsed);
 
         try {
-            FileWriter file = new FileWriter("measuresGreedy.txt", true);
-            file.write(level + "," + this.initialState.getPlayableSquares().size() + "," + timeElapsed + "," + usedMemory + "," + SearchAlgorithm.consultedNodes + '\n');
+            FileWriter file = new FileWriter("measuresInv.txt", true);
+            file.write(level + "," + this.initialState.getPlayableSquares().size() + "," + timeElapsed + "," + usedMemory + '\n');
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
