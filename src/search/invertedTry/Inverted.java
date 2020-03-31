@@ -127,8 +127,11 @@ public class Inverted {
             if(squares.equals(nodes.get(i)))
                 squares.remove(i);
 
-            findInlineSquares(nodes.get(i).getSquare());
+           // findInlineSquares(nodes.get(i).getSquare());
         }
+
+        System.out.println("Squares: " + squares.size());
+        findInlineSquares(nodes.get(0).getSquare());
 
     }
 
