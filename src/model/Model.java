@@ -7,11 +7,7 @@ import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
-import search.aStar.A_STAR;
-import search.bfs.BFS;
-import search.heuristics.Heuristics;
-import search.inverted.InvertedSearch;
-import search.invertedTry.Inverted;
+import search.aStar.AStar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -170,7 +166,7 @@ public class Model {
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
         //BFS solver = new BFS(this.initialState);
-        A_STAR solver = new A_STAR(this.initialState);
+        AStar solver = new AStar(this.initialState);
 
         this.solvedSequence = solver.solve();
         return solvedSequence;

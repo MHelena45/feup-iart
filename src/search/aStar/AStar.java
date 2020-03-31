@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
-public class A_STAR extends SearchAlgorithm {
+public class AStar extends SearchAlgorithm {
     private static int expansions = 0;
     private PriorityQueue<Node> queue;
 
-    public A_STAR(State firstState) {
+    public AStar(State firstState) {
         queue = new PriorityQueue<Node>(1, new Heuristics());
         Node root = new Node(null, firstState, null, 0, 0);
         queue.add(root);
