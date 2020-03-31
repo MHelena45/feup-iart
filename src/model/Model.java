@@ -12,7 +12,6 @@ import search.bfs.BFS;
 import search.dfs.DFS;
 import search.greedy.Greedy;
 import search.inverted.InvertedSearch;
-import search.invertedTry.Inverted;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -157,14 +156,16 @@ public class Model {
     public Stack<Play> solve() {
         this.currentState = initialState;
         System.out.println("Start solving");
-        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
-        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
-        Inverted solver = new Inverted(goalSquare, playableSquare);
-       // InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
+
+       /*
+        //Inverted Search
+          GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
+          ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+          InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare); */
 //        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
 //        Greedy solver = new Greedy(this.initialState);
-       //A_STAR solver = new A_STAR(this.initialState);
+       A_STAR solver = new A_STAR(this.initialState);
 
         this.solvedSequence = solver.solve();
         return solvedSequence;
