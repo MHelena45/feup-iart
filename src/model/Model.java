@@ -10,6 +10,7 @@ import search.Play;
 import search.aStar.A_STAR;
 import search.bfs.BFS;
 import search.dfs.DFS;
+import search.greedy.Greedy;
 import search.inverted.InvertedSearch;
 import search.invertedTry.Inverted;
 
@@ -161,6 +162,7 @@ public class Model {
 //        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
 //        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
+//        Greedy solver = new Greedy(this.initialState);
         A_STAR solver = new A_STAR(this.initialState);
 
         this.solvedSequence = solver.solve();
