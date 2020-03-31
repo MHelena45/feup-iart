@@ -6,24 +6,27 @@ import search.Play;
 import search.SearchAlgorithm;
 
 import java.util.ArrayDeque;
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class BFS extends SearchAlgorithm {
     private ArrayDeque<Node> queue = new ArrayDeque<>();
 
-    public BFS(State firstState) {
-        Node root = new Node(null, firstState, null, 0, 0);
+    public BFS(State initialState) {
+        Node root = new Node(null, null, 0, 0);
         queue.add(root);
+        this.initialState = initialState;
+        s = initialState;
+        playableSquares = s.getPlayableSquares();
     }
 
     @Override
-    public Stack<Play> solve() {
+    public ArrayList<Play> solve() {
         while(!queue.isEmpty()) {
             // Starts with initial state
             Node v = queue.removeFirst();
 
             // Execute solution testing
-            if(v.isSolution()) {
+            if(atSolution(v.playsMade)) {
                 // Get the path to solution from the root
                 return getPath(v);
             }

@@ -6,21 +6,24 @@ import search.Play;
 import search.SearchAlgorithm;
 import search.heuristics.Heuristics;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Stack;
 
 public class A_STAR extends SearchAlgorithm {
     private static int expansions = 0;
     private PriorityQueue<Node> queue;
 
-    public A_STAR(State firstState) {
+    public A_STAR(State initialState) {
         queue = new PriorityQueue<Node>(1, new Heuristics());
-        Node root = new Node(null, firstState, null, 0, 0);
+        Node root = new Node(null, null, 0, 0);
         queue.add(root);
+        this.initialState = initialState;
+        s = initialState;
+        playableSquares = s.getPlayableSquares();
     }
 
     private int evaluate(Node node) {
-        if(node.isSolution()) return 100; // Solution must always be chosen
+        if(atSolution(node.playsMade)) return 100; // Solution must always be chosen
 
         int g = node.accCost;
         int h1 = Heuristics.fartherAway(node);
@@ -34,7 +37,7 @@ public class A_STAR extends SearchAlgorithm {
     }
 
     @Override
-    public Stack<Play> solve() {
+    public ArrayList<Play> solve() {
         expansions = 0;
 
         while(!queue.isEmpty()) {
@@ -43,7 +46,7 @@ public class A_STAR extends SearchAlgorithm {
             expansions++;
 
             // Execute solution testing
-            if(v.isSolution()) {
+            if(atSolution(v.playsMade)) {
                 System.out.println("Number of visited nodes: " + expansions);
                 // Get the path to solution from the root
                 return getPath(v);
