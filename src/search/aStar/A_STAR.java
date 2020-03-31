@@ -10,6 +10,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class A_STAR extends SearchAlgorithm {
+    private static int expansions = 0;
     private PriorityQueue<Node> queue;
 
     public A_STAR(State firstState) {
@@ -26,17 +27,24 @@ public class A_STAR extends SearchAlgorithm {
         int h2 = Heuristics.goalfrontPlay(node);
         int h3 = Heuristics.expandNowhere(node);
 
+        if(h3 < 0) //The expansion goes nowhere
+            return h3;
+
         return g + h1 + h2 + h3;
     }
 
     @Override
     public Stack<Play> solve() {
+        expansions = 0;
+
         while(!queue.isEmpty()) {
             // Starts with initial state
             Node v = queue.poll();
+            expansions++;
 
             // Execute solution testing
             if(v.isSolution()) {
+                System.out.println("Number of visited nodes: " + expansions);
                 // Get the path to solution from the root
                 return getPath(v);
             }
@@ -46,7 +54,8 @@ public class A_STAR extends SearchAlgorithm {
             expand(v);
             v.children.forEach(child -> {
                 child.value = evaluate(child);
-                queue.add(child);
+                if(child.value >= 0)
+                    queue.add(child);
             });
         }
 

@@ -26,4 +26,11 @@ public class Node {
     public boolean isSolution() {
         return state.getGoalSquare().isFilled();
     }
+
+    @Override
+    public String toString() {
+        String msg = play == null ? "" : (play.toString() + " with");
+
+        return msg + " Value = " + value;
+    }
 }

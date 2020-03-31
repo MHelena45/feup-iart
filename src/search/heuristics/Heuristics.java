@@ -34,13 +34,15 @@ public class Heuristics implements Comparator<Node> {
         Square playedSquare = play.getNumberSquare();
         int result = 0;
 
-        for(Square square : otherSquares) {
-            if(direction == Operator.UP){ // played.y > lastFilled.y
-                if(lastFilled.getY() <= square.getY() && square.getY() < playedSquare.getY())
-                    result++;
-            } else { // played.y < filledCells.y
-                if(playedSquare.getY() < square.getY() && square.getY() <= lastFilled.getY())
-                    result++;
+        if(lastFilled != null) { // lastFilled will be null if the expansion was completely out of bounds
+            for(Square square : otherSquares) {
+                if(direction == Operator.UP){ // played.y > lastFilled.y
+                    if(lastFilled.getY() <= square.getY() && square.getY() < playedSquare.getY())
+                        result++;
+                } else { // played.y < filledCells.y
+                    if(playedSquare.getY() < square.getY() && square.getY() <= lastFilled.getY())
+                        result++;
+                }
             }
         }
 
@@ -59,13 +61,15 @@ public class Heuristics implements Comparator<Node> {
         Square playedSquare = play.getNumberSquare();
         int result = 0;
 
-        for(Square square : otherSquares) {
-            if(direction == Operator.LEFT){ // played.x > lastFilled.x
-                if(lastFilled.getX() <= square.getX() && square.getX() < playedSquare.getX())
+        if(lastFilled != null) { // lastFilled will be null if the expansion was completely out of bounds
+            for(Square square : otherSquares) {
+                if(direction == Operator.LEFT){ // played.x > lastFilled.x
+                    if(lastFilled.getX() <= square.getX() && square.getX() < playedSquare.getX())
                     result++;
-            } else { // played.x < lastFilled.x
-                if(playedSquare.getX() < square.getX() && square.getX() <= lastFilled.getX())
-                    result++;
+                } else { // played.x < lastFilled.x
+                    if(playedSquare.getX() < square.getX() && square.getX() <= lastFilled.getX())
+                        result++;
+                }
             }
         }
 
@@ -119,7 +123,7 @@ public class Heuristics implements Comparator<Node> {
 
         if(isGoalfront(playedSquare, goalSquare)) return 0;
 
-        return 1;
+        return 10;
     }
 
     /**
@@ -147,9 +151,9 @@ public class Heuristics implements Comparator<Node> {
 
     @Override
     public int compare(Node o1, Node o2) {
-        if (o1.value > o2.value)
+        if (o1.value < o2.value)
             return 1;
-        else if (o1.value < o2.value)
+        else if (o1.value > o2.value)
             return -1;
 
         return 0;

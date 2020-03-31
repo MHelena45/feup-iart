@@ -7,6 +7,7 @@ import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
+import search.aStar.A_STAR;
 import search.bfs.BFS;
 import search.heuristics.Heuristics;
 
@@ -118,12 +119,12 @@ public class Model {
             this.currentState = currentState.play(x, y, dir);
             Node node = new Node(null, currentState, new Play(playedSquare, dir), 0, 0);
 
-            System.out.println("Man distance: " + Heuristics.fartherAway(node));
-            System.out.println("Goalfront points: " + Heuristics.goalfrontPlay(node));
-            System.out.println("Number of interactions: " + Heuristics.expandNowhere(node));
-            if(node.isSolution()){
-                System.out.println("Is solution! -> value = 100");
-            }
+//            System.out.println("Man distance: " + Heuristics.fartherAway(node));
+//            System.out.println("Goalfront points: " + Heuristics.goalfrontPlay(node));
+//            System.out.println("Number of interactions: " + Heuristics.expandNowhere(node));
+//            if(node.isSolution()){
+//                System.out.println("Is solution! -> value = 100");
+//            }
         }
     }
 
@@ -163,12 +164,11 @@ public class Model {
     public Stack<Play> solve() {
         this.currentState = initialState;
         System.out.println("Start solving");
-        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
-        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
-        //InvertedSearch search = new InvertedSearch(goalSquare, playableSquare);
-        BFS bfs = new BFS(this.initialState);
+        //InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
+        //BFS solver = new BFS(this.initialState);
+        A_STAR solver = new A_STAR(this.initialState);
 
-        this.solvedSequence = bfs.solve();
+        this.solvedSequence = solver.solve();
         return solvedSequence;
     }
 
