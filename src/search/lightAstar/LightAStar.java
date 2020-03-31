@@ -127,9 +127,8 @@ public class LightAStar {
             // and add its children to the queue
             expand(v);
             v.children.forEach(child -> {
-                child.value = evaluate(child); // This way, value is f = g + h1 + h2
-                if(child.value >= 0)
-                    queue.add(child);
+                child.value = evaluate(child); // This way, value is f = g + h1 + h2 + h3
+                queue.add(child);
             });
         }
 
