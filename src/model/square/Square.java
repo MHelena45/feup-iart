@@ -74,4 +74,12 @@ public class Square implements Cloneable {
     public String toString() {
         return "Square: (" + position.getX() + ", " + position.getY() + ") -> " + (filled ? "filled" : "unfilled");
     }
+
+    public double getManhattanDistance(final Square square) {
+        final double dx = abs(getX() - square.getX());
+        final double dy = abs(getY() - square.getY());
+
+        return (dx + dy);
+    }
+
 }
