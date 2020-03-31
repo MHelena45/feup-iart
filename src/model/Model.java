@@ -5,14 +5,8 @@ import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
-import search.Node;
 import search.Play;
 import search.aStar.AStar;
-import search.lightAstar.LightAStar;
-import search.bfs.BFS;
-import search.dfs.DFS;
-import search.greedy.Greedy;
-import search.inverted.InvertedSearch;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -155,7 +149,16 @@ public class Model {
     }
 
     public Stack<Play> solve() {
+        long startTime = System.currentTimeMillis();
         this.currentState = initialState;
+
+        // Get the Java runtime
+        Runtime startRuntime = Runtime.getRuntime();
+        // Run the garbage collector
+        startRuntime.gc();
+        // Calculate the used memory
+        long startMemory = startRuntime.totalMemory() - startRuntime.freeMemory();
+
         System.out.println("Start solving");
 //        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
 //        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
@@ -164,7 +167,23 @@ public class Model {
         AStar solver = new AStar(this.initialState);
 //        LightAStar solver = new LightAStar(this.initialState);
 
+        // Get the Java runtime
+        Runtime endRuntime = Runtime.getRuntime();
+        // Run the garbage collector
+        endRuntime.gc();
+        // Calculate the used memory
+        long endMemory = endRuntime.totalMemory() - endRuntime.freeMemory();
+
+        long usedMemory = endMemory - startMemory;
+        System.out.println("Used memory is bytes: " + usedMemory);
+        long megabyte = 1024L * 1024L;
+        System.out.println("Used memory is megabytes: " + (usedMemory/megabyte));
+
         this.solvedSequence = solver.solve();
+        long endTime = System.currentTimeMillis();
+        long timeElapsed = endTime - startTime;
+        System.out.println("Execution time in milliseconds: " + timeElapsed);
+
         return solvedSequence;
     }
 
