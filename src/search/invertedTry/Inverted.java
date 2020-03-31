@@ -32,11 +32,6 @@ public class Inverted {
             sortByManhattan( 0, squares.size() - 1);
 
         findFirstSquare();
-
-     /*   while(!allSearch()) {
-            findNextSquare();
-        }*/
-
     }
 
     public void sortByManhattan(int begin, int end) {
@@ -51,7 +46,7 @@ public class Inverted {
         int counter = begin;
 
         for (int i = begin; i < end; i++) {
-            if (squares.get(i).getManhattanDistance(goalSquare) <
+            if (squares.get(i).getManhattanDistance(goalSquare) >
                     squares.get(pivot).getManhattanDistance(goalSquare)) {
                 Square temp = squares.get(counter);
                 squares.set(counter, squares.get(i));
@@ -123,16 +118,17 @@ public class Inverted {
 
         }
 
-        for(int i= 0; i < nodes.size(); i++ ) {
-            if(squares.equals(nodes.get(i)))
-                squares.remove(i);
 
-           // findInlineSquares(nodes.get(i).getSquare());
+        System.out.println(nodes.get(0).getSquare().toString());
+
+        for(int i= 0; i < nodes.size(); i++ ) {
+            Square square = nodes.get(i).getSquare();
+            if(squares.equals(square)){
+                squares.remove(square);
+            }
         }
 
-        System.out.println("Squares: " + squares.size());
         findInlineSquares(nodes.get(0).getSquare());
-
     }
 
     private Boolean checkInLineSquares(Integer x1, Integer y1, Operator operator) {
@@ -201,7 +197,7 @@ public class Inverted {
 
     public void removeSquares( INode node) {
         //remove unneeded squares
-       // node.remove();
+        node.remove();
 
         ArrayList<Square> removeSquares = node.getInLineSquares();
         ArrayList<Operator> operators = node.getOperators();
@@ -216,10 +212,6 @@ public class Inverted {
             nodes.add(iNode1);
         }
 
-        for(int i=0; i < removeSquares.size(); i++){
-            squares.remove(removeSquares.get(i));
-        }
-
     }
 
     /**
@@ -232,7 +224,6 @@ public class Inverted {
 
         //Final square
         if(iNode.getNeedSquares() <= 0){
-            System.out.println("Leave");
             return;
         }
 
@@ -245,7 +236,6 @@ public class Inverted {
         if(square2 == null) {
             x2 = goalSquare.getX();
             y2 = goalSquare.getY();
-            squares.remove(square1);
 
         } else {
             y2 = square2.getY();
@@ -271,7 +261,7 @@ public class Inverted {
                                 iNode.addOperator(LEFT);
                             }
                         } else {
-                            System.out.println("same number square is being played");
+                            System.out.println("1 same number square is being played");
                         }
                     }
                 }
@@ -294,7 +284,7 @@ public class Inverted {
                                 iNode.addOperator(LEFT);
                             }
                         } else {
-                            System.out.println("same number square is being played");
+                            System.out.println("2 same number square is being played");
                         }
 
                     }
@@ -320,7 +310,7 @@ public class Inverted {
                             }
 
                         } else {
-                            System.out.println("same number square is being played");
+                            System.out.println("3 same number square is being played");
                         }
                     }
                 }
@@ -343,7 +333,7 @@ public class Inverted {
                                 iNode.addOperator(DOWN);
                             }
                         } else {
-                            System.out.println("same number square is being played");
+                            System.out.println("4 same number square is being played");
                         }
                     }
                 }
@@ -358,150 +348,14 @@ public class Inverted {
         }
     }
 
-
-    /*private void findNextSquare(){
-        int y2;
-        if(nodes.size() == 1) {
-            y2 = goalSquare.getY();
-        } else {
-            //y of the penultimate square played
-            y2 = squares.get(squares.size() - 2).getY();
-        }
-        //y of the last square played
-        int y1 = nodes.get(nodes.size() - 1).getY();
-
-
-        int x1 = squares.get(squares.size() - 1).getX();
-        int x2 = squares.get(squares.size() - 2).getX();
-
-        switch (operators.get(operators.size() - 1)){
-            case UP:
-                putNeeded_squares(y1, y2);
-                sortByX(0, nodes.size() - 1);
-                for(int i=0; i< nodes.size(); i++) {
-                    MyNode node = nodes.get(i);
-                    if(needed_squares == 0)
-                        break;
-                    //positions have the same x
-                    if(node.isVisited() == false) {
-                        if(node.getNumberSquare().getY() < y1 && node.getNumberSquare().getY() > y2 ) {
-                            //playing this square can makes reach the goal
-                            //the founded square is on the right the number square
-                            if(node.getNumberSquare().getX() < x1){
-                                operators.add(RIGHT);
-                            } else if(node.getNumberSquare().getX() > x1){
-                                operators.add(Operator.LEFT);
-                            } else {
-                                System.out.println("same number square is being played");
-                            }
-                            squares.add(node.getNumberSquare());
-                            needed_squares--;
-                            last_number = node.getNumberSquare().getNumber();
-                            nodes.get(i).setVisited(true);
-                        }
-                    }
-                }
-                break;
-            case DOWN:
-                putNeeded_squares(y1, y2);
-                sortByX(0, nodes.size() - 1);
-                for(int i=0; i< nodes.size(); i++) {
-                    MyNode node = nodes.get(i);
-                    if(needed_squares == 0)
-                        break;
-                    //positions have the same x
-                    if(node.isVisited() == false) {
-                        if(node.getNumberSquare().getY() > y1 && node.getNumberSquare().getY() < y2) {
-                            //playing this square can makes reach the goal
-                            //the founded square is on the right the number square
-                            if(node.getNumberSquare().getX() < x1){
-                                operators.add(RIGHT);
-                            } else if(node.getNumberSquare().getX() > x1){
-                                operators.add(Operator.LEFT);
-                            } else {
-                                System.out.println("same number square is being played");
-                            }
-                            squares.add(node.getNumberSquare());
-                            needed_squares--;
-                            last_number = node.getNumberSquare().getNumber();
-                            nodes.get(i).setVisited(true);
-                        }
-                    }
-                }
-                break;
-            case RIGHT:
-                putNeeded_squares(x1, x2);
-                sortByY(0, nodes.size() - 1);
-                for(int j=0; j< nodes.size(); j++) {
-                    //positions have the same y
-                    MyNode node = nodes.get(j);
-                    if(needed_squares == 0)
-                        break;
-                    if(node.isVisited() == false) {
-                        if(node.getNumberSquare().getX() < x2 && node.getNumberSquare().getX() > x1) {
-                            //playing this square can makes reach the goal
-                            //the founded square is on the right the number square
-                            if(node.getNumberSquare().getY() > y1){
-                                operators.add(UP);
-                            } else if(node.getNumberSquare().getY() < y1){
-                                operators.add(Operator.DOWN);
-                            } else {
-                                System.out.println("same number square is being played");
-                            }
-                            squares.add(node.getNumberSquare());
-                            needed_squares--;
-                            last_number = node.getNumberSquare().getNumber();
-                            nodes.get(j).setVisited(true);
-                        }
-                    }
-                }
-                break;
-            case LEFT:
-                putNeeded_squares(x1, x2);
-                sortByY(0, nodes.size() - 1);
-                for(int j=0; j< nodes.size(); j++) {
-                    MyNode node = nodes.get(j);
-                    if(needed_squares == 0)
-                        break;
-                    //positions have the same y
-                    if(node.isVisited() == false) {
-                        if( node.getNumberSquare().getX() > x2 && node.getNumberSquare().getX() < x1) {
-                            //playing this square can makes reach the goal
-                            //the founded square is on the right the number square
-                            if(node.getNumberSquare().getY() > y1){
-                                operators.add(Operator.UP);
-                            } else if( node.getNumberSquare().getY() < y1){
-                                operators.add(Operator.DOWN);
-                            } else {
-                                System.out.println("same number square is being played");
-                            }
-                            squares.add(node.getNumberSquare());
-                            needed_squares--;
-                            last_number = node.getNumberSquare().getNumber();
-                            nodes.get(j).setVisited(true);
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    } */
-
-
     public Stack<Play> solve() {
         Stack<Play> result = new Stack<>();
 
-
         for(int i= 0; i < nodes.size(); i++ ){
-           // if(nodes.get(i).getNeedSquares() == nodes.get(i).getInLineSquares().size()) {
                 Play transition = new Play(nodes.get(i).getSquare(), nodes.get(i).getOperator());
                 result.push(transition);
-          //  }
 
         }
-
-        System.out.println("Number of nodes: " + nodes.size());
 
         nodes = new ArrayList<>();
 

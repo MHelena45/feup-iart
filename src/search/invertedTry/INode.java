@@ -65,18 +65,17 @@ public class INode {
 
         if(operator.equals(Operator.RIGHT) || operator.equals(Operator.LEFT)) {
             sortByY(0, inLineSquare.size() - 1);
-            System.out.println("Sorting by Y");
-            System.out.println("Inline: " + inLineSquare.size());
         }
+
         sortByX(0, inLineSquare.size() -1);
 
         for(int i =  0; i < (inLineSquare.size() - needSquares); i++){
             inLineSquare.remove(i);
             operators.remove(i);
-            System.out.println("Remove in INODE");
         }
         return;
     }
+
 
     public void addInLineSquare(NumberSquare square) {
         inLineSquare.add(square);
@@ -110,7 +109,7 @@ public class INode {
         int counter = begin;
 
         for (int i = begin; i < end; i++) {
-            if (inLineSquare.get(i).getXDistance(parentSquare) >
+           if (inLineSquare.get(i).getXDistance(parentSquare) <
                     inLineSquare.get(pivot).getXDistance(parentSquare)) {
                 //sort squares
                 NumberSquare temp = inLineSquare.get(counter);
@@ -148,7 +147,7 @@ public class INode {
         int counter = begin;
 
         for (int i = begin; i < end; i++) {
-            if (inLineSquare.get(i).getYDistance(parentSquare) >
+            if (inLineSquare.get(i).getYDistance(parentSquare) <
                     inLineSquare.get(pivot).getYDistance(parentSquare)) {
                 NumberSquare temp = inLineSquare.get(counter);
                 inLineSquare.set(counter, inLineSquare.get(i));
