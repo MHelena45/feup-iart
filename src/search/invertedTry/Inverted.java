@@ -46,7 +46,7 @@ public class Inverted {
         int counter = begin;
 
         for (int i = begin; i < end; i++) {
-            if (squares.get(i).getManhattanDistance(goalSquare) >
+            if (squares.get(i).getManhattanDistance(goalSquare) <
                     squares.get(pivot).getManhattanDistance(goalSquare)) {
                 Square temp = squares.get(counter);
                 squares.set(counter, squares.get(i));
@@ -261,7 +261,10 @@ public class Inverted {
                                 iNode.addOperator(LEFT);
                             }
                         } else {
-                            System.out.println("1 same number square is being played");
+                            if(!iNode.isParent(numberSquare)) {
+                                iNode.addInLineSquare(numberSquare);
+                                iNode.addOperator(UP);
+                            }
                         }
                     }
                 }
@@ -284,7 +287,10 @@ public class Inverted {
                                 iNode.addOperator(LEFT);
                             }
                         } else {
-                            System.out.println("2 same number square is being played");
+                            if(!iNode.isParent(numberSquare)) {
+                                iNode.addInLineSquare(numberSquare);
+                                iNode.addOperator(DOWN);
+                            }
                         }
 
                     }
@@ -310,7 +316,10 @@ public class Inverted {
                             }
 
                         } else {
-                            System.out.println("3 same number square is being played");
+                            if(!iNode.isParent(numberSquare)) {
+                                iNode.addInLineSquare(numberSquare);
+                                iNode.addOperator(RIGHT);
+                            }
                         }
                     }
                 }
@@ -333,7 +342,10 @@ public class Inverted {
                                 iNode.addOperator(DOWN);
                             }
                         } else {
-                            System.out.println("4 same number square is being played");
+                            if(!iNode.isParent(numberSquare)) {
+                                iNode.addInLineSquare(numberSquare);
+                                iNode.addOperator(LEFT);
+                            }
                         }
                     }
                 }

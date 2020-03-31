@@ -160,6 +160,7 @@ public class Model {
         GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
         ArrayList<Square> playableSquare = currentState.getPlayableSquares();
         Inverted solver = new Inverted(goalSquare, playableSquare);
+       // InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
 //        BFS solver = new BFS(this.initialState);
 //        DFS solver = new DFS(this.initialState);
 //        Greedy solver = new Greedy(this.initialState);

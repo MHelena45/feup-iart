@@ -226,7 +226,7 @@ public class InvertedSearch {
                             } else if(node.getNumberSquare().getX() > x1){
                                 operators.add(Operator.LEFT);
                             } else {
-                                System.out.println("same number square is being played");
+                                operators.add(Operator.UP);
                             }
                             squares.add(node.getNumberSquare());
                             needed_squares--;
@@ -253,7 +253,7 @@ public class InvertedSearch {
                             } else if(node.getNumberSquare().getX() > x1){
                                 operators.add(Operator.LEFT);
                             } else {
-                                System.out.println("same number square is being played");
+                                operators.add(DOWN);
                             }
                             squares.add(node.getNumberSquare());
                             needed_squares--;
@@ -280,7 +280,7 @@ public class InvertedSearch {
                             } else if(node.getNumberSquare().getY() < y1){
                                 operators.add(Operator.DOWN);
                             } else {
-                                System.out.println("same number square is being played");
+                                operators.add(RIGHT);
                             }
                             squares.add(node.getNumberSquare());
                             needed_squares--;
@@ -307,7 +307,7 @@ public class InvertedSearch {
                             } else if( node.getNumberSquare().getY() < y1){
                                 operators.add(Operator.DOWN);
                             } else {
-                                System.out.println("same number square is being played");
+                                operators.add(Operator.LEFT);
                             }
                             squares.add(node.getNumberSquare());
                             needed_squares--;
