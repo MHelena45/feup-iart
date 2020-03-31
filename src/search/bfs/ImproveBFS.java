@@ -9,6 +9,7 @@ import search.Node;
 import search.Play;
 import search.inverted.MyNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -20,7 +21,7 @@ public class ImproveBFS {
     private GoalSquare goalSquare;
 
     public ImproveBFS(State firstState) {
-        Node root = new Node(null, firstState, null, 0, 0);
+        Node root = new Node(firstState, new ArrayDeque<>(), 0, 0);
         nodes.add(root);
 
         squares = root.state.getPlayableSquares();
@@ -117,8 +118,12 @@ public class ImproveBFS {
             for(int i = 0; i < operators.length; i++) {
                 if(reduceNodes(square, operators[i])) {
                     State newState = node.state.play(square.getX(), square.getY(), operators[i]);
-                    Play transition = new Play(square, operators[i]);
-                    Node newNode = new Node(node, newState, transition, node.accCost + 1, node.depth + 1);
+
+                    ArrayDeque<Play> newPlays = new ArrayDeque<>();
+                    node.playsMade.forEach(oldPlay -> newPlays.addLast(oldPlay));
+                    newPlays.addLast(new Play(square, operators[i]));
+
+                    Node newNode = new Node(newState, newPlays, node.accCost+1, node.depth+1);
                     node.children.add(newNode);
                 }
             }
@@ -149,10 +154,9 @@ public class ImproveBFS {
     private Stack<Play>  getPath(Node node) {
         Stack<Play> result = new Stack<>();
 
-        do {
-            result.add(node.play);
-            node = node.parent;
-        } while (node.play != null);
+        while(!node.playsMade.isEmpty()) {
+            result.push(node.playsMade.removeLast());
+        }
 
         return result;
     }

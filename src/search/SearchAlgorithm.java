@@ -1,14 +1,18 @@
 package search;
 
 import model.Operator;
+import model.square.GoalSquare;
 import model.square.Square;
 import model.state.State;
+import search.lightAstar.LightNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Stack;
 
 public abstract class SearchAlgorithm {
     protected Operator[] operators = {Operator.UP, Operator.DOWN, Operator.LEFT, Operator.RIGHT};
+    protected int consultedNodes = 0;
 
     protected void expand(Node node) {
         ArrayList<Square> squares = node.state.getPlayableSquares();
@@ -16,8 +20,12 @@ public abstract class SearchAlgorithm {
         for (Square square : squares) {
             for(int i = 0; i < operators.length; i++) {
                 State newState = node.state.play(square.getX(), square.getY(), operators[i]);
-                Play transition = new Play(square, operators[i]);
-                Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
+
+                ArrayDeque<Play> newPlays = new ArrayDeque<>();
+                node.playsMade.forEach(oldPlay -> newPlays.addLast(oldPlay));
+                newPlays.addLast(new Play(square, operators[i]));
+
+                Node newNode = new Node(newState, newPlays, node.accCost+1, node.depth+1);
                 node.children.add(newNode);
             }
         }
@@ -26,11 +34,11 @@ public abstract class SearchAlgorithm {
     protected Stack<Play> getPath(Node node) {
         Stack<Play> result = new Stack<>();
 
-        do {
-            result.push(node.play);
-            node = node.parent;
-        } while (node.play != null);
+        while(!node.playsMade.isEmpty()) {
+            result.push(node.playsMade.removeLast());
+        }
 
+        System.out.println("Actions: " + consultedNodes);
         return result;
     }
 
@@ -38,6 +46,7 @@ public abstract class SearchAlgorithm {
         while(!isEmpty()) {
             // Starts with initial state
             Node v = getNextNode();
+            consultedNodes++;
 
             // Execute solution testing
             if(v.isSolution()) {

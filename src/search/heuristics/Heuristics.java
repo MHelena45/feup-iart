@@ -14,6 +14,19 @@ public class Heuristics implements Comparator<Node> {
         return goal.getX() == square.getX() || goal.getY() == square.getY();
     }
 
+    private static int countGoalFrontSquares(State state, Square goal) {
+        ArrayList<Square> playable = state.getPlayableSquares();
+        int result = 0;
+
+        for(Square square : playable) {
+            if(isGoalfront(square, goal)) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     private static int manhattanDistance(Square sqr1, Square sqr2) {
         int x1 = sqr1.getX();
         int y1 = sqr1.getY();
@@ -156,7 +169,8 @@ public class Heuristics implements Comparator<Node> {
 
     /**
      * If the played square is in front of the goal, then it most likely will be played last.
-     * This way we add a small penalty to goal front squares.
+     * This way we add a small penalty to goal front squares when there are multiple goal front
+     * And a big penalty to them when there is only one goal front square
      *
      * @param play Play made to reeach this state
      * @param state State after the play
@@ -165,10 +179,15 @@ public class Heuristics implements Comparator<Node> {
     public static int goalfrontPlay(Play play, State state) {
         Square playedSquare = play.getNumberSquare();
         Square goalSquare = state.getGoalSquare();
-
-        if(isGoalfront(playedSquare, goalSquare)) return 0;
-
-        return 10;
+        int numGoalFront = countGoalFrontSquares(state, goalSquare);
+        // If there is only one square in line with the goal it rly must be the last to be played
+        if(numGoalFront == 1) {
+            if(isGoalfront(playedSquare, goalSquare)) return 0;
+            return 4;
+        } else { // There are multiple goal front squares
+            if(isGoalfront(playedSquare, goalSquare)) return 0;
+            return 1; //Really small advantage for non goal front squares
+        }
     }
 
     /**

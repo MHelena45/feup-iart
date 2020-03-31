@@ -1,12 +1,15 @@
 package search.aStar;
 
+import model.square.GoalSquare;
 import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
 import search.SearchAlgorithm;
 import search.heuristics.Heuristics;
+import search.lightAstar.LightNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -15,7 +18,7 @@ public class AStar extends SearchAlgorithm {
 
     public AStar(State firstState) {
         queue = new PriorityQueue<Node>(1, new Heuristics());
-        Node root = new Node(null, firstState, null, 0, 0);
+        Node root = new Node(firstState, new ArrayDeque<>(), 0, 0);
         queue.add(root);
     }
 
@@ -23,11 +26,11 @@ public class AStar extends SearchAlgorithm {
         if(node.state.getGoalSquare().isFilled()) return 100; // Solution must always be chosen
 
         int g = node.accCost;
-        int h1 = Heuristics.fartherAway(node.play, node.state);
-        int h2 = Heuristics.goalfrontPlay(node.play, node.state);
-        int h3 = Heuristics.expandNowhere(node.play, node.state);
+        int h1 = Heuristics.fartherAway(node.getLastPlay(), node.state);
+        int h2 = Heuristics.goalfrontPlay(node.getLastPlay(), node.state);
+        int h3 = Heuristics.expandNowhere(node.getLastPlay(), node.state);
         // Note that only nodes that expand to useful places are evaluated
-        return h1 + h2 + h3 + g; //Does not lead to optimal solutions but is faster
+        return h1 + h2 + h3 + g;
     }
 
     @Override
@@ -41,7 +44,11 @@ public class AStar extends SearchAlgorithm {
                 int useful = Heuristics.expandNowhere(transition, newState);
 
                 if(useful >= 0) {
-                    Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
+                    ArrayDeque<Play> newPlays = new ArrayDeque<>();
+                    node.playsMade.forEach(oldPlay -> newPlays.addLast(oldPlay));
+                    newPlays.addLast(transition);
+
+                    Node newNode = new Node(newState, newPlays, node.accCost+1, node.depth+1);
                     node.children.add(newNode);
                 }
             }

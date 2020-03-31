@@ -31,14 +31,10 @@ public class LightAStar {
 
         for (Square square : squares) {
             for(int i = 0; i < operators.length; i++) {
-//                State newState = node.state.play(square.getX(), square.getY(), operators[i]);
-//                int useful = LightHeuristics.expandNowhere(transition, newState);
                 Play play = new Play(square, operators[i]);
 
-//                if(useful >= 0) {
                 LightNode newNode = newLightNode(node, play);
                 node.children.add(newNode);
-//                }
             }
         }
     }
@@ -132,7 +128,6 @@ public class LightAStar {
             });
         }
 
-        System.err.println("No solution");
         return null;
     }
 }

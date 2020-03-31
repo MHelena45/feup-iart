@@ -98,6 +98,11 @@ public class Controller {
     public void solve() {
         Stack<Play> solvedSequence = model.solve();
 
+        if(solvedSequence == null) {
+            System.err.println("No solution");
+            return;
+        }
+
         while (!solvedSequence.empty()) {
             Play play = solvedSequence.pop();
 

@@ -23,6 +23,19 @@ public class LightHeuristics implements Comparator<LightNode> {
         return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
 
+    private static int openDistance(Square playedSquare, Square comparison, Operator direction) {
+        //Note that it is guaranteed that the comparison interacts with the cells filled by the played square
+        if(direction == Operator.LEFT || direction == Operator.RIGHT) { // We need to check the y coord
+            int y1 = playedSquare.getY();
+            int y2 = comparison.getY();
+            return Math.max(y1, y2) - Math.min(y1, y2) - playedSquare.getNumber();
+        } else { //We need to check the x coord
+            int x1 = playedSquare.getX();
+            int x2 = comparison.getX();
+            return Math.max(x1, x2) - Math.min(x1, x2) - playedSquare.getNumber();
+        }
+    }
+
     /**
      * Calculate the horizontal interactions (only applicable for vertical expansions)
      * @param play Play that originated the current state
@@ -38,11 +51,27 @@ public class LightHeuristics implements Comparator<LightNode> {
         if(lastFilled != null) { // lastFilled will be null if the expansion was completely out of bounds
             for(Square square : otherSquares) {
                 if(direction == Operator.UP){ // played.y > lastFilled.y
-                    if(lastFilled.getY() <= square.getY() && square.getY() < playedSquare.getY())
-                        result++;
+                    boolean between = lastFilled.getY() <= square.getY() && square.getY() < playedSquare.getY();
+
+                    if(between) {
+                        //if the node can directly be expanded to the cell
+                        // then it is worth slightly more
+                        if(openDistance(playedSquare, square, direction) <= 0)
+                            result+=2;
+                        else
+                            result++; //otherwise the value is normal
+                    }
                 } else { // played.y < filledCells.y
-                    if(playedSquare.getY() < square.getY() && square.getY() <= lastFilled.getY())
-                        result++;
+                    boolean between = playedSquare.getY() < square.getY() && square.getY() <= lastFilled.getY();
+
+                    if(between){
+                        //if the node can directly be expanded to the cell
+                        // then it is worth slightly more
+                        if(openDistance(playedSquare, square, direction) <= 0)
+                            result+=2;
+                        else
+                            result++; //otherwise the value is normal
+                    }
                 }
             }
         }
@@ -65,11 +94,25 @@ public class LightHeuristics implements Comparator<LightNode> {
         if(lastFilled != null) { // lastFilled will be null if the expansion was completely out of bounds
             for(Square square : otherSquares) {
                 if(direction == Operator.LEFT){ // played.x > lastFilled.x
-                    if(lastFilled.getX() <= square.getX() && square.getX() < playedSquare.getX())
-                        result++;
+                    boolean between = lastFilled.getX() <= square.getX() && square.getX() < playedSquare.getX();
+
+                    if(between) {
+                        //if the node can directly be expanded to the cell
+                        // then it is worth slightly more
+                        if(openDistance(playedSquare, square, direction) <= 0)
+                            result+=2;
+                        else
+                            result++; //otherwise the value is normal
+                    }
                 } else { // played.x < lastFilled.x
-                    if(playedSquare.getX() < square.getX() && square.getX() <= lastFilled.getX())
-                        result++;
+                    boolean between = playedSquare.getX() < square.getX() && square.getX() <= lastFilled.getX();
+
+                    if(between){
+                        if(openDistance(playedSquare, square, direction) <= 0)
+                            result+=2;
+                        else
+                            result++;
+                    }
                 }
             }
         }

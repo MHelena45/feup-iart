@@ -7,6 +7,7 @@ import search.Play;
 import search.SearchAlgorithm;
 import search.heuristics.Heuristics;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -15,16 +16,16 @@ public class Greedy extends SearchAlgorithm {
 
     public Greedy(State firstState) {
         queue = new PriorityQueue<Node>(1, new Heuristics());
-        Node root = new Node(null, firstState, null, 0, 0);
+        Node root = new Node(firstState, new ArrayDeque<>(), 0, 0);
         queue.add(root);
     }
 
     private int evaluate(Node node) {
         if(node.state.getGoalSquare().isFilled()) return 100; // Solution must always be chosen
 
-        int h1 = Heuristics.fartherAway(node.play, node.state);
-        int h2 = Heuristics.goalfrontPlay(node.play, node.state);
-        int h3 = Heuristics.expandNowhere(node.play, node.state);
+        int h1 = Heuristics.fartherAway(node.getLastPlay(), node.state);
+        int h2 = Heuristics.goalfrontPlay(node.getLastPlay(), node.state);
+        int h3 = Heuristics.expandNowhere(node.getLastPlay(), node.state);
         // Note that only nodes that expand to useful places are evaluated
         return h1 + h2 + h3;
     }
@@ -40,7 +41,11 @@ public class Greedy extends SearchAlgorithm {
                 int useful = Heuristics.expandNowhere(transition, newState);
 
                 if(useful >= 0) {
-                    Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
+                    ArrayDeque<Play> newPlays = new ArrayDeque<>();
+                    node.playsMade.forEach(oldPlay -> newPlays.addLast(oldPlay));
+                    newPlays.addLast(transition);
+
+                    Node newNode = new Node(newState, newPlays, node.accCost+1, node.depth+1);
                     node.children.add(newNode);
                 }
             }

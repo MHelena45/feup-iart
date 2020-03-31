@@ -11,7 +11,7 @@ public class DFS extends SearchAlgorithm {
     private ArrayDeque<Node> queue = new ArrayDeque<>();
 
     public DFS(State firstState) {
-        Node root = new Node(null, firstState, null, 0, 0);
+        Node root = new Node(firstState, new ArrayDeque<>(), 0, 0);
         queue.add(root);
     }
 
