@@ -2,6 +2,7 @@ package search.heuristics;
 
 import model.Operator;
 import model.square.Square;
+import model.state.State;
 import search.Node;
 import search.Play;
 
@@ -103,9 +104,9 @@ public class Heuristics implements Comparator<Node> {
      *
      * @return Evaluation according to manhattan distance
      */
-    public static int fartherAway(Node node) {
-        Square playedSquare = node.play.getNumberSquare();
-        Square goalSquare = node.state.getGoalSquare();
+    public static int fartherAway(Play play, State state) {
+        Square playedSquare = play.getNumberSquare();
+        Square goalSquare = state.getGoalSquare();
 
         return manhattanDistance(playedSquare, goalSquare);
     }
@@ -117,9 +118,9 @@ public class Heuristics implements Comparator<Node> {
      * @param node Node being evaluated
      * @return Evaluation of goal front position
      */
-    public static int goalfrontPlay(Node node) {
-        Square playedSquare = node.play.getNumberSquare();
-        Square goalSquare = node.state.getGoalSquare();
+    public static int goalfrontPlay(Play play, State state) {
+        Square playedSquare = play.getNumberSquare();
+        Square goalSquare = state.getGoalSquare();
 
         if(isGoalfront(playedSquare, goalSquare)) return 0;
 
@@ -135,14 +136,14 @@ public class Heuristics implements Comparator<Node> {
      * @param node Node being evaluated
      * @return Evaluation according to number of nodes an expansion interacts with
      */
-    public static int expandNowhere(Node node) {
-        ArrayList<Square> otherSquares = node.state.getPlayableSquares();
-        Square lastFilledSquare = node.state.getLastFilledSquare();
+    public static int expandNowhere(Play play, State state) {
+        ArrayList<Square> otherSquares = state.getPlayableSquares();
+        Square lastFilledSquare = state.getLastFilledSquare();
 
         // When there are no other squares to play this does not affect the quality of the play
         if(otherSquares.isEmpty()) return 0;
 
-        int numInteractions = interactions(node.play, lastFilledSquare, otherSquares);
+        int numInteractions = interactions(play, lastFilledSquare, otherSquares);
 
         if(numInteractions == 0) return -10; // As said above, highly discouraged!
 

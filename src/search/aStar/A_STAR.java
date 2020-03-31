@@ -1,11 +1,14 @@
 package search.aStar;
 
+import model.square.Square;
 import model.state.State;
 import search.Node;
 import search.Play;
 import search.SearchAlgorithm;
 import search.heuristics.Heuristics;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
@@ -20,17 +23,32 @@ public class A_STAR extends SearchAlgorithm {
     }
 
     private int evaluate(Node node) {
-        if(node.isSolution()) return 100; // Solution must always be chosen
+        if(node.state.getGoalSquare().isFilled()) return 100; // Solution must always be chosen
 
         int g = node.accCost;
-        int h1 = Heuristics.fartherAway(node);
-        int h2 = Heuristics.goalfrontPlay(node);
-        int h3 = Heuristics.expandNowhere(node);
+        int h1 = Heuristics.fartherAway(node.play, node.state);
+        int h2 = Heuristics.goalfrontPlay(node.play, node.state);
+        int h3 = Heuristics.expandNowhere(node.play, node.state);
+        // Note that only nodes that expand to useful places are evaluated
+        return h1 + h2 + h3;
+    }
 
-        if(h3 < 0) //The expansion goes nowhere
-            return h3;
+    @Override
+    protected void expand(Node node) {
+        ArrayList<Square> squares = node.state.getPlayableSquares();
 
-        return g + h1 + h2 + h3;
+        for (Square square : squares) {
+            for(int i = 0; i < operators.length; i++) {
+                State newState = node.state.play(square.getX(), square.getY(), operators[i]);
+                Play transition = new Play(square, operators[i]);
+                int useful = Heuristics.expandNowhere(transition, newState);
+
+                if(useful >= 0) {
+                    Node newNode = new Node(node, newState, transition, node.accCost+1, node.depth+1);
+                    node.children.add(newNode);
+                }
+            }
+        }
     }
 
     @Override
@@ -53,7 +71,7 @@ public class A_STAR extends SearchAlgorithm {
             // and add its children to the queue
             expand(v);
             v.children.forEach(child -> {
-                child.value = evaluate(child);
+                child.value = evaluate(child); // This way, value is f = g + h
                 if(child.value >= 0)
                     queue.add(child);
             });
