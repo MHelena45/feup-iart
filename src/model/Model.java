@@ -5,7 +5,12 @@ import model.square.GoalSquare;
 import model.square.NumberSquare;
 import model.square.Square;
 import model.state.State;
+import search.Node;
 import search.Play;
+import search.aStar.A_STAR;
+import search.bfs.BFS;
+import search.dfs.DFS;
+import search.inverted.InvertedSearch;
 import search.invertedTry.Inverted;
 
 import java.io.BufferedReader;
@@ -136,9 +141,7 @@ public class Model {
     }
 
     public void changeLevel(int level) {
-        if(level < 0)
-            return;
-        else {
+        if(level > 0) {
             try {
                 this.level = level;
                 loadLevel();
@@ -153,22 +156,14 @@ public class Model {
     public Stack<Play> solve() {
         this.currentState = initialState;
         System.out.println("Start solving");
-        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
-        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+//        GoalSquare goalSquare = (GoalSquare) currentState.getGoalSquare();
+//        ArrayList<Square> playableSquare = currentState.getPlayableSquares();
+//        InvertedSearch solver = new InvertedSearch(goalSquare, playableSquare);
+//        BFS solver = new BFS(this.initialState);
+//        DFS solver = new DFS(this.initialState);
+        A_STAR solver = new A_STAR(this.initialState);
 
-
-       // Inverted Search
-
-        Inverted invertedSearch = new Inverted(goalSquare, playableSquare);
-        this.solvedSequence = invertedSearch.solve();
-
-
-
-     /*   ImproveBFS improveBFS = new ImproveBFS(this.initialState);
-        this.solvedSequence = improveBFS.solve();
-*/
-        /*BFS bfs = new BFS(this.initialState);
-        this.solvedSequence = bfs.solve(); */
+        this.solvedSequence = solver.solve();
         return solvedSequence;
     }
 

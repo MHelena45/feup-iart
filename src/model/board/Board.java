@@ -21,6 +21,14 @@ public class Board implements Cloneable {
         return matrix;
     }
 
+    public int getRows() {
+        return matrix.size();
+    }
+
+    public int getColumns() {
+        return matrix.get(0).size();
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         Board newBoard = (Board) super.clone();

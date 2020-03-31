@@ -20,13 +20,17 @@ public class Node {
         this.accCost = accCost;
         this.depth = depth;
         this.children = new ArrayList<>();
+        this.value = 0;
     }
 
     public boolean isSolution() {
         return state.getGoalSquare().isFilled();
     }
 
-    public State getState() {
-        return state;
+    @Override
+    public String toString() {
+        String msg = play == null ? "" : (play.toString() + " with");
+
+        return msg + " Value = " + value;
     }
 }

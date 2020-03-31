@@ -1,4 +1,4 @@
-package search.bfs;
+package search.dfs;
 
 import model.state.State;
 import search.Node;
@@ -7,10 +7,10 @@ import search.SearchAlgorithm;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
-public class BFS extends SearchAlgorithm {
+public class DFS extends SearchAlgorithm {
     private ArrayDeque<Node> queue = new ArrayDeque<>();
 
-    public BFS(State firstState) {
+    public DFS(State firstState) {
         Node root = new Node(null, firstState, null, 0, 0);
         queue.add(root);
     }
@@ -27,6 +27,6 @@ public class BFS extends SearchAlgorithm {
 
     @Override
     protected void addChildren(ArrayList<Node> children) {
-        children.forEach(child -> queue.addLast(child));
+        children.forEach(child -> queue.addFirst(child));
     }
 }
