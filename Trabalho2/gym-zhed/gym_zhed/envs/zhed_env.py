@@ -9,13 +9,13 @@ class ZhedEnv(gym.Env):
     print('Inited gym_zhed')
 
   def step(self, action):
-    
+    print('Step called')
 
   def reset(self):
-    
+    print('Reset called')
 
   def render(self, mode='human'):
-
+    print('Render called')
 
   def close(self):
-    
+    print('Close called')
