@@ -3,7 +3,6 @@ import numpy as np
 from gym import error, spaces, utils
 from gym.utils import seeding
 
-
 class ZhedEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
@@ -19,7 +18,6 @@ class ZhedEnv(gym.Env):
 
         self.observation_space = spaces.Box(-2, 9, (board_size, board_size))
         self.action_space = spaces.Discrete(4*len(playable_squares))
-
         self.reset()
         print('Inited gym_zhed')
 
@@ -27,16 +25,32 @@ class ZhedEnv(gym.Env):
         print('Step called')
 
     def reset(self):
-        self.state = np.zeros((self.board_size, self.board_size))
+        self.state = np.zeros((self.board_size, self.board_size), dtype=np.int)
         self.init_state()
 
         self.played_squares = []
+        self.played_coords = []
         self.done = False
         print('Reset called')
         return self.state
 
     def render(self, mode='human'):
-        print(self.state)
+        y = -1
+        for line in self.state:
+            x = -1
+            y += 1
+            print('| ', end='')
+            for cell in line:
+                x += 1
+                if cell == -1 or (x, y) in self.played_coords:
+                    print('X', end=' | ')
+                elif cell == -2:
+                    print('G', end=' | ')
+                elif cell == 0:
+                    print(' ', end=' | ')
+                else:
+                    print(cell, end=' | ')
+            print('\n', end='')
         print('Render called')
 
     def close(self):
@@ -52,7 +66,6 @@ class ZhedEnv(gym.Env):
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
         self.state[goal_y][goal_x] = -2
-        print('Init State called')
 
     # Game Logic related functions
     def play(self, square_index, direction):
@@ -66,11 +79,12 @@ class ZhedEnv(gym.Env):
             print('Square already played')
             return
 
-        self.played_squares.append(square_index)
         square = self.playable_squares[square_index]
         x = square[0]
         y = square[1]
         value = square[2]
+        self.played_squares.append(square_index)
+        self.played_coords.append((x, y))
 
         i = 1
         if direction == 'UP':
