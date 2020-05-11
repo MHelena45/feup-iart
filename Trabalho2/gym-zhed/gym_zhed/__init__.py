@@ -9,7 +9,7 @@ register(
 )
 
 register(
-    id='zhed-L1',
+    id='zhed-v1',
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 1},
     max_episode_steps=100,
