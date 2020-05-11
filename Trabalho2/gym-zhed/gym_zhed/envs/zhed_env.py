@@ -28,29 +28,51 @@ class ZhedEnv(gym.Env):
 
     def reset(self):
         self.state = np.zeros((self.board_size, self.board_size))
-        self.played_squares = 0
+        self.init_state()
+
+        self.played_squares = []
         self.done = False
         print('Reset called')
+        return self.state
 
     def render(self, mode='human'):
+        print(self.state)
         print('Render called')
 
     def close(self):
         print('Close called')
 
-    def play(self, square, direction):
-        if square not in range(0, len(self.playable_squares)):
-            return False
-        if direction not in self.valid_directions:
-            return False
+    def init_state(self):
+        for square in self.playable_squares:
+            x = square[0]
+            y = square[1]
+            value = square[2]
+            self.state[y][x] = value
+        
+        goal_x = self.goal_square[0]
+        goal_y = self.goal_square[1]
+        self.state[goal_y][goal_x] = -2
+        print('Init State called')
 
-        played_square = self.playable_squares[square]
-        x = played_square[0]
-        y = played_square[1]
-        value = played_square[2]
+    # Game Logic related functions
+    def play(self, square_index, direction):
+        if square_index not in range(0, len(self.playable_squares)):
+            print('Invalid square index')
+            return
+        if direction not in self.valid_directions:
+            print('Invalid direction')
+            return
+        if square_index in self.played_squares:
+            print('Square already played')
+            return
+
+        self.played_squares.append(square_index)
+        square = self.playable_squares[square_index]
+        x = square[0]
+        y = square[1]
+        value = square[2]
 
         i = 1
-
         if direction == 'UP':
             while value > 0 and y - i >= 0:
                 if self.fill(x, y - i):
@@ -72,11 +94,16 @@ class ZhedEnv(gym.Env):
                     value -= 1
                 i += 1
 
+    def goal_filled(self):
+        goal_x = self.goal_square[0]
+        goal_y = self.goal_square[1]
+        return self.state[goal_y][goal_x] == -1        
+
     def fill(self, x, y):
         square = self.state[y][x]
 
         if square == 0 or square == -2:
-            self.state[y][x] = 1
+            self.state[y][x] = -1
             return True
 
         return False
