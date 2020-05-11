@@ -3,11 +3,6 @@ import numpy as np
 from gym import error, spaces, utils
 from gym.utils import seeding
 
-UP = 0
-RIGHT = 1
-DOWN = 2
-LEFT = 3
-
 class ZhedEnv(gym.Env):
   metadata = {'render.modes': ['human']}
   
@@ -16,6 +11,8 @@ class ZhedEnv(gym.Env):
     super(ZhedEnv, self).__init__()
     self.playable_squares = playable_squares
     self.num_squares = len(playable_squares)
+    self.board_size = board_size
+    self.valid_directions = {'UP': 0, 'RIGHT': 1, 'DOWN': 2, 'LEFT': 3}
 
     self.observation_space = spaces.Box(-2,9,(board_size, board_size))
     self.action_space = spaces.Discrete(4*len(playable_squares))
@@ -40,4 +37,44 @@ class ZhedEnv(gym.Env):
 
   # Game logic related functions
   def play(square, direction):
+    if square not in range(0, len(self.playable_squares))
+      return False
+    if direction not in self.valid_directions
+      return False
+
+    played_square = self.playable_squares[square]
+    x = played_square[0]
+    y = played_square[1]
+    value = played_square[2]
+
+    i = 1
+
+    if direction == 'UP':
+      while value > 0 and y - i >= 0:
+        if self.fill(x, y - i):
+          value -= 1
+        i += 1
+    elif direction == 'RIGHT':
+      while value > 0 and x + i < self.board_size:
+        if self.fill(x + i, y):
+          value -= 1
+        i += 1
+    elif direction == 'DOWN':
+      while value > 0 and y + i < self.board_size:
+        if self.fill(x, y + i):
+          value -= 1
+        i += 1
+    elif direction == 'LEFT':
+      while value > 0 and x - i >= 0:
+        if self.fill(x - i, y):
+          value -= 1
+        i += 1
+
+  def fill(x, y):
+    square = self.state[y][x]
     
+    if square == 0 or square == -2
+      self.state[y][x] = 1
+      return True
+
+    return False
