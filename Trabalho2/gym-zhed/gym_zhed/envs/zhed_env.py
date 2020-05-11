@@ -17,13 +17,35 @@ class ZhedEnv(gym.Env):
         self.board_height = board_height
         self.valid_directions = ['UP', 'RIGHT', 'DOWN', 'LEFT']
 
+        # The observation space is the puzzle's grid
+        #which can have vales between -2 and 9
         self.observation_space = spaces.Box(-2, 9, (board_width, board_height))
+
+        # The action space is a list of 4*N values
+        #representing possible actions (4 directions for each playable square)
+        # Note that a play on square Z has actions between Z*4 and Z*4 + 3
         self.action_space = spaces.Discrete(4*len(playable_squares))
         self.reset()
         print('Environment initialized')
 
     def step(self, action):
-        print('Step called')
+        square_index = action // 4
+        direction = self.valid_directions[action % 4]
+        print('sqare index: ' + str(square_index))
+        print('direction: ' + str(direction))
+        self.play(square_index, direction)
+
+        if self.goal_filled():
+            reward = 10
+            done = True
+        elif self.no_more_moves():
+            reward = -10
+            done = True
+        else:
+            reward = -1
+            done = False
+
+        return self.state, reward, done, None
 
     def reset(self):
         self.state = np.zeros((self.board_height, self.board_width), dtype=np.int)
@@ -51,9 +73,6 @@ class ZhedEnv(gym.Env):
                 else:
                     print(cell, end=' | ')
             print('\n', end='')
-
-    def close(self):
-        print('Close called')
 
     def init_state(self):
         for square in self.playable_squares:
@@ -106,6 +125,12 @@ class ZhedEnv(gym.Env):
                 if self.fill(x - i, y):
                     value -= 1
                 i += 1
+
+    def play_coords(self, x, y, direction):
+        for square_index in range(0, len(self.playable_squares)):
+            square = self.playable_squares[square_index]
+            if square[0] == x and square[1] == y:
+                self.play(square_index, direction)
 
     def goal_filled(self):
         goal_x = self.goal_square[0]
