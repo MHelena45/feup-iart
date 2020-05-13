@@ -55,3 +55,35 @@ register(
     max_episode_steps=100,
     reward_threshold=0.8196, # optimum = .8196,
 )
+
+register(
+    id='zhed-v7',
+    entry_point='gym_zhed.envs:ZhedEnvFromLevel',
+    kwargs={'level': 7},
+    max_episode_steps=100,
+    reward_threshold=0.8196, # optimum = .8196,
+)
+
+register(
+    id='zhed-v8',
+    entry_point='gym_zhed.envs:ZhedEnvFromLevel',
+    kwargs={'level': 8},
+    max_episode_steps=100,
+    reward_threshold=0.8196, # optimum = .8196,
+)
+
+register(
+    id='zhed-v9',
+    entry_point='gym_zhed.envs:ZhedEnvFromLevel',
+    kwargs={'level': 9},
+    max_episode_steps=100,
+    reward_threshold=0.8196, # optimum = .8196,
+)
+
+register(
+    id='zhed-v10',
+    entry_point='gym_zhed.envs:ZhedEnvFromLevel',
+    kwargs={'level': 10},
+    max_episode_steps=100,
+    reward_threshold=0.8196, # optimum = .8196,
+)
