@@ -1,6 +1,7 @@
 import gym
 import numpy as np
 import math
+import os
 
 from gym import error, spaces, utils
 from gym.utils import seeding
@@ -25,7 +26,7 @@ class ZhedEnv(gym.Env):
         #states (represented as an int).
         # For each square there are 4 possible moves, which means that there are 4**N (4 to the power of N) sets of moves
         #However, these sets do not count with the order by which the square is played, hence the N! (factorial of N) factor
-        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares))
+        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares) + 1)
         self.observation_space = spaces.Discrete(total_states)
 
         # The action space is a list of 4*N values
@@ -38,16 +39,19 @@ class ZhedEnv(gym.Env):
     def step(self, action):
         square_index = action // 4
         direction = self.valid_directions[action % 4]
-        self.play(square_index, direction)
+        valid = self.play(square_index, direction)
 
         if self.goal_filled():
-            reward = 1
+            reward = 10
             done = True
         elif self.no_more_moves():
-            reward = -1
+            reward = -10
             done = True
+        elif not valid:
+            reward = -2
+            done = False
         else:
-            reward = 0
+            reward = 2
             done = False
 
         return self.get_state(), reward, done, {'debug': 'None'}
@@ -108,13 +112,13 @@ class ZhedEnv(gym.Env):
     def play(self, square_index, direction):
         if square_index not in range(0, len(self.playable_squares)):
             print('Invalid square index')
-            return
+            return False
         if direction not in self.valid_directions:
             print('Invalid direction')
-            return
+            return False
         if square_index in self.played_squares:
             print('Square already played')
-            return
+            return False
 
         square = self.playable_squares[square_index]
         x = square[0]
@@ -144,6 +148,8 @@ class ZhedEnv(gym.Env):
                 if self.fill(x - i, y):
                     value -= 1
                 i += 1
+
+        return True
 
     def play_coords(self, x, y, direction):
         for square_index in range(0, len(self.playable_squares)):
@@ -177,7 +183,10 @@ class ZhedEnvFromLevel(ZhedEnv):
         else:
             filename = str(level) + '.txt'
 
-        playable, goal, width, height = self.load_file('../levels/' + filename)
+        dir_path = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(dir_path, "levels", filename)
+
+        playable, goal, width, height = self.load_file(filepath)
         super(ZhedEnvFromLevel, self).__init__(playable, goal, width, height)
 
     def load_file(self, filepath):

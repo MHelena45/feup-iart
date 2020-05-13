@@ -5,7 +5,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnv',
     kwargs={'playable_squares' : [(0,0,1),(0,1,1)], 'goal_square': (0,2), 'board_width': 3, 'board_height': 3},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -13,7 +13,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 1},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -21,7 +21,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 2},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -29,7 +29,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 3},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -37,7 +37,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 4},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -45,7 +45,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 5},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -53,7 +53,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 6},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -61,7 +61,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 7},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -69,7 +69,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 8},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -77,7 +77,7 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 9},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
 
 register(
@@ -85,5 +85,5 @@ register(
     entry_point='gym_zhed.envs:ZhedEnvFromLevel',
     kwargs={'level': 10},
     max_episode_steps=100,
-    reward_threshold=0.8196, # optimum = .8196,
+    reward_threshold=0.8196,
 )
