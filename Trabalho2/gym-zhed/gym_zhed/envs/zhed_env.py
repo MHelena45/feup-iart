@@ -1,5 +1,7 @@
 import gym
 import numpy as np
+import math
+
 from gym import error, spaces, utils
 from gym.utils import seeding
 
@@ -15,50 +17,53 @@ class ZhedEnv(gym.Env):
         self.num_squares = len(playable_squares)
         self.board_width = board_width
         self.board_height = board_height
+        self.registered_states = []
         self.valid_directions = ['UP', 'RIGHT', 'DOWN', 'LEFT']
 
-        # The observation space is the puzzle's grid
-        #which can have vales between -2 and 9
-        self.observation_space = spaces.Box(-2, 9, (board_width, board_height))
+        
+        # The observation space is a list of all possible
+        #states (represented as an int).
+        # For each square there are 4 possible moves, which means that there are 4**N (4 to the power of N) sets of moves
+        #However, these sets do not count with the order by which the square is played, hence the N! (factorial of N) factor
+        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares))
+        self.observation_space = spaces.Discrete(total_states)
 
         # The action space is a list of 4*N values
         #representing possible actions (4 directions for each playable square)
         # Note that a play on square Z has actions between Z*4 and Z*4 + 3
-        self.action_space = spaces.Discrete(4*len(playable_squares))
+        self.action_space = spaces.Discrete(4*self.num_squares)
         self.reset()
         print('Environment initialized')
 
     def step(self, action):
         square_index = action // 4
         direction = self.valid_directions[action % 4]
-        print('sqare index: ' + str(square_index))
-        print('direction: ' + str(direction))
         self.play(square_index, direction)
 
         if self.goal_filled():
-            reward = 10
+            reward = 1
             done = True
         elif self.no_more_moves():
-            reward = -10
+            reward = -1
             done = True
         else:
-            reward = -1
+            reward = 0
             done = False
 
-        return self.state, reward, done, None
+        return self.get_state(), reward, done, {'debug': 'None'}
 
     def reset(self):
-        self.state = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        self.board = np.zeros((self.board_height, self.board_width), dtype=np.int)
         self.init_state()
 
         self.played_squares = []
         self.played_coords = []
         self.done = False
-        return self.state
+        return self.get_state()
 
     def render(self, mode='human'):
         y = -1
-        for line in self.state:
+        for line in self.board:
             x = -1
             y += 1
             print('| ', end='')
@@ -79,11 +84,22 @@ class ZhedEnv(gym.Env):
             x = square[0]
             y = square[1]
             value = square[2]
-            self.state[y][x] = value
+            self.board[y][x] = value
         
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
-        self.state[goal_y][goal_x] = -2
+        self.board[goal_y][goal_x] = -2
+
+    def get_state(self):
+        index = -1
+        for registered_board in self.registered_states:
+            index += 1
+            if (self.board == registered_board).all():
+                return index
+        
+        self.registered_states.append(self.board)
+        index += 1 #index of last inserted element
+        return index
 
     # Game Logic related functions
     def play(self, square_index, direction):
@@ -135,16 +151,16 @@ class ZhedEnv(gym.Env):
     def goal_filled(self):
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
-        return self.state[goal_y][goal_x] == -1
+        return self.board[goal_y][goal_x] == -1
 
     def no_more_moves(self):
         return self.num_squares == len(self.played_squares)
 
     def fill(self, x, y):
-        square = self.state[y][x]
+        square = self.board[y][x]
 
         if square == 0 or square == -2:
-            self.state[y][x] = -1
+            self.board[y][x] = -1
             return True
 
         return False
