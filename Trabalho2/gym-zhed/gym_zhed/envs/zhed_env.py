@@ -78,6 +78,7 @@ class ZhedEnv(gym.Env):
                 else:
                     print(cell, end=' | ')
             print('\n', end='')
+        print('\n', end='')
 
     def init_state(self):
         for square in self.playable_squares:
@@ -95,10 +96,12 @@ class ZhedEnv(gym.Env):
         for registered_board in self.registered_states:
             index += 1
             if (self.board == registered_board).all():
+                #print(f'Found board in index: {index}')
                 return index
         
         self.registered_states.append(self.board)
         index += 1 #index of last inserted element
+        #print(f'Added new state at index: {index}')
         return index
 
     # Game Logic related functions
