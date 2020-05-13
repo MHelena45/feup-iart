@@ -51,7 +51,7 @@ for level in range(1, 101):
         squares_per_level[current_squares].append(level)
 
 print('  Squares  |  List of levels')
-for num_squares in squares_per_level:
+for num_squares in sorted(squares_per_level):
     if num_squares < 10:
         print(f' {num_squares} squares: {squares_per_level[num_squares]}')
     else:
