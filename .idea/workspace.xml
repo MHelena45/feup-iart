@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="53c4bdbc-86e8-4310-8826-ad2646bbc658" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\Pedro\Documents\GitHub\feup-iart\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Z5pcxJu9AFmXMdXahsu2RSRZex" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="search.aStar" />
+      <recent name="model.square" />
+      <recent name="model" />
+      <recent name="model.board" />
+      <recent name="model.state" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Zhed_IA" type="Application" factoryName="Application">
+      <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Zhed" />
+      <module name="feup-iart" />
+      <option name="VM_PARAMETERS" value="--module-path /javaFX/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53c4bdbc-86e8-4310-8826-ad2646bbc658" name="Default Changelist" comment="" />
+      <created>1584138893162</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584138893162</updated>
+      <workItem from="1584138910593" duration="1359000" />
+      <workItem from="1584331136138" duration="1737000" />
+      <workItem from="1584721697251" duration="132000" />
+      <workItem from="1584811334646" duration="3914000" />
+      <workItem from="1584978056330" duration="5039000" />
+      <workItem from="1588953854782" duration="17000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="121" y="0" width="1092" height="768" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585140472045">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="121" y="0" width="1092" height="768" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.768@0.0.1366.768" timestamp="1585140472045" />
+    <state x="488" y="93" key="#com.intellij.ide.util.MemberChooser" timestamp="1585584437223">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="488" y="93" key="#com.intellij.ide.util.MemberChooser/0.0.1366.768@0.0.1366.768" timestamp="1585584437223" />
+    <state x="440" y="174" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1584994355988">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="440" y="174" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.768@0.0.1366.768" timestamp="1584994355988" />
+    <state x="270" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585656286411">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="270" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.768@0.0.1366.768" timestamp="1585656286411" />
+    <state x="413" y="131" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585584404174">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="413" y="131" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.768@0.0.1366.768" timestamp="1585584404174" />
+    <state x="458" y="102" key="DetectedRootsChooserDialog" timestamp="1585067803314">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="458" y="102" key="DetectedRootsChooserDialog/0.0.1366.768@0.0.1366.768" timestamp="1585067803314" />
+    <state x="77" y="16" width="1182" height="584" key="DiffContextDialog" timestamp="1585155914832">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="77" y="16" width="1182" height="584" key="DiffContextDialog/0.0.1366.768@0.0.1366.768" timestamp="1585155914832" />
+    <state x="463" y="142" key="FileChooserDialogImpl" timestamp="1585067794230">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="463" y="142" key="FileChooserDialogImpl/0.0.1366.768@0.0.1366.768" timestamp="1585067794230" />
+    <state width="1322" height="157" key="GridCell.Tab.0.bottom" timestamp="1585004657960">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="157" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1585004657960" />
+    <state width="1322" height="157" key="GridCell.Tab.0.center" timestamp="1585004657960">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="157" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1585004657960" />
+    <state width="1322" height="157" key="GridCell.Tab.0.left" timestamp="1585004657959">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="157" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1585004657959" />
+    <state width="1322" height="157" key="GridCell.Tab.0.right" timestamp="1585004657960">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1322" height="157" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1585004657960" />
+    <state x="134" y="0" key="SettingsEditor" timestamp="1585167160009">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="134" y="0" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1585167160009" />
+    <state x="391" y="211" key="com.intellij.ide.util.TipDialog" timestamp="1588953857384">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="391" y="211" key="com.intellij.ide.util.TipDialog/0.0.1366.768@0.0.1366.768" timestamp="1588953857384" />
+    <state x="65" y="9" key="new project wizard" timestamp="1585247588442">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="65" y="9" key="new project wizard/0.0.1366.768@0.0.1366.768" timestamp="1585247588442" />
+    <state x="425" y="12" key="refactoring.ChangeSignatureDialog" timestamp="1585623267335">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="425" y="12" key="refactoring.ChangeSignatureDialog/0.0.1366.768@0.0.1366.768" timestamp="1585623267335" />
+    <state x="680" y="176" key="run.anything.popup" timestamp="1585694974054">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="680" y="176" key="run.anything.popup/0.0.1366.768@0.0.1366.768" timestamp="1585694974054" />
+  </component>
+</project>
