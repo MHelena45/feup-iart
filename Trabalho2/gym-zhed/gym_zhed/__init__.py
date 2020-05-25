@@ -12,5 +12,6 @@ for level in range(1, 101):
     register(
         id='zhedLevel' + str(level) + "-v0",
         entry_point='gym_zhed.envs:ZhedEnvFromLevel',
-        kwargs={'level': level}
+        kwargs={'level': level},
+        max_episode_steps=100
     )

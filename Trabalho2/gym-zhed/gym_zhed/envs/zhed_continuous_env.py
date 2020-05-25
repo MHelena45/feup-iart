@@ -6,13 +6,13 @@ import os
 from gym import error, spaces, utils
 from gym.utils import seeding
 
-class ZhedEnv(gym.Env):
+class ZhedContinuousEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     # Playable Squares -> [ (x, y, value), etc. ]
     # Goal Square -> (x, y)
     def __init__(self, playable_squares, goal_square, board_width, board_height):
-        super(ZhedEnv, self).__init__()
+        super(ZhedContinuousEnv, self).__init__()
         self.initial_playable_squares = playable_squares
         self.goal_square = goal_square
         self.num_squares = len(playable_squares)
@@ -47,6 +47,23 @@ class ZhedEnv(gym.Env):
 
     def step(self, action):
         self.update_square_arrays()
+        valid_squares = []
+
+        if action[0] == 1:
+            self.filter_common(self.inline_squares, valid_squares)
+        if action[1] == 1:
+            self.filter_common(self.inline_adj_squares, valid_squares)
+        if action[2] == 1:
+            self.filter_common(self.frontier_squares, valid_squares)
+        if action[3] == 1:
+            self.filter_common(self.farthest_squares, valid_squares)
+        if action[4] == 1:
+            self.filter_common(self.closest_squares, valid_squares)
+        if action[5] == 1:
+            self.filter_common(self.most_value_squares, valid_squares)
+        if action[6] == 1:
+            self.filter_common(self.least_value_squares, valid_squares)
+
         valid = self.play(square, direction)
 
         if self.goal_filled():
@@ -119,12 +136,20 @@ class ZhedEnv(gym.Env):
 
     def update_square_arrays(self):
         self.inline_squares = self.get_inline_squares()
+        self.inline_adj_squares = self.get_inline_adj_squares()
         self.frontier_squares = self.get_frontier_squares()
         self.farthest_squares = self.get_farthest_squares()
         self.closest_squares = self.get_closest_squares()
         self.most_value_squares = self.get_biggest_squares()
         self.least_value_squares = self.get_smallest_squares()
-        self.inline_adj_squares = self.get_inline_adj_squares()
+
+    def filter_common(self, array, already_filtered):
+        result = []
+        for sq in already_filtered:
+            if sq in array:
+                result.append(sq)
+
+        return result
 
     def get_inline_squares(self):
         squares = []
@@ -274,6 +299,46 @@ class ZhedEnv(gym.Env):
 
         return [direction for direction in self.valid_directions and direction not in directions]
 
+    def get_interactions_directions(self, square):
+        squareX = square[0]
+        squareY = square[1]
+        value = square[2]
+        minX = squareX - value 
+        maxX = squareX + value 
+        minY = squareY - value 
+        maxY = squareY + value
+
+        leftCount = 0
+        rightCount = 0
+        upCount = 0
+        downCount = 0
+
+        for sq in self.playable_squares:
+            thisX = sq[0]
+            thisY = sq[1]
+            if minX < thisX < squareX:
+                leftCount += 1
+            if squareX < thisX < maxX:
+                rightCount += 1
+            if minY < thisY < squareY:
+                upCount += 1
+            if squareY < thisY < maxY:
+                downCount += 1
+
+        counters = [upCount, rightCount, downCount, leftCount]
+        max_val = max(counters)
+        min_val = min(counters)
+        max_index = [i for i, j in enumerate(counters) if j == max_val]
+        min_index = [i for i, j in enumerate(counters) if j == min_val]
+        max_directions = []
+        min_directions = []
+        for index in max_index:
+            max_directions.append(self.valid_directions[index])
+        for index in min_index:
+            min_directions.append(self.valid_directions[index])
+
+        return max_directions, min_directions
+
     # Game Logic related functions
     def play(self, square, direction):
         if direction not in self.valid_directions:
@@ -326,46 +391,3 @@ class ZhedEnv(gym.Env):
             return True
 
         return False
-
-class ZhedEnvFromLevel(ZhedEnv):
-    def __init__(self, level):
-        if level < 10:
-            filename = '00' + str(level) + '.txt'
-        elif level < 100:
-            filename = '0' + str(level) + '.txt'
-        else:
-            filename = str(level) + '.txt'
-
-        dir_path = os.path.dirname(os.path.abspath(__file__))
-        filepath = os.path.join(dir_path, "levels", filename)
-
-        playable, goal, width, height = self.load_file(filepath)
-        super(ZhedEnvFromLevel, self).__init__(playable, goal, width, height)
-
-    def load_file(self, filepath):
-        f = open(filepath, 'rt')
-
-        playable = []
-        goal = None
-
-        y = -1
-        for line in f:
-            x = -1
-            y += 1
-            for char in line:
-                x += 1
-                if char == '.' or char == '\n':
-                    continue
-                elif char == 'X':
-                    goal = (x, y)
-                else:
-                    playable.append((x, y, int(char)))
-
-        if goal == None:
-            print('File has no goal square!')
-            exit()
-        elif len(playable) == 0:
-            print('File has no playable squares!')
-            exit()
-
-        return playable, goal, x + 1, y + 1
