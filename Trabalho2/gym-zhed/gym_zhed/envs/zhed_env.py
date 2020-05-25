@@ -42,16 +42,16 @@ class ZhedEnv(gym.Env):
         valid = self.play(square_index, direction)
 
         if self.goal_filled():
-            reward = 10
+            reward = 100
             done = True
         elif self.no_more_moves():
-            reward = -10
+            reward = -100
             done = True
         elif not valid:
-            reward = -2
+            reward = 0
             done = False
         else:
-            reward = 2
+            reward = 0
             done = False
 
         return self.get_state(), reward, done, {'debug': 'None'}
@@ -111,13 +111,13 @@ class ZhedEnv(gym.Env):
     # Game Logic related functions
     def play(self, square_index, direction):
         if square_index not in range(0, len(self.playable_squares)):
-            print('Invalid square index')
+            #print('Invalid square index')
             return False
         if direction not in self.valid_directions:
-            print('Invalid direction')
+            #print('Invalid direction')
             return False
         if square_index in self.played_squares:
-            print('Square already played')
+            #print('Square already played')
             return False
 
         square = self.playable_squares[square_index]

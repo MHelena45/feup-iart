@@ -13,12 +13,11 @@ class ZhedEnv(gym.Env):
     # Goal Square -> (x, y)
     def __init__(self, playable_squares, goal_square, board_width, board_height):
         super(ZhedEnv, self).__init__()
-        self.playable_squares = playable_squares
+        self.initial_playable_squares = playable_squares
         self.goal_square = goal_square
         self.num_squares = len(playable_squares)
         self.board_width = board_width
         self.board_height = board_height
-        self.registered_states = []
         self.valid_directions = ['UP', 'RIGHT', 'DOWN', 'LEFT']
         self.flag_nr = 10
         
@@ -35,8 +34,8 @@ class ZhedEnv(gym.Env):
         # [0] Quadrado em linha com objetivo
         # [1] Quadrado adjacente ao quadrado em linha
         # [2] Quadrado fronteira
-        # [3] Maior distância ?
-        # [4] Menor distância ?
+        # [3] Maior distância ao quadrado objetivo?
+        # [4] Menor distância ao quadrado objetivo?
         # [5] Maior nº de quadrado
         # [6] Menor nº de quadrado
         # [7] Jogar para a direção do objetivo
@@ -46,146 +45,9 @@ class ZhedEnv(gym.Env):
         self.reset()
         print('Environment initialized')
 
-    def getInLineSqrs(self):
-        squares = []
-
-        x = self.goal_square[0]
-        y = self.goal_square[1]
-
-        for sq in self.playable_squares:
-            sqX = sq[0]
-            sqY = sq[1]
-            if x == sqX or y == sqY:
-                squares.append(sq)
-
-        return squares
-    
-    def getInLineAdjSqrs(self, inLineSqrs):
-        squares = []
-
-        gx = self.goal_square[0]
-        gy = self.goal_square[1]
-
-        for sq in inLineSqrs:
-            sqX = sq[0]
-            sqY = sq[1]
-            for adj in self.playable_squares:
-                adjX = adj[0]
-                adjY = adj[1]
-                num = adj[2]
-                if gx < adjX < sqX or sqX < adjX < gx \
-                or gy < adjY < sqY or sqY < adjY < gy:
-                    squares.append(adj)
-
-        return squares
-    
-    def getFrontierSqrs(self):
-        minX = self.playable_squares[0][0]
-        minY = self.playable_squares[0][1]
-        maxX = 0
-        maxY = 0
-        
-        for sq in self.playable_squares:
-            sqX = sq[0]
-            sqY = sq[1]
-            if sqX < minX: minX = sqX
-            if sqY < minY: minY = sqY
-            if sqX > maxX: maxX = sqX
-            if sqY > maxY: maxY = sqY
-
-            frontier = []
-
-        for sq in self.playable_squares:
-            sqX = sq[0]
-            sqY = sq[1]
-            if sqX == minX or sqY == maxX or sqY == minY or sqY == maxY:
-                frontier.append(sq)
-
-        return frontier
-
-    def calcDist(self, square):
-        x = square[0]
-        y = square[1]
-        gx = self.goal_square[0]
-        gy = self.goal_square[1]
-
-        return abs(x-gx) + abs(y-gy)
-
-    def getClosestSq(self):
-
-        closest = self.playable_squares[0]
-
-        for sq in self.playable_squares:
-            if calcDist(sq) < calcDist(closest): closest = sq
-
-        return closest
-    
-    def getFarthestSq(self):
-
-        farthest = 0
-
-        for sq in self.playable_squares:
-            if calcDist(sq) > calcDist(farthest): farthest = sq
-
-        return farthest
-    
-    def getSmallestSq(self):
-
-        smallest = self.playable_squares[0]
-
-        for sq in self.playable_squares:
-            if sq[2] < smallest[2]: smallest = sq
-
-        return smallest
-
-    def getBiggestSq(self):
-
-        biggest = self.playable_squares[0]
-
-        for sq in self.playable_squares:
-            if sq[2] > biggest[2]: biggest = sq
-
-        return biggest
-
-
-    # So vale a pena perguntar a quadrados nao em linha com o goal
-    def getGoalDirections(self, square):
-        sqX = square[0]
-        sqY = square[1]
-        gx = self.goal_square[0]
-        gy = self.goal_square[1]
-
-        dir = None
-
-        if sqX > gx and sqY > gy: dir = 0 # DOWN RIGHT
-        if sqX > gx and sqY < gy: dir = 1 # UP RIGHT
-        if sqX < gx and sqY < gy: dir = 2 # UP LEFT
-        if sqX < gx and sqY > gy: dir = 3 # DOWN LEFT
-
-        return dir
-
     def step(self, action):
-        
-        if action[3] == 1:
-            farthest = getFarthestSq()
-        elif action[4] == 1:
-            closest = getClosestSq()
-        elif action[5] == 1:
-            biggest = getBiggestSq()
-        elif action[6] == 1:
-            smallest = getSmallestSq()
-        else:
-            inLineSqrs = getInLineSqrs()
-            if action[0] == 1:
-                squares = inLineSqrs
-            elif action[1] == 1:
-                squares = getInLineAdjSqrs(inLineSqrs)
-            if action[2] == 1:
-                frontier = getFrontierSqrs()
-                squares = [square for square in squares if square in frontier]
-            
-            
-        valid = self.play(square_index, direction)
+        self.update_square_arrays()
+        valid = self.play(square, direction)
 
         if self.goal_filled():
             reward = 10
@@ -194,19 +56,20 @@ class ZhedEnv(gym.Env):
             reward = -10
             done = True
         elif not valid:
-            reward = -2
+            reward = 0
             done = False
         else:
-            reward = 2
+            reward = 0
             done = False
 
         return self.get_state(), reward, done, {'debug': 'None'}
 
     def reset(self):
         self.board = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        self.playable_squares = self.initial_playable_squares
         self.init_state()
+        self.update_square_arrays()
 
-        self.played_squares = []
         self.played_coords = []
         self.done = False
         return self.get_state()
@@ -231,7 +94,7 @@ class ZhedEnv(gym.Env):
         print('\n', end='')
 
     def init_state(self):
-        for square in self.playable_squares:
+        for square in self.initial_playable_squares:
             x = square[0]
             y = square[1]
             value = square[2]
@@ -242,7 +105,7 @@ class ZhedEnv(gym.Env):
         self.board[goal_y][goal_x] = -2
 
     def get_state(self):
-        percent = len(self.played_squares) / len(self.playable_squares)
+        percent = len(self.playable_squares) / self.num_squares
         if percent <= 0.2:
             return 0
         elif percent <= 0.4:
@@ -254,24 +117,174 @@ class ZhedEnv(gym.Env):
         # percent <= 100 %
         return 4
 
+    def update_square_arrays(self):
+        self.inline_squares = self.get_inline_squares()
+        self.frontier_squares = self.get_frontier_squares()
+        self.farthest_squares = self.get_farthest_squares()
+        self.closest_squares = self.get_closest_squares()
+        self.most_value_squares = self.get_biggest_squares()
+        self.least_value_squares = self.get_smallest_squares()
+        self.inline_adj_squares = self.get_inline_adj_squares()
+
+    def get_inline_squares(self):
+        squares = []
+
+        x = self.goal_square[0]
+        y = self.goal_square[1]
+
+        for sq in self.playable_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            if x == sqX or y == sqY:
+                squares.append(sq)
+
+        return squares
+    
+    def get_inline_adj_squares(self):
+        squares = []
+
+        gx = self.goal_square[0]
+        gy = self.goal_square[1]
+
+        for sq in self.inline_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            for adj in self.playable_squares:
+                adjX = adj[0]
+                adjY = adj[1]
+                if (gx < adjX < sqX or sqX < adjX < gx \
+                    or gy < adjY < sqY or sqY < adjY < gy):
+                    squares.append(adj)
+
+        return squares
+    
+    def get_frontier_squares(self):
+        minX = self.board_width
+        minY = self.board_height
+        maxX = 0
+        maxY = 0
+        
+        for sq in self.playable_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            if sqX < minX: minX = sqX
+            if sqY < minY: minY = sqY
+            if sqX > maxX: maxX = sqX
+            if sqY > maxY: maxY = sqY
+
+        frontier = []
+
+        for sq in self.playable_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            if sqX == minX or sqX == maxX or sqY == minY or sqY == maxY:
+                frontier.append(sq)
+
+        return frontier
+
+    def manhattan_dist(self, square):
+        x = square[0]
+        y = square[1]
+        gx = self.goal_square[0]
+        gy = self.goal_square[1]
+
+        return abs(x-gx) + abs(y-gy)
+
+    def get_closest_squares(self):
+        smallest_dist = self.manhattan_dist(self.playable_squares[0])
+        closest = []
+
+        for sq in self.playable_squares:
+            dist = self.manhattan_dist(sq)
+            if dist == smallest_dist:
+                closest.append(sq)
+            elif dist < smallest_dist:
+                closest.clear()
+                closest.append(sq)
+                smallest_dist = dist
+
+        return closest
+    
+    def get_farthest_squares(self):
+        highest_dist = self.manhattan_dist(self.playable_squares[0])
+        farthest = []
+
+        for sq in self.playable_squares:
+            dist = self.manhattan_dist(sq)
+            if dist == highest_dist:
+                farthest.append(sq)
+            elif dist > highest_dist:
+                farthest.clear()
+                farthest.append(sq)
+                highest_dist = dist
+
+        return farthest
+    
+    def get_smallest_squares(self):
+        smallest_value = self.playable_squares[0][2]
+        smallest = []
+
+        for sq in self.playable_squares:
+            val = sq[2]
+            if val == smallest_value:
+                smallest.append(sq)
+            elif val < smallest_value:
+                smallest.clear()
+                smallest.append(sq)
+                smallest_value = val
+
+        return smallest
+
+    def get_biggest_squares(self):
+        biggest_value = self.playable_squares[0][2]
+        biggest = []
+
+        for sq in self.playable_squares:
+            val = sq[2]
+            if val == biggest_value:
+                biggest.append(sq)
+            elif val > biggest_value:
+                biggest.clear()
+                biggest.append(sq)
+                biggest_value = val
+
+        return biggest
+
+    def get_goal_directions(self, square):
+        sqX = square[0]
+        sqY = square[1]
+        gx = self.goal_square[0]
+        gy = self.goal_square[1]
+
+        if sqX == gx:
+            if sqY > gy: return ['UP']
+            if sqY < gy: return ['DOWN']
+        if sqY == gy:
+            if sqX > gx: return ['LEFT']
+            if sqX < gx: return ['RIGHT']
+        if sqX > gx and sqY > gy: return ['UP', 'LEFT']
+        if sqX > gx and sqY < gy: return ['DOWN', 'LEFT']
+        if sqX < gx and sqY < gy: return ['DOWN', 'RIGHT']
+        if sqX < gx and sqY > gy: return ['UP', 'RIGHT']
+
+        return []
+
+    def get_opp_goal_directions(self, square):
+        directions = self.get_goal_directions(square)
+
+        return [direction for direction in self.valid_directions and direction not in directions]
+
     # Game Logic related functions
-    def play(self, square_index, direction):
-        if square_index not in range(0, len(self.playable_squares)):
-            print('Invalid square index')
-            return False
+    def play(self, square, direction):
         if direction not in self.valid_directions:
-            print('Invalid direction')
-            return False
-        if square_index in self.played_squares:
-            print('Square already played')
+            #print('Invalid direction')
             return False
 
-        square = self.playable_squares[square_index]
         x = square[0]
         y = square[1]
         value = square[2]
-        self.played_squares.append(square_index)
         self.played_coords.append((x, y))
+        self.playable_squares.remove(square)
 
         i = 1
         if direction == 'UP':
@@ -297,19 +310,13 @@ class ZhedEnv(gym.Env):
 
         return True
 
-    def play_coords(self, x, y, direction):
-        for square_index in range(0, len(self.playable_squares)):
-            square = self.playable_squares[square_index]
-            if square[0] == x and square[1] == y:
-                self.play(square_index, direction)
-
     def goal_filled(self):
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
         return self.board[goal_y][goal_x] == -1
 
     def no_more_moves(self):
-        return self.num_squares == len(self.played_squares)
+        return len(self.playable_squares) == 0
 
     def fill(self, x, y):
         square = self.board[y][x]
