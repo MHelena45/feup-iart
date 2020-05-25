@@ -45,7 +45,7 @@ class ZhedEnv(gym.Env):
             reward = 10
             done = True
         elif self.no_more_moves():
-            reward = -10
+            reward = -1
             done = True
         elif not valid:
             reward = 0

@@ -47,24 +47,45 @@ class ZhedContinuousEnv(gym.Env):
 
     def step(self, action):
         self.update_square_arrays()
-        valid_squares = []
+        chosen_squares = []
 
         if action[0] == 1:
-            self.filter_common(self.inline_squares, valid_squares)
+            chosen_squares = self.filter_common(self.inline_squares, chosen_squares)
         if action[1] == 1:
-            self.filter_common(self.inline_adj_squares, valid_squares)
+            chosen_squares = self.filter_common(self.inline_adj_squares, chosen_squares)
         if action[2] == 1:
-            self.filter_common(self.frontier_squares, valid_squares)
+            chosen_squares = self.filter_common(self.frontier_squares, chosen_squares)
         if action[3] == 1:
-            self.filter_common(self.farthest_squares, valid_squares)
+            chosen_squares = self.filter_common(self.farthest_squares, chosen_squares)
         if action[4] == 1:
-            self.filter_common(self.closest_squares, valid_squares)
+            chosen_squares = self.filter_common(self.closest_squares, chosen_squares)
         if action[5] == 1:
-            self.filter_common(self.most_value_squares, valid_squares)
+            chosen_squares = self.filter_common(self.most_value_squares, chosen_squares)
         if action[6] == 1:
-            self.filter_common(self.least_value_squares, valid_squares)
+            chosen_squares = self.filter_common(self.least_value_squares, chosen_squares)
 
-        valid = self.play(square, direction)
+        if not chosen_squares: #list is empty
+            print('Not deterministic square')
+            return self.get_state(), -5, False, {'debug': 'None'}
+        
+        square = chosen_squares[0]
+        max_interactions, min_interactions = self.get_interactions_directions(square)
+        chosen_directions = []
+
+        if action[7] == 1:
+            chosen_directions = self.filter_common(self.get_goal_directions(square), chosen_directions)
+        else:
+            chosen_directions = self.filter_common(self.get_opp_goal_directions(square), chosen_directions)
+        if action[8] == 1:
+            chosen_directions = self.filter_common(max_interactions, chosen_directions)
+        if action[9] == 1:
+            chosen_directions = self.filter_common(min_interactions, chosen_directions)
+
+        if not chosen_directions: #list is empty
+            print('Not deterministic direction')
+            return self.get_state(), -5, False, {'debug': 'None'}
+        
+        valid = self.play(square, chosen_directions[0])
 
         if self.goal_filled():
             reward = 10
@@ -73,17 +94,17 @@ class ZhedContinuousEnv(gym.Env):
             reward = -10
             done = True
         elif not valid:
-            reward = 0
+            reward = -5
             done = False
         else:
-            reward = 0
+            reward = -1
             done = False
 
         return self.get_state(), reward, done, {'debug': 'None'}
 
     def reset(self):
         self.board = np.zeros((self.board_height, self.board_width), dtype=np.int)
-        self.playable_squares = self.initial_playable_squares
+        self.playable_squares = self.initial_playable_squares.copy()
         self.init_state()
         self.update_square_arrays()
 
@@ -144,6 +165,9 @@ class ZhedContinuousEnv(gym.Env):
         self.least_value_squares = self.get_smallest_squares()
 
     def filter_common(self, array, already_filtered):
+        if not already_filtered:
+            return array
+
         result = []
         for sq in already_filtered:
             if sq in array:
@@ -296,8 +320,13 @@ class ZhedContinuousEnv(gym.Env):
 
     def get_opp_goal_directions(self, square):
         directions = self.get_goal_directions(square)
+        opposite = []
 
-        return [direction for direction in self.valid_directions and direction not in directions]
+        for direction in self.valid_directions:
+            if direction not in directions:
+                opposite.append(direction)
+
+        return opposite
 
     def get_interactions_directions(self, square):
         squareX = square[0]
@@ -391,3 +420,46 @@ class ZhedContinuousEnv(gym.Env):
             return True
 
         return False
+
+class ZhedContEnvFromLevel(ZhedContinuousEnv):
+    def __init__(self, level):
+        if level < 10:
+            filename = '00' + str(level) + '.txt'
+        elif level < 100:
+            filename = '0' + str(level) + '.txt'
+        else:
+            filename = str(level) + '.txt'
+
+        dir_path = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(dir_path, "levels", filename)
+
+        playable, goal, width, height = self.load_file(filepath)
+        super(ZhedContEnvFromLevel, self).__init__(playable, goal, width, height)
+
+    def load_file(self, filepath):
+        f = open(filepath, 'rt')
+
+        playable = []
+        goal = None
+
+        y = -1
+        for line in f:
+            x = -1
+            y += 1
+            for char in line:
+                x += 1
+                if char == '.' or char == '\n':
+                    continue
+                elif char == 'X':
+                    goal = (x, y)
+                else:
+                    playable.append((x, y, int(char)))
+
+        if goal == None:
+            print('File has no goal square!')
+            exit()
+        elif len(playable) == 0:
+            print('File has no playable squares!')
+            exit()
+
+        return playable, goal, x + 1, y + 1
