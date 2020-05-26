@@ -26,13 +26,13 @@ class ZhedEnv(gym.Env):
         #states (represented as an int).
         # For each square there are 4 possible moves, which means that there are 4**N (4 to the power of N) sets of moves
         #However, these sets do not count with the order by which the square is played, hence the N! (factorial of N) factor
-        #total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares) + 1)
-        #self.observation_space = spaces.Discrete(total_states)
-        low = np.zeros((self.board_height, self.board_width), dtype=np.int)
-        low.fill(-2)
-        high = np.zeros((self.board_height, self.board_width), dtype=np.int)
-        high.fill(9)
-        self.observation_space = spaces.Box(low, high, dtype=np.int)
+        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares))
+        self.observation_space = spaces.Discrete(total_states)
+        #low = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        #low.fill(-2)
+        #high = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        #high.fill(9)
+        #self.observation_space = spaces.Box(low, high, dtype=np.int)
 
         # The action space is a list of 4*N values
         #representing possible actions (4 directions for each playable square)
@@ -47,19 +47,19 @@ class ZhedEnv(gym.Env):
         valid = self.play(square_index, direction)
 
         if self.goal_filled():
-            reward = 10
+            reward = 1000
             done = True
         elif self.no_more_moves():
-            reward = -1
+            reward = -1000
             done = True
         elif not valid:
-            reward = 0
+            reward = -10
             done = False
         else:
-            reward = 0
+            reward = 10
             done = False
 
-        return self.board, reward, done, {'debug': 'None'}
+        return self.get_state(), reward, done, {'debug': 'None'}
 
     def reset(self):
         self.board = np.zeros((self.board_height, self.board_width), dtype=np.int)
@@ -68,7 +68,7 @@ class ZhedEnv(gym.Env):
         self.played_squares = []
         self.played_coords = []
         self.done = False
-        return self.board
+        return self.get_state()
 
     def render(self, mode='human'):
         y = -1
@@ -101,13 +101,16 @@ class ZhedEnv(gym.Env):
         self.board[goal_y][goal_x] = -2
 
     def get_state(self):
+        #print(f"current board: {self.board}")
         index = -1
         for registered_board in self.registered_states:
             index += 1
+            #print(f"board at index {index} : {registered_board}")
             if (self.board == registered_board).all():
                 return index
         
-        self.registered_states.append(self.board)
+        self.registered_states.append(self.board.copy())
+        #print(f"Registering board: {self.board}")
         index += 1 #index of last inserted element
         return index
 
@@ -129,22 +132,30 @@ class ZhedEnv(gym.Env):
 
         i = 1
         if direction == 'UP':
-            while value > 0 and y - i >= 0:
+            while value > 0:
+                if y - i < 0:
+                    return False
                 if self.fill(x, y - i):
                     value -= 1
                 i += 1
         elif direction == 'RIGHT':
-            while value > 0 and x + i < self.board_width:
+            while value > 0:
+                if x + i >= self.board_width:
+                    return False
                 if self.fill(x + i, y):
                     value -= 1
                 i += 1
         elif direction == 'DOWN':
-            while value > 0 and y + i < self.board_height:
+            while value > 0:
+                if y + i >= self.board_height:
+                    return False
                 if self.fill(x, y + i):
                     value -= 1
                 i += 1
         elif direction == 'LEFT':
-            while value > 0 and x - i >= 0:
+            while value > 0:
+                if x - i < 0:
+                    return False
                 if self.fill(x - i, y):
                     value -= 1
                 i += 1
