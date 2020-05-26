@@ -15,8 +15,9 @@ for level in range(1, 101):
         kwargs={'level': level},
     )
 
-register(
-    id='zhedContLevel5-v0',
-    entry_point='gym_zhed.envs:ZhedContEnvFromLevel',
-    kwargs={'level': 5},
-)
+for level in range(1, 101):
+    register(
+        id='zhedContLevel' + str(level) + "-v0",
+        entry_point='gym_zhed.envs:ZhedContEnvFromLevel',
+        kwargs={'level': level},
+    )

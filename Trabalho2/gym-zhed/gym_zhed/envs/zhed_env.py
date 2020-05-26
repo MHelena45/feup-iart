@@ -26,7 +26,7 @@ class ZhedEnv(gym.Env):
         #states (represented as an int).
         # For each square there are 4 possible moves, which means that there are 4**N (4 to the power of N) sets of moves
         #However, these sets do not count with the order by which the square is played, hence the N! (factorial of N) factor
-        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares))
+        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares) + 1)
         self.observation_space = spaces.Discrete(total_states)
         #low = np.zeros((self.board_height, self.board_width), dtype=np.int)
         #low.fill(-2)

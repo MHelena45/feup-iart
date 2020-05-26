@@ -47,7 +47,7 @@ class ZhedContinuousEnv(gym.Env):
 
     def step(self, action):
         self.update_square_arrays()
-        chosen_squares = []
+        chosen_squares = self.playable_squares.copy()
 
         if action[0] == 1:
             chosen_squares = self.filter_common(self.inline_squares, chosen_squares)
@@ -65,9 +65,10 @@ class ZhedContinuousEnv(gym.Env):
             chosen_squares = self.filter_common(self.least_value_squares, chosen_squares)
 
         if not chosen_squares: #list is empty
-            print('Not deterministic square')
+            print('Empty squares')
             return self.get_state(), -5, False, {'debug': 'None'}
         
+        print('NOT Empty squares !!!')
         square = chosen_squares[0]
         max_interactions, min_interactions = self.get_interactions_directions(square)
         chosen_directions = []
@@ -82,22 +83,23 @@ class ZhedContinuousEnv(gym.Env):
             chosen_directions = self.filter_common(min_interactions, chosen_directions)
 
         if not chosen_directions: #list is empty
-            print('Not deterministic direction')
+            print('Empty directions')
             return self.get_state(), -5, False, {'debug': 'None'}
         
+        print('NOT Empty directions !!!')
         valid = self.play(square, chosen_directions[0])
 
         if self.goal_filled():
-            reward = 10
+            reward = 1000
             done = True
         elif self.no_more_moves():
-            reward = -10
+            reward = -1000
             done = True
         elif not valid:
-            reward = -5
+            reward = -10
             done = False
         else:
-            reward = -1
+            reward = 10
             done = False
 
         return self.get_state(), reward, done, {'debug': 'None'}
