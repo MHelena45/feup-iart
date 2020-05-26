@@ -26,8 +26,13 @@ class ZhedEnv(gym.Env):
         #states (represented as an int).
         # For each square there are 4 possible moves, which means that there are 4**N (4 to the power of N) sets of moves
         #However, these sets do not count with the order by which the square is played, hence the N! (factorial of N) factor
-        total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares) + 1)
-        self.observation_space = spaces.Discrete(total_states)
+        #total_states = int(math.factorial(self.num_squares) * math.pow(4, self.num_squares) + 1)
+        #self.observation_space = spaces.Discrete(total_states)
+        low = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        low.fill(-2)
+        high = np.zeros((self.board_height, self.board_width), dtype=np.int)
+        high.fill(9)
+        self.observation_space = spaces.Box(low, high, dtype=np.int)
 
         # The action space is a list of 4*N values
         #representing possible actions (4 directions for each playable square)
@@ -54,7 +59,7 @@ class ZhedEnv(gym.Env):
             reward = 0
             done = False
 
-        return self.get_state(), reward, done, {'debug': 'None'}
+        return self.board, reward, done, {'debug': 'None'}
 
     def reset(self):
         self.board = np.zeros((self.board_height, self.board_width), dtype=np.int)
@@ -63,7 +68,7 @@ class ZhedEnv(gym.Env):
         self.played_squares = []
         self.played_coords = []
         self.done = False
-        return self.get_state()
+        return self.board
 
     def render(self, mode='human'):
         y = -1
