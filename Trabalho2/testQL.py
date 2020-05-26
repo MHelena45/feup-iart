@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 solvable_levels = [1,2,3,4,5,6,7,8,9,10,11,12]
 
 # @hyperparameters
-total_episodes = 50000      # Total episodes
+total_episodes = 100000      # Total episodes
 learning_rate = 0.01        # Learning rate
 max_steps = 1000             # Max steps per episode
 gamma = 0.99                # Discounting rate
@@ -68,6 +68,8 @@ for level in solvable_levels:
         acc += reward
         y_axis.append(acc)
 
+    plt.clf()
+    plt.cla()
     plt.title('Level ' + str(level))
     plt.xlabel('episode')
     plt.ylabel('acc_reward')
