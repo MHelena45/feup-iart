@@ -65,10 +65,10 @@ class ZhedContinuousEnv(gym.Env):
             chosen_squares = self.filter_common(self.least_value_squares, chosen_squares)
 
         if not chosen_squares: #list is empty
-            print('Empty squares')
+            #print('Empty squares')
             return self.get_state(), -5, False, {'debug': 'None'}
         
-        print('NOT Empty squares !!!')
+        #print('NOT Empty squares !!!')
         square = chosen_squares[0]
         max_interactions, min_interactions = self.get_interactions_directions(square)
         chosen_directions = []
@@ -83,10 +83,10 @@ class ZhedContinuousEnv(gym.Env):
             chosen_directions = self.filter_common(min_interactions, chosen_directions)
 
         if not chosen_directions: #list is empty
-            print('Empty directions')
+            #print('Empty directions')
             return self.get_state(), -5, False, {'debug': 'None'}
         
-        print('NOT Empty directions !!!')
+        #print('NOT Empty directions !!!')
         valid = self.play(square, chosen_directions[0])
 
         if self.goal_filled():
