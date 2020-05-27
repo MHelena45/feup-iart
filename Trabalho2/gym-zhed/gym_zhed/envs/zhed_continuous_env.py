@@ -455,7 +455,7 @@ class ZhedContEnvFromLevel(ZhedContinuousEnv):
                 elif char == 'X':
                     goal = (x, y)
                 else:
-                    playable.append((x, y, int(char)))
+                    playable.append((x, y, int(char), False))
 
         if goal == None:
             print('File has no goal square!')

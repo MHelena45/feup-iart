@@ -99,6 +99,7 @@ class ZhedEnv(gym.Env):
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
         self.board[goal_y][goal_x] = -2
+        get_frontier_squares()
 
     def get_state(self):
         #print(f"current board: {self.board}")
@@ -113,6 +114,50 @@ class ZhedEnv(gym.Env):
         #print(f"Registering board: {self.board}")
         index += 1 #index of last inserted element
         return index
+    
+    def get_frontier_squares(self):
+        self.minX = self.board_width
+        self.minY = self.board_height
+        self.maxX = 0
+        self.maxY = 0
+        
+        for sq in self.playable_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            if sqX < self.minX: self.minX = sqX
+            if sqY < self.minY: self.minY = sqY
+            if sqX > self.maxX: self.maxX = sqX
+            if sqY > self.maxY: self.maxY = sqY
+
+        for sq in self.playable_squares:
+            sqX = sq[0]
+            sqY = sq[1]
+            if sqX == self.minX: sq[3] == True
+            if sqX == self.maxX: sq[4] == True
+            if sqY == self.minY: sq[5] == True
+            if sqY == self.maxY: sq[6] == True
+
+    def play_beyond_frontier(self, sq, dir):
+
+        if sq[3] and sq[4] and sq[5] and sq[6] == 0: 
+            return False
+
+        if  (sq[3] and dir == 'LEFT') or \
+            (sq[4] and dir == 'RIGHT') or \
+            (sq[5] and dir == 'UP') or \
+            (sq[6] and dir == 'DOWN'):
+            return True
+
+        x = sq[0]
+        y = sq[1]
+        num = sq[2]
+        if  (dir == 'LEFT' and x - num < self.minX) or \
+            (dir == 'RIGHT' and x + num > self.maxX) or \
+            (dir == 'UP' and y - num < self.minY) or \
+            (dir == 'DOWN' and y + num > self.maxY):
+            return True
+
+        return False
 
     # Game Logic related functions
     def play(self, square_index, direction):
@@ -124,6 +169,8 @@ class ZhedEnv(gym.Env):
             return False
 
         square = self.playable_squares[square_index]
+        if play_beyond_frontier(square, direction):
+            return False
         x = square[0]
         y = square[1]
         value = square[2]
@@ -217,7 +264,7 @@ class ZhedEnvFromLevel(ZhedEnv):
                 elif char == 'X':
                     goal = (x, y)
                 else:
-                    playable.append((x, y, int(char)))
+                    playable.append((x, y, int(char), False, False, False, False))
 
         if goal == None:
             print('File has no goal square!')
