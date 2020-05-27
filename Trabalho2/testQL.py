@@ -197,28 +197,29 @@ def convert_to_axis(rewards):
     
     return result
 
-solvable_levels = [1,2,3,4,5,6,7,8,9,10,11,12]
+solvable_levels = [2,3,4,5,6,7,8,9,10,11,12]
 
-rwO = original_params(5)
-rw1 = first_params(5)
-rw2 = second_params(5)
-rw3 = third_params(5)
+for level in solvable_levels:
+    rwO = original_params(level)
+    rw1 = first_params(level)
+    rw2 = second_params(level)
+    rw3 = third_params(level)
 
-#making plot
-x_axis = [episode for episode in range(total_episodes)]
-y_O = convert_to_axis(rwO)
-y_1 = convert_to_axis(rw1)
-y_2 = convert_to_axis(rw2)
-y_3 = convert_to_axis(rw3)
+    #making plot
+    x_axis = [episode for episode in range(total_episodes)]
+    y_O = convert_to_axis(rwO)
+    y_1 = convert_to_axis(rw1)
+    y_2 = convert_to_axis(rw2)
+    y_3 = convert_to_axis(rw3)
 
-plt.clf()
-plt.cla()
-plt.title('Level ' + str(5))
-plt.xlabel('episode')
-plt.ylabel('acc_reward')
-plt.plot(x_axis, y_O, '-', label="E=dynamic,A=0.01")
-plt.plot(x_axis, y_1, '--', label="E=0.4,A=0.01")
-plt.plot(x_axis, y_2, '-.', label="E=dynamic,A=0.3")
-plt.plot(x_axis, y_3, ':', label="E=0.4,A=0.3")
-plt.legend(loc=2)
-plt.savefig('graphs/QL/level' + str(5) + '-varying.png')
+    plt.clf()
+    plt.cla()
+    plt.title('Level ' + str(level))
+    plt.xlabel('episode')
+    plt.ylabel('acc_reward')
+    plt.plot(x_axis, y_O, '-', label="E=dynamic,A=0.01")
+    plt.plot(x_axis, y_1, '--', label="E=0.4,A=0.01")
+    plt.plot(x_axis, y_2, '-.', label="E=dynamic,A=0.3")
+    plt.plot(x_axis, y_3, ':', label="E=0.4,A=0.3")
+    plt.legend()
+    plt.savefig('graphs/QL/level' + str(level) + '-varying.png')
