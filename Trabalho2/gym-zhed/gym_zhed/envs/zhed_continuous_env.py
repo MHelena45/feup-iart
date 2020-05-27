@@ -2,6 +2,7 @@ import gym
 import numpy as np
 import math
 import os
+import random
 
 from gym import error, spaces, utils
 from gym.utils import seeding
@@ -69,7 +70,7 @@ class ZhedContinuousEnv(gym.Env):
             return self.get_state(), -5, False, {'debug': 'None'}
         
         #print('NOT Empty squares !!!')
-        square = chosen_squares[0]
+        square = random.choice(chosen_squares)
         max_interactions, min_interactions = self.get_interactions_directions(square)
         chosen_directions = []
 
@@ -87,7 +88,7 @@ class ZhedContinuousEnv(gym.Env):
             return self.get_state(), -5, False, {'debug': 'None'}
         
         #print('NOT Empty directions !!!')
-        valid = self.play(square, chosen_directions[0])
+        valid = self.play(square, random.choice(chosen_directions))
 
         if self.goal_filled():
             reward = 1000
