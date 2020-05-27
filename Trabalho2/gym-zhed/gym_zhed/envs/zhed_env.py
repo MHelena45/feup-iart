@@ -99,7 +99,7 @@ class ZhedEnv(gym.Env):
         goal_x = self.goal_square[0]
         goal_y = self.goal_square[1]
         self.board[goal_y][goal_x] = -2
-        get_frontier_squares()
+        self.get_frontier_squares()
 
     def get_state(self):
         #print(f"current board: {self.board}")
@@ -169,7 +169,7 @@ class ZhedEnv(gym.Env):
             return False
 
         square = self.playable_squares[square_index]
-        if play_beyond_frontier(square, direction):
+        if self.play_beyond_frontier(square, direction):
             return False
         x = square[0]
         y = square[1]
