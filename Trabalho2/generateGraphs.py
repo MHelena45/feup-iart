@@ -1,8 +1,8 @@
 from stable_baselines import bench
 import matplotlib.pyplot as plt
+import sys
 
-def cumulative_plot(level):
-    df = bench.monitor.load_results('models/PPO1/logs/').copy()
+def get_axis(df):
     rewards = df.get('r').values
     timesteps = df.get('l').values
 
@@ -10,8 +10,27 @@ def cumulative_plot(level):
         rewards[i] = rewards[i - 1] + rewards[i]
         timesteps[i] = timesteps[i - 1] + timesteps[i]
 
-    plt.plot(timesteps, rewards)
-    plt.ylabel('acc_rewards')
+    return timesteps, rewards
+
+
+def make_plot(level):
+    dfO = bench.monitor.load_results('models/logOriginal').copy()
+    dfF = bench.monitor.load_results('models/logFirst').copy()
+    dfS = bench.monitor.load_results('models/logSecond').copy()
+    
+    x_O, y_O = get_axis(dfO)
+    x_F, y_F = get_axis(dfF)
+    x_S, y_S = get_axis(dfS)
+
+    plt.figure(figsize=(7.2, 4.8))
+    plt.title('Level ' + str(level))
     plt.xlabel('timesteps')
-    plt.title('Level ' + level)
-    plt.savefig('graphs/PPO1/level' + level + '.png')
+    plt.ylabel('acc_reward')
+    plt.plot(x_O, y_O, '-', label="CR=0.1")
+    plt.plot(x_F, y_F, '--', label="CR=0.2")
+    plt.plot(x_S, y_S, '-.', label="CR=0.3")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig('graphs/PPO2/level' + str(level) + '.png')
+
+make_plot(sys.argv[1])

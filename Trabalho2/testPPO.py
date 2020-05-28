@@ -14,7 +14,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import warnings
 warnings.filterwarnings("ignore")
 
-solvable_levels = [1, 2, 3, 4, 5, 6, 7]
+solvable_levels = [1, 2, 3, 4, 5, 6]
 total_timesteps = 2000000
 
 def original_params(thislevel):
