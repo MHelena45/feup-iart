@@ -1,23 +1,44 @@
 import sys
 import gym
 import gym_zhed
+import matplotlib.pyplot as plt
+
+from stable_baselines.bench.monitor import Monitor
+from stable_baselines.common.policies import MlpPolicy
 from stable_baselines import PPO2
 
-if(len(sys.argv) != 2):
-    print("Invalid number of arguments, please specify the level to solve")
-    exit()
+# uncomment if the tensorflow binary isnt compiled to use AVX
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-level = sys.argv[1]
+import warnings
+warnings.filterwarnings("ignore")
 
-env = gym.make('zhedLevel' + str(level) + '-v0')
-model = PPO2.load('models/PPO2/ppo2_lv' + str(level) + '.zip')
-dones = False
+solvable_levels = [1, 2, 3, 4, 5, 6, 7]
+total_timesteps = 2000000
 
-obs = env.reset()
-while dones != True:
-    action, _states = model.predict(obs)
-    obs, rewards, dones, info = env.step(action)
-    env.render()
+def original_params(thislevel):
+    env = gym.make('zhedLevel' + str(thislevel) + '-v0')
+    env = Monitor(env, 'models/PPO2/logs/logOriginal_' + str(thislevel))
+    model = PPO2(MlpPolicy, env, cliprange=0.1, verbose=1) #CP = 0.2
+    model.learn(total_timesteps=total_timesteps, log_interval=1)
+    model.save('models/PPO2/ppo2_Olv' + str(thislevel))
 
-if env.goal_filled():
-    print("Puzzle Solved!!!")
+def first_params(thislevel):
+    env = gym.make('zhedLevel' + str(thislevel) + '-v0')
+    env = Monitor(env, 'models/PPO2/logs/logFirst_' + str(thislevel))
+    model = PPO2(MlpPolicy, env, cliprange=0.2, verbose=1)
+    model.learn(total_timesteps=total_timesteps, log_interval=1)
+    model.save('models/PPO2/ppo2_Flv' + str(thislevel))
+
+def second_params(thislevel):
+    env = gym.make('zhedLevel' + str(thislevel) + '-v0')
+    env = Monitor(env, 'models/PPO2/logs/logSecond_' + str(thislevel))
+    model = PPO2(MlpPolicy, env, cliprange=0.3, verbose=1)
+    model.learn(total_timesteps=total_timesteps, log_interval=1)
+    model.save('models/PPO2/ppo2_Slv' + str(thislevel))
+
+for level in solvable_levels:
+    original_params(level)
+    first_params(level)
+    second_params(level)
